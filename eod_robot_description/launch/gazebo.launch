@@ -1,42 +1,21 @@
 <launch>
 
-  <arg name="paused" default="false"/>
-  <arg name="use_sim_time" default="true"/>
-  <arg name="gui" default="true"/>
-  <arg name="headless" default="false"/>
-  <arg name="debug" default="false"/>
+  <include file="$(find eod_robot_description)/launch/robot_description.xml"/>
+  <include file="$(find eod_robot_description)/launch/robot_control.xml"/>
 
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
-    <arg name="world_name" value="$(find eod_robot_description)/worlds/eod_robot.world"/>
-    <arg name="debug" value="$(arg debug)" />
-    <arg name="gui" value="$(arg gui)" />
-    <arg name="paused" value="$(arg paused)"/>
-    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
-    <arg name="headless" value="$(arg headless)"/>
+    <arg name="world_name" value="$(find eod_robot_description)/worlds/willow_garage.world"/>
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
   </include>
 
-  <rosparam file="$(find eod_robot_description)/config/eod_robot_description_control.yaml" command="load"/>
+  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn= "false" output="screen" 
+        args="-urdf -param robot_description  -x 0 -y 0 -z 0.496 -R 0 -P 0 -Y 0 -model eod_robot_description"/> 
 
-  <param name="robot_description" textfile="$(find eod_robot_description)/urdf/eod_robot_description.urdf" />
-
-  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
-	      output="screen" ns="/eod_robot" args="joint_state_controller 
-        Arm_R1_joint_position_controller Arm_R2_joint_position_controller Arm_R3_joint_position_controller
-        Arm_R4_joint_position_controller Arm_R5_joint_position_controller Arm_R6_joint_position_controller
-        Gripper_finger1_joint_position_controller
-        Arm_L1_joint_position_controller Arm_L2_joint_position_controller Arm_L3_joint_position_controller
-        Arm_L4_joint_position_controller Arm_L5_joint_position_controller Arm_L6_joint_position_controller"/>
-
-  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
-
-  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
-        <param name= "publish_frequency" type= "double" value= "50.0"/>
-  </node>
-
-  <node name="spawn_model" pkg="gazebo_ros" type="spawn_model" respawn= "false" output="screen" 
-        args="-urdf -model eod_robot_description -param robot_description"/> 
-
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find eod_robot_description)/rviz/gazebo.rviz" />
+  <node name="gazebo_mover" type="gazebo_mover" pkg="eod_robot_description" output="screen" /> 
 
 </launch>
 

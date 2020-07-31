@@ -5,6 +5,8 @@
 <robot
   name="eod_robot_description">
 
+  <link name="world"/>
+
   <link
     name="base_link">
     <inertial>
@@ -45,6 +47,11 @@
       </geometry>
     </collision>
   </link>
+
+  <joint name="fixed_base_joint" type="fixed">
+    <parent link="world"/>
+    <child link="base_link"/>
+  </joint>  
 
   <link
     name="Arm_R1_link">
@@ -1109,193 +1116,204 @@
   </joint>
 
 
-   <gazebo>
-    <plugin filename="libgazebo_ros_control.so" name="gazebo_ros_control">
-      <robotNamespace>/</robotNamespace>
-    </plugin>
-  </gazebo>
 
   <transmission name="Arm_R1_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="Arm_R1_joint">
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
     </joint>
     <actuator name="Arm_R1_motor">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
     </actuator>
   </transmission>
 
   <transmission name="Arm_R2_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="Arm_R2_joint">
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
     </joint>
     <actuator name="Arm_R2_motor">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
     </actuator>
   </transmission>
 
   <transmission name="Arm_R3_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="Arm_R3_joint">
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
     </joint>
     <actuator name="Arm_R3_motor">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
     </actuator>
   </transmission>
 
   <transmission name="Arm_R4_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="Arm_R4_joint">
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
     </joint>
     <actuator name="Arm_R4_motor">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
     </actuator>
   </transmission>
 
   <transmission name="Arm_R5_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="Arm_R5_joint">
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
     </joint>
     <actuator name="Arm_R5_motor">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
     </actuator>
   </transmission>
 
   <transmission name="Arm_R6_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="Arm_R6_joint">
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
     </joint>
     <actuator name="Arm_R6_motor">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
     </actuator>
   </transmission>
 
   <transmission name="gripper_finger1_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="gripper_finger1_joint">
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
     </joint>
     <actuator name="gripper_finger1_motor">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
     </actuator>
   </transmission>
 
   <transmission name="Arm_L1_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="Arm_L1_joint">
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
     </joint>
     <actuator name="Arm_L1_motor">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
     </actuator>
   </transmission>
 
   <transmission name="Arm_L2_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="Arm_L2_joint">
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
     </joint>
     <actuator name="Arm_L2_motor">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
     </actuator>
   </transmission>
 
   <transmission name="Arm_L3_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="Arm_L3_joint">
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
     </joint>
     <actuator name="Arm_L3_motor">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
     </actuator>
   </transmission>
 
   <transmission name="Arm_L4_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="Arm_L4_joint">
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
     </joint>
     <actuator name="Arm_L4_motor">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
     </actuator>
   </transmission>
 
   <transmission name="Arm_L5_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="Arm_L5_joint">
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
     </joint>
     <actuator name="Arm_L5_motor">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
     </actuator>
   </transmission>
 
   <transmission name="Arm_L6_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="Arm_L6_joint">
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
     </joint>
     <actuator name="Arm_L6_motor">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
     </actuator>
   </transmission>
 
+
+
+   <gazebo>
+    <plugin filename="libgazebo_ros_control.so" name="gazebo_ros_control">
+      <robotNamespace>/eod_robot_description</robotNamespace>
+      <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+    </plugin>
+  </gazebo>
+
   <gazebo>
     <plugin filename="libroboticsgroup_gazebo_mimic_joint_plugin.so" name="mimic_dh_robotics_ag95_1">
+      <robotNamespace>/eod_robot_description</robotNamespace>
       <joint>gripper_finger1_joint</joint>
       <mimicJoint>gripper_finger2_joint</mimicJoint>
       <multiplier>1.0</multiplier>
       <offset>0.0</offset>
     </plugin>
     <plugin filename="libroboticsgroup_gazebo_mimic_joint_plugin.so" name="mimic_dh_robotics_ag95_2">
+      <robotNamespace>/eod_robot_description</robotNamespace>
       <joint>gripper_finger1_joint</joint>
       <mimicJoint>gripper_finger2_inner_knuckle_joint</mimicJoint>
       <multiplier>1.49462955</multiplier>
       <offset>0.0</offset>
     </plugin>
     <plugin filename="libroboticsgroup_gazebo_mimic_joint_plugin.so" name="mimic_dh_robotics_ag95_3">
+      <robotNamespace>/eod_robot_description</robotNamespace>
       <joint>gripper_finger1_joint</joint>
       <mimicJoint>gripper_finger1_inner_knuckle_joint</mimicJoint>
       <multiplier>1.49462955</multiplier>
       <offset>0.0</offset>
     </plugin>
     <plugin filename="libroboticsgroup_gazebo_mimic_joint_plugin.so" name="mimic_dh_robotics_ag95_4">
+      <robotNamespace>/eod_robot_description</robotNamespace>
       <joint>gripper_finger1_joint</joint>
       <mimicJoint>gripper_finger1_finger_tip_joint</mimicJoint>
       <multiplier>1.49462955</multiplier>          
       <offset>0.0</offset>
     </plugin>
     <plugin filename="libroboticsgroup_gazebo_mimic_joint_plugin.so" name="mimic_dh_robotics_ag95_5">
+      <robotNamespace>/eod_robot_description</robotNamespace>
       <joint>gripper_finger1_joint</joint>
       <mimicJoint>gripper_finger2_finger_tip_joint</mimicJoint>
       <multiplier>1.49462955</multiplier>          
       <offset>0.0</offset>
     </plugin>
     <plugin filename="libroboticsgroup_gazebo_mimic_joint_plugin.so" name="mimic_dh_robotics_ag95_6">
+      <robotNamespace>/eod_robot_description</robotNamespace>
       <joint>gripper_finger1_joint</joint>
       <mimicJoint>gripper_finger1_finger_joint</mimicJoint>
       <multiplier>0.4563942</multiplier>
       <offset>0.0</offset>
     </plugin>
     <plugin filename="libroboticsgroup_gazebo_mimic_joint_plugin.so" name="mimic_dh_robotics_ag95_7">
+      <robotNamespace>/eod_robot_description</robotNamespace>
       <joint>gripper_finger1_joint</joint>
       <mimicJoint>gripper_finger2_finger_joint</mimicJoint>
       <multiplier>0.4563942</multiplier>
@@ -1309,9 +1327,10 @@
     <mu2>100000</mu2>
     <kp>100000000.0</kp>
     <kd>1.0</kd>
+    <material>Gazebo/Green</material>
   </gazebo>
 
-    <gazebo reference="Arm_R1_link">
+  <gazebo reference="Arm_R1_link">
     <implicitSpringDamper>1</implicitSpringDamper>
     <mu1>100000</mu1>
     <mu2>100000</mu2>
