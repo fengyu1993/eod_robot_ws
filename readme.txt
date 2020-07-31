@@ -42,6 +42,4 @@ eod_robot_arm_rviz_marker:
 	通过拖动rviz中的marker改变两机械臂末端执行器的位置
 	用到逆运动学
 
-2020.08.01
-
 
