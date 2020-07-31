@@ -50,30 +50,37 @@ bool get_arm_left_param(MatrixXd& Slist_arm_left, Matrix4d& M_arm_left, Matrix4d
     try {
         XmlRpc::XmlRpcValue param_yaml;
 
-        ros::param::get("Slist_arm_left", param_yaml);
-        for(int i = 0; i < 6; i++){
-            std::stringstream S;
-            S << "S" << i+1;
-            for(int j = 0; j < param_yaml[i][S.str()].size(); j++)
-                Slist_arm_left(j, i) = param_yaml[i][S.str()][j];
+        bool ifget1 = ros::param::get("Slist_arm_left", param_yaml);
+        if(ifget1){
+            for(int i = 0; i < 6; i++){
+                std::stringstream S;
+                S << "S" << i+1;
+                for(int j = 0; j < param_yaml[i][S.str()].size(); j++)
+                    Slist_arm_left(j, i) = param_yaml[i][S.str()][j];
+            }
         }
 
-        ros::param::get("M_arm_left", param_yaml);
-        for(int i = 0; i < 4; i++){
-            std::stringstream S;
-            S << "row" << i+1;
-            for(int j = 0; j < param_yaml[i][S.str()].size(); j++)
-                M_arm_left(i, j) = param_yaml[i][S.str()][j];
+        bool ifget2 = ros::param::get("M_arm_left", param_yaml);
+        if(ifget2){
+            for(int i = 0; i < 4; i++){
+                std::stringstream S;
+                S << "row" << i+1;
+                for(int j = 0; j < param_yaml[i][S.str()].size(); j++)
+                    M_arm_left(i, j) = param_yaml[i][S.str()][j];
+            }
         }
 
-        ros::param::get("T_base_left_arm", param_yaml);
-        for(int i = 0; i < 4; i++){
-            std::stringstream S;
-            S << "row" << i+1;
-            for(int j = 0; j < param_yaml[i][S.str()].size(); j++)
-                T_base_left_arm(i, j) = param_yaml[i][S.str()][j];
+        bool ifget3 = ros::param::get("T_base_left_arm", param_yaml);
+        if(ifget3){
+            for(int i = 0; i < 4; i++){
+                std::stringstream S;
+                S << "row" << i+1;
+                for(int j = 0; j < param_yaml[i][S.str()].size(); j++)
+                    T_base_left_arm(i, j) = param_yaml[i][S.str()][j];
+            }
         }
-        return true;
+
+        return ifget1 && ifget2 && ifget3;
     }
     catch(...) {
         return false;
@@ -86,30 +93,37 @@ bool get_arm_right_param(MatrixXd& Slist_arm_right, Matrix4d& M_arm_right, Matri
     try {
         XmlRpc::XmlRpcValue param_yaml;
 
-        ros::param::get("Slist_arm_right", param_yaml);
-        for(int i = 0; i < 6; i++){
-            std::stringstream S;
-            S << "S" << i+1;
-            for(int j = 0; j < param_yaml[i][S.str()].size(); j++)
-                Slist_arm_right(j, i) = param_yaml[i][S.str()][j];
+        bool ifget1 = ros::param::get("Slist_arm_right", param_yaml);
+        if(ifget1){
+            for(int i = 0; i < 6; i++){
+                std::stringstream S;
+                S << "S" << i+1;
+                for(int j = 0; j < param_yaml[i][S.str()].size(); j++)
+                    Slist_arm_right(j, i) = param_yaml[i][S.str()][j];
+            }
         }
 
-        ros::param::get("M_arm_right", param_yaml);
-        for(int i = 0; i < 4; i++){
-            std::stringstream S;
-            S << "row" << i+1;
-            for(int j = 0; j < param_yaml[i][S.str()].size(); j++)
-                M_arm_right(i, j) = param_yaml[i][S.str()][j];
+        bool ifget2 = ros::param::get("M_arm_right", param_yaml);
+        if(ifget2){
+            for(int i = 0; i < 4; i++){
+                std::stringstream S;
+                S << "row" << i+1;
+                for(int j = 0; j < param_yaml[i][S.str()].size(); j++)
+                    M_arm_right(i, j) = param_yaml[i][S.str()][j];
+            }
         }
 
-        ros::param::get("T_base_right_arm", param_yaml);
-        for(int i = 0; i < 4; i++){
-            std::stringstream S;
-            S << "row" << i+1;
-            for(int j = 0; j < param_yaml[i][S.str()].size(); j++)
-                T_base_right_arm(i, j) = param_yaml[i][S.str()][j];
-        }        
-        return true;
+        bool ifget3 = ros::param::get("T_base_right_arm", param_yaml);
+        if(ifget3){
+            for(int i = 0; i < 4; i++){
+                std::stringstream S;
+                S << "row" << i+1;
+                for(int j = 0; j < param_yaml[i][S.str()].size(); j++)
+                    T_base_right_arm(i, j) = param_yaml[i][S.str()][j];
+            } 
+        }
+       
+        return ifget1 && ifget2 && ifget3;
     }
     catch(...) {
         return false;
@@ -122,10 +136,13 @@ bool get_arm_right_joint_angle(VectorXd& angle_arm_right)
     try {
         XmlRpc::XmlRpcValue param_yaml;
 
-        ros::param::get(ANGLE_ARM_RIGHT, param_yaml);
-        for(int i =0; i < param_yaml.size(); i++)
-            angle_arm_right[i] = param_yaml[i];
-        return true;
+        bool ifget = ros::param::get(ANGLE_ARM_RIGHT, param_yaml);
+        if(ifget){
+            for(int i =0; i < param_yaml.size(); i++)
+                angle_arm_right[i] = param_yaml[i];
+        }
+
+        return ifget;
     }
     catch(...) {
         return false;
@@ -137,10 +154,13 @@ bool get_arm_left_joint_angle(VectorXd& angle_arm_left)
     try {
         XmlRpc::XmlRpcValue param_yaml;
 
-        ros::param::get(ANGLE_ARM_LEFT, param_yaml);
-        for(int i =0; i < param_yaml.size(); i++)
-            angle_arm_left[i] = param_yaml[i];
-        return true;
+        bool ifget = ros::param::get(ANGLE_ARM_LEFT, param_yaml);
+        if(ifget){
+            for(int i =0; i < param_yaml.size(); i++)
+                angle_arm_left[i] = param_yaml[i];
+        }
+
+        return ifget;
     }
     catch(...) {
         return false;
@@ -150,8 +170,8 @@ bool get_arm_left_joint_angle(VectorXd& angle_arm_left)
 bool get_gripper_finger1_position(double& gripper_finger1)
 {
     try {
-        ros::param::get(GRIPPER_FINGER1, gripper_finger1);
-        return true;
+        bool ifget = ros::param::get(GRIPPER_FINGER1, gripper_finger1);
+        return ifget;
     }
     catch(...) {
         return false;
@@ -161,8 +181,8 @@ bool get_gripper_finger1_position(double& gripper_finger1)
 bool get_gripper_finger1_limit_max(double& gripper_finger1_limit_max)
 {
     try {
-        ros::param::get(GRIPPER_LIMIT_MAX, gripper_finger1_limit_max);
-        return true;
+        bool ifget = ros::param::get(GRIPPER_LIMIT_MAX, gripper_finger1_limit_max);
+        return ifget;
     }
     catch(...) {
         return false;
@@ -172,8 +192,8 @@ bool get_gripper_finger1_limit_max(double& gripper_finger1_limit_max)
 bool get_gripper_finger1_limit_min(double& gripper_finger1_limit_min)
 {
     try {
-        ros::param::get(GRIPPER_LIMIT_MIN, gripper_finger1_limit_min);
-        return true;
+        bool ifget = ros::param::get(GRIPPER_LIMIT_MIN, gripper_finger1_limit_min);
+        return ifget;
     }
     catch(...) {
         return false;
@@ -185,14 +205,17 @@ bool get_vecihle_odom(Matrix4d& vecihle_odom)
     try {
         XmlRpc::XmlRpcValue param_yaml;
 
-        ros::param::get(VECIHLE_ODOM, param_yaml);
-        for(int i = 0; i < 4; i++){
-            std::stringstream S;
-            S << "row" << i+1;
-            for(int j = 0; j < param_yaml[i][S.str()].size(); j++)
-                vecihle_odom(i, j) = param_yaml[i][S.str()][j];
+        bool ifget = ros::param::get(VECIHLE_ODOM, param_yaml);
+        if(ifget){
+            for(int i = 0; i < 4; i++){
+                std::stringstream S;
+                S << "row" << i+1;
+                for(int j = 0; j < param_yaml[i][S.str()].size(); j++)
+                    vecihle_odom(i, j) = param_yaml[i][S.str()][j];
+            }
         }
-        return true;
+
+        return ifget;
     }
     catch(...) {
         return false;
@@ -202,13 +225,18 @@ bool get_vecihle_odom(Matrix4d& vecihle_odom)
 bool set_arm_right_joint_angle(VectorXd angle_arm_right)
 {
     try {
-        XmlRpc::XmlRpcValue param_yaml;
+        if(ros::param::has(ANGLE_ARM_RIGHT)){
+            XmlRpc::XmlRpcValue param_yaml;
 
-        for(int i =0; i < angle_arm_right.size(); i++)
-            param_yaml[i] = angle_arm_right[i];
+            for(int i =0; i < angle_arm_right.size(); i++)
+                param_yaml[i] = angle_arm_right[i];
 
-        ros::param::set(ANGLE_ARM_RIGHT, param_yaml);
-        return true;
+            ros::param::set(ANGLE_ARM_RIGHT, param_yaml);
+
+            return true;
+        }
+        else
+            return false;   
     }
     catch(...) {
         return false;
@@ -218,13 +246,18 @@ bool set_arm_right_joint_angle(VectorXd angle_arm_right)
 bool set_arm_left_joint_angle(VectorXd angle_arm_left)
 {
     try {
-        XmlRpc::XmlRpcValue param_yaml;
+        if(ros::param::has(ANGLE_ARM_LEFT)){
+            XmlRpc::XmlRpcValue param_yaml;
 
-        for(int i =0; i < angle_arm_left.size(); i++)
-            param_yaml[i] = angle_arm_left[i];
+            for(int i =0; i < angle_arm_left.size(); i++)
+                param_yaml[i] = angle_arm_left[i];
 
-        ros::param::set(ANGLE_ARM_LEFT, param_yaml);
-        return true;
+            ros::param::set(ANGLE_ARM_LEFT, param_yaml);
+
+            return true;
+        }
+        else
+            return false;
     }
     catch(...) {
         return false;
@@ -234,15 +267,19 @@ bool set_arm_left_joint_angle(VectorXd angle_arm_left)
 bool set_gripper_finger1_position(double gripper_finger1)
 {
     try {
-        double temp, limit_min, limit_max;
+        if(ros::param::has(GRIPPER_FINGER1)){
+            double temp, limit_min, limit_max;
 
-        ros::param::get(GRIPPER_LIMIT_MAX, limit_max);
-        ros::param::get(GRIPPER_LIMIT_MIN, limit_min);
+            ros::param::get(GRIPPER_LIMIT_MAX, limit_max);
+            ros::param::get(GRIPPER_LIMIT_MIN, limit_min);
 
-        temp = gripper_finger1 * (limit_max - limit_min) + limit_min;
+            temp = gripper_finger1 * (limit_max - limit_min) + limit_min;
 
-        ros::param::set(GRIPPER_FINGER1, temp); 
-        return true;
+            ros::param::set(GRIPPER_FINGER1, temp); 
+            return true;
+        }
+        else
+            return false;
     }
     catch(...) {
         return false;
@@ -252,17 +289,21 @@ bool set_gripper_finger1_position(double gripper_finger1)
 bool set_vecihle_odom(Matrix4d vecihle_odom)
 {
     try {
-        XmlRpc::XmlRpcValue param_yaml;
+        if(ros::param::has(VECIHLE_ODOM)){
+            XmlRpc::XmlRpcValue param_yaml;
 
-        for(int i = 0; i < vecihle_odom.rows(); i++){
-            std::stringstream S;
-            S << "row" << i+1;
-            for(int j = 0; j < vecihle_odom.cols(); j++)
-                param_yaml[i][S.str()][j] = vecihle_odom(i, j);
+            for(int i = 0; i < vecihle_odom.rows(); i++){
+                std::stringstream S;
+                S << "row" << i+1;
+                for(int j = 0; j < vecihle_odom.cols(); j++)
+                    param_yaml[i][S.str()][j] = vecihle_odom(i, j);
+            }
+
+            ros::param::set(VECIHLE_ODOM, param_yaml);
+            return true;
         }
-
-        ros::param::set(VECIHLE_ODOM, param_yaml);
-        return true;
+        else
+            return false;
     }
     catch(...) {
         return false;
