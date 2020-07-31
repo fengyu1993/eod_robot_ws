@@ -1,0 +1,15 @@
+
+geometry_msgs/Vector3 vecihle_linear
+geometry_msgs/Vector3 vecihle_angular
+
+geometry_msgs/Vector3 arm_left_linear
+geometry_msgs/Vector3 arm_left_angular
+
+geometry_msgs/Vector3 arm_right_linear
+geometry_msgs/Vector3 arm_right_angular
+
+std_msgs/Float64 gripper_velocity
+
+std_msgs/Bool arm_left_joint_or_task
+
+std_msgs/Bool arm_right_joint_or_task

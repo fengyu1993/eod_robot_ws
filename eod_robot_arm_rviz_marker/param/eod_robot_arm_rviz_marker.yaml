@@ -1,0 +1,6 @@
+
+# simulation
+dt: 0.02
+speed_arm_left: 0.08
+speed_arm_right: 0.08
+

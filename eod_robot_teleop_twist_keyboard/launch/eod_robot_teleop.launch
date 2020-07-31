@@ -1,0 +1,25 @@
+<launch>
+
+  <param name= "robot_description" command= "cat $(find eod_robot_description)/urdf/eod_robot_description.urdf" />
+
+  <rosparam file= "$(find eod_robot_description)/param/eod_robot_param.yaml" command= "load"/>
+  
+  <rosparam file= "$(find eod_robot_teleop_twist_keyboard)/param/teleop.yaml" command= "load"/>
+
+  <node name= "robot_state_publisher" pkg= "robot_state_publisher" type="robot_state_publisher" />
+
+  <node name= "state_publisher" pkg= "eod_robot_state_publisher" type= "state_publisher" output="screen" />
+
+  <node name="eod_robot_teleop_twist_keyboard_vecihle" pkg="eod_robot_teleop_twist_keyboard"  type="teleop_twist_keyboard.py"  output="screen" />
+
+  <node name= "state_publisher_vecihle" pkg= "eod_robot_teleop_twist_keyboard" type= "control_vecihle" output="screen" />
+
+  <node name= "state_publisher_arm_left" pkg= "eod_robot_teleop_twist_keyboard" type= "control_arm_left" output="screen" />
+
+  <node name= "state_publisher_arm_right" pkg= "eod_robot_teleop_twist_keyboard" type= "control_arm_right" output="screen" />
+
+  <node name= "state_publisher_gripper" pkg= "eod_robot_teleop_twist_keyboard" type= "control_gripper" output="screen" />
+
+  <node name= "rviz" pkg= "rviz" type= "rviz" args= "-d $(find eod_robot_teleop_twist_keyboard)/rviz/urdf.rviz" />
+
+</launch>

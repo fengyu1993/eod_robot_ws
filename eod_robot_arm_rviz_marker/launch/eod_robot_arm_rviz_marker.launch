@@ -1,0 +1,17 @@
+<launch>
+
+  <param name= "robot_description" command= "cat $(find eod_robot_description)/urdf/eod_robot_description.urdf" />
+
+  <rosparam file= "$(find eod_robot_description)/param/eod_robot_param.yaml" command= "load"/>
+
+  <rosparam file= "$(find eod_robot_arm_rviz_marker)/param/eod_robot_arm_rviz_marker.yaml" command= "load"/>
+
+  <node name= "robot_state_publisher" pkg= "robot_state_publisher" type="robot_state_publisher" />
+
+  <node name= "state_publisher" pkg= "eod_robot_state_publisher" type= "state_publisher" output="screen" />
+
+  <node name="marker_control" pkg="eod_robot_arm_rviz_marker"  type="marker_control"  output="screen" />
+
+  <node name= "rviz" pkg= "rviz" type= "rviz" args= "-d $(find eod_robot_arm_rviz_marker)/rviz/urdf.rviz" />
+
+</launch>

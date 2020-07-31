@@ -1,0 +1,28 @@
+
+# simulation time step
+dt: 0.02
+
+# teleop_twist_keyboard.py 
+speed_vecihle: 0.5
+turn_vecihle: 0.5
+speed_arm_left: 0.08
+speed_arm_right: 0.08
+speed_gripper: 0.2
+arm_left_joint_or_task: False
+arm_right_joint_or_task: False
+arm_left_pose_num: 0
+arm_right_pose_num: 0
+
+# control_arm_left.cpp
+angle_arm_left_work: [0.0000, -2.7053, -0.7854, -1.5708, 2.7053, 0.0000]
+angle_arm_left_front: [1.5708, -0.4363, 0.0000, -1.5708, 1.5708, 0.0000]
+angle_arm_left_behind: [-1.5708, -2.7053, 0.0000, -1.5708, -1.5708, 0.0000]
+angle_arm_left_stand: [-1.5708, -2.7053, 0.0000, -1.5708, -1.5708, -1.5708]
+
+# control_arm_right.cpp
+angle_arm_right_work: [0.0000, -0.4363, 0.7854, -1.5708, -2.7053, 0.0000]
+angle_arm_right_front: [-1.5708, -2.6180, 0.0000, -1.5708, -1.5708, 0.0000]
+angle_arm_right_behind: [1.5708, -0.4363, 0.0000, -1.5708, 1.5708, 0.0000]
+angle_arm_right_stand: [1.5708, -0.4363, 0.0000, -1.5708, 1.5708, -1.5708]
+  
+# control_gripper.cpp
