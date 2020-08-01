@@ -111,10 +111,6 @@
       upper="6.28"
       effort="0"
       velocity="0" />
-    <safety_controller
-      soft_upper="3.14"
-      soft_lower="-3.14"
-      k_velocity="0" />
   </joint>
   <link
     name="Arm_R2_link">
@@ -1516,7 +1512,7 @@
     <mu2>100000</mu2>
     <kp>100000000.0</kp>
     <kd>1.0</kd>
-    <material>Gazebo/Blue</material>
+    <material>Gazebo/Red</material>
   </gazebo>
 
 

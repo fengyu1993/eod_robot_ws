@@ -26,6 +26,8 @@ int main(int argc, char **argv)
   ros::Rate loop_rate(50);
   
   int start_time, elapsed;
+  double angle_R1;
+  int flag = 1;
   
   while(not start_time)
   {
@@ -41,18 +43,18 @@ int main(int argc, char **argv)
     std_msgs::Float64 joint_R1_angle, joint_R2_angle, joint_R3_angle, joint_R4_angle, joint_R5_angle, joint_R6_angle,
                       joint_L1_angle, joint_L2_angle, joint_L3_angle, joint_L4_angle, joint_L5_angle, joint_L6_angle;
 
-    joint_R1_angle.data=2.5;
-    joint_R2_angle.data=3.14;
-    joint_R3_angle.data=0;
-    joint_R4_angle.data=0;
-    joint_R5_angle.data=0;
-    joint_R6_angle.data=0;
-    joint_L1_angle.data=0;
-    joint_L2_angle.data=0;
-    joint_L3_angle.data=0;
-    joint_L4_angle.data=0;
-    joint_L5_angle.data=0;
-    joint_L6_angle.data=0;
+    joint_R1_angle.data = sin(2*M_PI*0.1*elapsed)*(M_PI/2);
+    joint_R2_angle.data = sin(2*M_PI*0.1*elapsed)*(M_PI/2);
+    joint_R3_angle.data = sin(2*M_PI*0.1*elapsed)*(M_PI/2);
+    joint_R4_angle.data = sin(2*M_PI*0.1*elapsed)*(M_PI/2);
+    joint_R5_angle.data = sin(2*M_PI*0.1*elapsed)*(M_PI/2);
+    joint_R6_angle.data = sin(2*M_PI*0.1*elapsed)*(M_PI/2);
+    joint_L1_angle.data = sin(2*M_PI*0.1*elapsed)*(M_PI/2);
+    joint_L2_angle.data = sin(2*M_PI*0.1*elapsed)*(M_PI/2);
+    joint_L3_angle.data = sin(2*M_PI*0.1*elapsed)*(M_PI/2);
+    joint_L4_angle.data = sin(2*M_PI*0.1*elapsed)*(M_PI/2);
+    joint_L5_angle.data = sin(2*M_PI*0.1*elapsed)*(M_PI/2);
+    joint_L6_angle.data = sin(2*M_PI*0.1*elapsed)*(M_PI/2);
 
     // std::cout << "joint_R1_angle = " << joint_R1_angle.data << std::endl;
 

@@ -42,4 +42,15 @@ eod_robot_arm_rviz_marker:
 	通过拖动rviz中的marker改变两机械臂末端执行器的位置
 	用到逆运动学
 
+2020.07.31
+eod_robot_dependlib:
+	存放着eod_robot需要的依赖文件:
+		roboticsgroup_gazebo_plugins: 机械爪gazebo仿真需要的插件
+
+2020.08.01
+eod_robot_moveit_config：
+	eod_robot的moveit配置文件
+
+
+
 
