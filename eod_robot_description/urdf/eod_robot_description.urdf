@@ -1186,11 +1186,11 @@
   <transmission name="gripper_finger1_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="gripper_finger1_joint">
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
     <actuator name="gripper_finger1_motor">
       <mechanicalReduction>1</mechanicalReduction>
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </actuator>
   </transmission>
 
@@ -1336,6 +1336,7 @@
     <mu2>100000</mu2>
     <kp>100000000.0</kp>
     <kd>1.0</kd>
+    <material>Gazebo/Blue</material>
   </gazebo>
 
   <gazebo reference="Arm_R2_link">
@@ -1344,6 +1345,7 @@
     <mu2>100000</mu2>
     <kp>100000000.0</kp>
     <kd>1.0</kd>
+    <material>Gazebo/Blue</material>
   </gazebo>
 
   <gazebo reference="Arm_R3_link">
@@ -1352,6 +1354,7 @@
     <mu2>100000</mu2>
     <kp>100000000.0</kp>
     <kd>1.0</kd>
+    <material>Gazebo/Blue</material>
   </gazebo>
 
   <gazebo reference="Arm_R4_link">
@@ -1360,6 +1363,7 @@
     <mu2>100000</mu2>
     <kp>100000000.0</kp>
     <kd>1.0</kd>
+    <material>Gazebo/Blue</material>
   </gazebo>
 
   <gazebo reference="Arm_R5_link">
@@ -1368,6 +1372,7 @@
     <mu2>100000</mu2>
     <kp>100000000.0</kp>
     <kd>1.0</kd>
+    <material>Gazebo/Blue</material>
   </gazebo>
 
   <gazebo reference="Arm_R6_link">
@@ -1376,6 +1381,7 @@
     <mu2>100000</mu2>
     <kp>100000000.0</kp>
     <kd>1.0</kd>
+    <material>Gazebo/Red</material>
   </gazebo>
 
   <gazebo reference="gripper_base_link">
@@ -1384,6 +1390,7 @@
     <mu2>100000</mu2>
     <kp>100000000.0</kp>
     <kd>1.0</kd>
+    <material>Gazebo/Red</material>
   </gazebo>
 
   <gazebo reference="gripper_finger1_knuckle_link">
@@ -1392,6 +1399,7 @@
     <mu2>100000</mu2>
     <kp>100000000.0</kp>
     <kd>1.0</kd>
+    <material>Gazebo/Red</material>
   </gazebo>
 
   <gazebo reference="gripper_finger2_knuckle_link">
@@ -1400,6 +1408,7 @@
     <mu2>100000</mu2>
     <kp>100000000.0</kp>
     <kd>1.0</kd>
+    <material>Gazebo/Red</material>
   </gazebo>
 
   <gazebo reference="gripper_finger1_finger_link">
@@ -1408,6 +1417,7 @@
     <mu2>100000</mu2>
     <kp>100000000.0</kp>
     <kd>1.0</kd>
+    <material>Gazebo/Red</material>
   </gazebo>
 
   <gazebo reference="gripper_finger2_finger_link">
@@ -1416,6 +1426,7 @@
     <mu2>100000</mu2>
     <kp>100000000.0</kp>
     <kd>1.0</kd>
+    <material>Gazebo/Red</material>
   </gazebo>
 
   <gazebo reference="gripper_finger1_inner_knuckle_link">
@@ -1424,6 +1435,7 @@
     <mu2>100000</mu2>
     <kp>100000000.0</kp>
     <kd>1.0</kd>
+    <material>Gazebo/Red</material>
   </gazebo>
 
    <gazebo reference="gripper_finger2_inner_knuckle_link">
@@ -1432,6 +1444,7 @@
     <mu2>100000</mu2>
     <kp>100000000.0</kp>
     <kd>1.0</kd>
+    <material>Gazebo/Red</material>
   </gazebo>
 
   <gazebo reference="gripper_finger1_finger_tip_link">
@@ -1440,6 +1453,7 @@
     <mu2>100000</mu2>
     <kp>100000000.0</kp>
     <kd>1.0</kd>
+    <material>Gazebo/Red</material>
   </gazebo>
 
   <gazebo reference="gripper_finger2_finger_tip_link">
@@ -1448,6 +1462,7 @@
     <mu2>100000</mu2>
     <kp>100000000.0</kp>
     <kd>1.0</kd>
+    <material>Gazebo/Red</material>
   </gazebo>
 
   <gazebo reference="Arm_L1_link">
@@ -1456,6 +1471,7 @@
     <mu2>100000</mu2>
     <kp>100000000.0</kp>
     <kd>1.0</kd>
+    <material>Gazebo/Blue</material>
   </gazebo>
 
   <gazebo reference="Arm_L2_link">
@@ -1464,6 +1480,7 @@
     <mu2>100000</mu2>
     <kp>100000000.0</kp>
     <kd>1.0</kd>
+    <material>Gazebo/Blue</material>
   </gazebo>
 
   <gazebo reference="Arm_L3_link">
@@ -1472,6 +1489,7 @@
     <mu2>100000</mu2>
     <kp>100000000.0</kp>
     <kd>1.0</kd>
+    <material>Gazebo/Blue</material>
   </gazebo>
 
   <gazebo reference="Arm_L4_link">
@@ -1480,6 +1498,7 @@
     <mu2>100000</mu2>
     <kp>100000000.0</kp>
     <kd>1.0</kd>
+    <material>Gazebo/Blue</material>
   </gazebo>
 
   <gazebo reference="Arm_L5_link">
@@ -1488,6 +1507,7 @@
     <mu2>100000</mu2>
     <kp>100000000.0</kp>
     <kd>1.0</kd>
+    <material>Gazebo/Blue</material>
   </gazebo>
 
   <gazebo reference="Arm_L6_link">
@@ -1496,6 +1516,7 @@
     <mu2>100000</mu2>
     <kp>100000000.0</kp>
     <kd>1.0</kd>
+    <material>Gazebo/Blue</material>
   </gazebo>
 
 

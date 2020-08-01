@@ -16,4 +16,5 @@
         Arm_L4_joint_position_controller 
         Arm_L5_joint_position_controller 
         Arm_L6_joint_position_controller"/>
+
 </launch>

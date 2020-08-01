@@ -4,7 +4,7 @@
   <include file="$(find eod_robot_description)/launch/robot_control.xml"/>
 
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
-    <arg name="world_name" value="$(find eod_robot_description)/worlds/willow_garage.world"/>
+    <arg name="world_name" value="$(find eod_robot_description)/worlds/eod_robot.world"/>
     <arg name="paused" value="false"/>
     <arg name="use_sim_time" value="true"/>
     <arg name="gui" value="true"/>

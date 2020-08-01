@@ -2,14 +2,12 @@
 
   <param name="robot_description" textfile="$(find eod_robot_description)/urdf/eod_robot_description.urdf" />
 
-  <!--<rosparam file="$(find eod_robot_description)/config/eod_robot_description_control.yaml" command="load"/>-->
-
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
     <param name="use_gui" value="false"/>
   </node>
   
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
-        <!--<param name= "publish_frequency" type= "double" value= "50.0"/>-->
+        <param name= "publish_frequency" type= "double" value= "50.0"/>
         <remap from="/joint_states" to="/eod_robot_description/joint_states" />
   </node>
 
