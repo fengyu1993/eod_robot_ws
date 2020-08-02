@@ -10,40 +10,24 @@
   <link
     name="base_link">
     <inertial>
-      <origin
-        xyz="-0.17885 0.0017998 -0.1738"
-        rpy="0 0 0" />
-      <mass
-        value="107.28" />
-      <inertia
-        ixx="1.52"
-        ixy="0.001111"
-        ixz="0.079409"
-        iyy="2.3271"
-        iyz="-0.00027816"
-        izz="3.0127" />
+      <origin xyz="-0.17885 0.0017998 -0.1738" rpy="0 0 0" />
+      <mass value="107.28" />
+      <inertia ixx="1.52" ixy="0.001111" ixz="0.079409" iyy="2.3271" iyz="-0.00027816" izz="3.0127" />
     </inertial>
     <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh
-          filename="package://eod_robot_description/meshes/base_link.STL" />
+        <mesh filename="package://eod_robot_description/meshes/base_link.STL" />
       </geometry>
       <material
         name="">
-        <color
-          rgba="0.0078 0.4686 0.2294 1" />
+        <color rgba="0.0078 0.4686 0.2294 1" />
       </material>
     </visual>
     <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh
-          filename="package://eod_robot_description/meshes/base_link.STL" />
+        <mesh filename="package://eod_robot_description/meshes/base_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -56,364 +40,208 @@
   <link
     name="Arm_R1_link">
     <inertial>
-      <origin
-        xyz="-7.5166E-05 0.0061693 0.0029213"
-        rpy="0 0 0" />
-      <mass
-        value="1.942" />
-      <inertia
-        ixx="0.0057811"
-        ixy="-1.8608E-06"
-        ixz="1.4367E-07"
-        iyy="0.0054342"
-        iyz="3.5004E-05"
-        izz="0.0038786" />
+      <origin xyz="-7.5166E-05 0.0061693 0.0029213" rpy="0 0 0" />
+      <mass value="1.942" />
+      <inertia ixx="0.0057811" ixy="-1.8608E-06" ixz="1.4367E-07" iyy="0.0054342" iyz="3.5004E-05" izz="0.0038786" />
     </inertial>
     <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh
-          filename="package://eod_robot_description/meshes/Arm_R1_link.STL" />
+        <mesh filename="package://eod_robot_description/meshes/Arm_R1_link.STL" />
       </geometry>
       <material
         name="">
-        <color
-          rgba="0.2706 0.5373 0.5804 1" />
+        <color rgba="0.2706 0.5373 0.5804 1" />
       </material>
     </visual>
     <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh
-          filename="package://eod_robot_description/meshes/Arm_R1_link.STL" />
+        <mesh filename="package://eod_robot_description/meshes/Arm_R1_link.STL" />
       </geometry>
     </collision>
   </link>
 
-  <joint
-    name="Arm_R1_joint"
-    type="revolute">
-    <origin
-      xyz="-0.0499 -0.21024 -0.056576"
-      rpy="1.1342 0 0" />
-    <parent
-      link="base_link" />
-    <child
-      link="Arm_R1_link" />
-    <axis
-      xyz="0 0 1" />
-    <limit
-      lower="-6.28"
-      upper="6.28"
-      effort="0"
-      velocity="0" />
+  <joint name="Arm_R1_joint" type="revolute">
+    <origin xyz="-0.0499 -0.21024 -0.056576" rpy="1.1342 0 0" />
+    <parent link="base_link" />
+    <child link="Arm_R1_link" />
+    <axis xyz="0 0 1" />
+    <limit lower="-6.28" upper="6.28" effort="300" velocity="5" />
   </joint>
   <link
     name="Arm_R2_link">
     <inertial>
-      <origin
-        xyz="2.6419E-05 0.0018174 0.17875"
-        rpy="0 0 0" />
-      <mass
-        value="5.5188" />
-      <inertia
-        ixx="0.032467"
-        ixy="-1.7285E-07"
-        ixz="1.9497E-06"
-        iyy="0.029769"
-        iyz="1.3101E-05"
-        izz="0.01125" />
+      <origin xyz="2.6419E-05 0.0018174 0.17875" rpy="0 0 0" />
+      <mass value="5.5188" />
+      <inertia ixx="0.032467" ixy="-1.7285E-07" ixz="1.9497E-06" iyy="0.029769" iyz="1.3101E-05" izz="0.01125" />
     </inertial>
     <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh
-          filename="package://eod_robot_description/meshes/Arm_R2_link.STL" />
+        <mesh filename="package://eod_robot_description/meshes/Arm_R2_link.STL" />
       </geometry>
       <material
         name="">
-        <color
-          rgba="0.2706 0.5373 0.5804 1" />
+        <color rgba="0.2706 0.5373 0.5804 1" />
       </material>
     </visual>
     <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh
-          filename="package://eod_robot_description/meshes/Arm_R2_link.STL" />
+        <mesh filename="package://eod_robot_description/meshes/Arm_R2_link.STL" />
       </geometry>
     </collision>
   </link>
 
-  <joint
-    name="Arm_R2_joint"
-    type="revolute">
-    <origin
-      xyz="0 0.145 0.0001"
-      rpy="0 1.5708 0" />
-    <parent
-      link="Arm_R1_link" />
-    <child
-      link="Arm_R2_link" />
-    <axis
-      xyz="0 1 0" />
-    <limit
-      lower="-6.28"
-      upper="6.28"
-      effort="0"
-      velocity="0" />
+  <joint name="Arm_R2_joint" type="revolute">
+    <origin xyz="0 0.145 0.0001" rpy="0 1.5708 0" />
+    <parent link="Arm_R1_link" />
+    <child link="Arm_R2_link" />
+    <axis xyz="0 1 0" />
+    <limit lower="-6.28" upper="6.28" effort="300" velocity="5" />
   </joint>
+
   <link
     name="Arm_R3_link">
     <inertial>
-      <origin
-        xyz="-6.6015E-07 0.0099112 0.19645"
-        rpy="0 0 0" />
-      <mass
-        value="2.3067" />
-      <inertia
-        ixx="0.024366"
-        ixy="-7.0932E-08"
-        ixz="-9.8729E-08"
-        iyy="0.023353"
-        iyz="0.0029573"
-        izz="0.0031722" />
+      <origin xyz="-6.6015E-07 0.0099112 0.19645" rpy="0 0 0" />
+      <mass value="2.3067" />
+      <inertia ixx="0.024366" ixy="-7.0932E-08" ixz="-9.8729E-08" iyy="0.023353" iyz="0.0029573" izz="0.0031722" />
     </inertial>
     <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh
-          filename="package://eod_robot_description/meshes/Arm_R3_link.STL" />
+        <mesh filename="package://eod_robot_description/meshes/Arm_R3_link.STL" />
       </geometry>
       <material
         name="">
-        <color
-          rgba="0.2706 0.5373 0.5804 1" />
+        <color rgba="0.2706 0.5373 0.5804 1" />
       </material>
     </visual>
     <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh
-          filename="package://eod_robot_description/meshes/Arm_R3_link.STL" />
+        <mesh filename="package://eod_robot_description/meshes/Arm_R3_link.STL" />
       </geometry>
     </collision>
   </link>
 
-  <joint
-    name="Arm_R3_joint"
-    type="revolute">
-    <origin
-      xyz="0 -0.144 0.42469"
-      rpy="0 0 0" />
-    <parent
-      link="Arm_R2_link" />
-    <child
-      link="Arm_R3_link" />
-    <axis
-      xyz="0 1 0" />
-    <limit
-      lower="-6.28"
-      upper="6.28"
-      effort="0"
-      velocity="0" />
+  <joint name="Arm_R3_joint" type="revolute">
+    <origin xyz="0 -0.144 0.42469" rpy="0 0 0" />
+    <parent link="Arm_R2_link" />
+    <child link="Arm_R3_link" />
+    <axis xyz="0 1 0" />
+    <limit lower="-6.28" upper="6.28" effort="300" velocity="5" />
   </joint>
+
   <link
     name="Arm_R4_link">
     <inertial>
-      <origin
-        xyz="1.5867E-07 0.10315 -0.002932"
-        rpy="0 0 0" />
-      <mass
-        value="0.66592" />
-      <inertia
-        ixx="0.0010283"
-        ixy="2.5683E-09"
-        ixz="3.2476E-09"
-        iyy="0.00090972"
-        iyz="1.3372E-05"
-        izz="0.00064819" />
+      <origin xyz="1.5867E-07 0.10315 -0.002932" rpy="0 0 0" />
+      <mass value="0.66592" />
+      <inertia ixx="0.0010283" ixy="2.5683E-09" ixz="3.2476E-09" iyy="0.00090972" iyz="1.3372E-05" izz="0.00064819" />
     </inertial>
     <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh
-          filename="package://eod_robot_description/meshes/Arm_R4_link.STL" />
+        <mesh filename="package://eod_robot_description/meshes/Arm_R4_link.STL" />
       </geometry>
       <material
         name="">
-        <color
-          rgba="0.2706 0.5373 0.5804 1" />
+        <color rgba="0.2706 0.5373 0.5804 1" />
       </material>
     </visual>
     <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh
-          filename="package://eod_robot_description/meshes/Arm_R4_link.STL" />
+        <mesh filename="package://eod_robot_description/meshes/Arm_R4_link.STL" />
       </geometry>
     </collision>
   </link>
 
-  <joint
-    name="Arm_R4_joint"
-    type="revolute">
-    <origin
-      xyz="0 0 0.38445"
-      rpy="0 1.5708 0" />
-    <parent
-      link="Arm_R3_link" />
-    <child
-      link="Arm_R4_link" />
-    <axis
-      xyz="0 1 0" />
-    <limit
-      lower="-6.28"
-      upper="6.28"
-      effort="0"
-      velocity="0" />
+  <joint name="Arm_R4_joint" type="revolute">
+    <origin xyz="0 0 0.38445" rpy="0 1.5708 0" />
+    <parent link="Arm_R3_link" />
+    <child link="Arm_R4_link" />
+    <axis xyz="0 1 0" />
+    <limit lower="-6.28" upper="6.28" effort="100" velocity="5" />
   </joint>
+
   <link
     name="Arm_R5_link">
     <inertial>
-      <origin
-        xyz="-1.3433E-07 -0.0029321 0.10325"
-        rpy="0 0 0" />
+      <origin xyz="-1.3433E-07 -0.0029321 0.10325" rpy="0 0 0" />
       <mass
         value="0.66592" />
-      <inertia
-        ixx="0.0010283"
-        ixy="-1.8758E-09"
-        ixz="-2.2545E-09"
-        iyy="0.00064819"
-        iyz="1.3371E-05"
-        izz="0.00090972" />
+      <inertia ixx="0.0010283" ixy="-1.8758E-09" ixz="-2.2545E-09" iyy="0.00064819" iyz="1.3371E-05" izz="0.00090972" />
     </inertial>
     <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh
-          filename="package://eod_robot_description/meshes/Arm_R5_link.STL" />
+        <mesh filename="package://eod_robot_description/meshes/Arm_R5_link.STL" />
       </geometry>
       <material
         name="">
-        <color
-          rgba="0.2706 0.5373 0.5804 1" />
+        <color  rgba="0.2706 0.5373 0.5804 1" />
       </material>
     </visual>
     <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh
-          filename="package://eod_robot_description/meshes/Arm_R5_link.STL" />
+        <mesh filename="package://eod_robot_description/meshes/Arm_R5_link.STL" />
       </geometry>
     </collision>
   </link>
 
-  <joint
-    name="Arm_R5_joint"
-    type="revolute">
-    <origin
-      xyz="0 0.11 0"
-      rpy="0 0 0" />
-    <parent
-      link="Arm_R4_link" />
-    <child
-      link="Arm_R5_link" />
-    <axis
-      xyz="0 0 1" />
-    <limit
-      lower="-6.28"
-      upper="6.28"
-      effort="0"
-      velocity="0" />
+  <joint name="Arm_R5_joint" type="revolute">
+    <origin xyz="0 0.11 0" rpy="0 0 0" />
+    <parent link="Arm_R4_link" />
+    <child link="Arm_R5_link" />
+    <axis  xyz="0 0 1" />
+    <limit lower="-6.28" upper="6.28" effort="100" velocity="5" />
   </joint>
+
   <link
     name="Arm_R6_link">
     <inertial>
-      <origin
-        xyz="-0.00033659 0.063349 -0.0018397"
-        rpy="0 0 0" />
-      <mass
-        value="0.040885" />
-      <inertia
-        ixx="1.7434E-05"
-        ixy="-3.1147E-13"
-        ixz="-5.083E-07"
-        iyy="3.0506E-05"
-        iyz="-5.7966E-13"
-        izz="1.4748E-05" />
+      <origin xyz="-0.00033659 0.063349 -0.0018397" rpy="0 0 0" />
+      <mass value="0.040885" />
+      <inertia ixx="1.7434E-05" ixy="-3.1147E-13" ixz="-5.083E-07" iyy="3.0506E-05" iyz="-5.7966E-13" izz="1.4748E-05" />
     </inertial>
     <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh
-          filename="package://eod_robot_description/meshes/Arm_R6_link.STL" />
+        <mesh filename="package://eod_robot_description/meshes/Arm_R6_link.STL" />
       </geometry>
       <material
         name="">
-        <color
-          rgba="0.6980 0.7843 0.7333 1" />
+        <color rgba="0.6980 0.7843 0.7333 1" />
       </material>
     </visual>
     <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh
-          filename="package://eod_robot_description/meshes/Arm_R6_link.STL" />
+        <mesh filename="package://eod_robot_description/meshes/Arm_R6_link.STL" />
       </geometry>
     </collision>
   </link>
 
-  <joint
-    name="Arm_R6_joint"
-    type="revolute">
-    <origin
-      xyz="0 0 0.1101"
-      rpy="0 -1.74 0" />
-    <parent
-      link="Arm_R5_link" />
-    <child
-      link="Arm_R6_link" />
-    <axis
-      xyz="0 1 0" />
-    <limit
-      lower="-6.28"
-      upper="6.28"
-      effort="0"
-      velocity="0" />
+  <joint name="Arm_R6_joint" type="revolute">
+    <origin xyz="0 0 0.1101" rpy="0 -1.74 0" />
+    <parent link="Arm_R5_link" />
+    <child link="Arm_R6_link" />
+    <axis xyz="0 1 0" />
+    <limit lower="-6.28" upper="6.28" effort="100" velocity="5" />
   </joint>
 
-<!--   gripper     -->
+     
 <joint name="gripper_base_joint" type="fixed">
     <parent link="Arm_R6_link"/>
     <child link="gripper_base_link"/>
     <origin rpy="-1.570796325 0.2 0" xyz="0 0.07 0"/>
-  </joint>
+</joint>
+
   <link name="gripper_base_link">
     <visual>
         <geometry>
@@ -421,8 +249,7 @@
         </geometry>
       <material
         name="">
-        <color
-          rgba="0.6980 0.7843 0.7333 1" />
+        <color rgba="0.6980 0.7843 0.7333 1" />
       </material>
     </visual>
     <collision>
@@ -446,6 +273,7 @@
       <origin rpy="0.0 0.0 3.14" xyz="-0.016 0 0.10586"/>
       <limit lower="0.0" upper="0.6524" velocity="2.0" effort="1000"/>
   </joint>
+
   <joint name="gripper_finger2_joint" type="revolute">
     <parent link="gripper_base_link"/>
     <child link="gripper_finger2_knuckle_link"/>
@@ -454,6 +282,7 @@
     <limit lower="-3.14" upper="3.14" velocity="100.0" effort="1000"/>
     <mimic joint="gripper_finger1_joint"/>
   </joint>
+
   <link name="gripper_finger1_knuckle_link">
             <visual>
                 <geometry>
@@ -461,8 +290,7 @@
                 </geometry>
                 <material
                     name="">
-                <color
-                    rgba="0.6980 0.7843 0.7333 1" />
+                <color rgba="0.6980 0.7843 0.7333 1" />
                 </material>
             </visual>
             <collision>
@@ -486,8 +314,7 @@
                 </geometry>
                 <material
                     name="">
-                <color
-                    rgba="0.6980 0.7843 0.7333 1" />
+                <color rgba="0.6980 0.7843 0.7333 1" />
                 </material>
             </visual>
             <collision>
@@ -528,8 +355,7 @@
                 </geometry>
                 <material
                     name="">
-                <color
-                    rgba="0.6980 0.7843 0.7333 1" />
+                <color rgba="0.6980 0.7843 0.7333 1" />
                 </material>
             </visual>
             <collision>
@@ -553,8 +379,7 @@
                 </geometry>
                 <material
                     name="">
-                <color
-                    rgba="0.6980 0.7843 0.7333 1" />
+                <color rgba="0.6980 0.7843 0.7333 1" />
                 </material>
             </visual>
             <collision>
@@ -579,6 +404,7 @@
             <limit lower="-3.14" upper="3.14" velocity="100.0" effort="0.1"/>
             <mimic joint="gripper_finger1_joint" multiplier="1.49462955"  offset="0"/>
  </joint>
+
   <joint name="gripper_finger2_inner_knuckle_joint" type="continuous">
     <parent link="gripper_base_link"/>
     <child link="gripper_finger2_inner_knuckle_link"/>
@@ -587,6 +413,7 @@
             <limit lower="-3.14" upper="3.14" velocity="100.0" effort="0.1"/>
             <mimic joint="gripper_finger1_joint" multiplier="1.49462955"  offset="0"/>
   </joint>
+
      <link name="gripper_finger1_inner_knuckle_link">
             <visual>
                 <geometry>
@@ -594,8 +421,7 @@
                 </geometry>
                 <material
                     name="">
-                <color
-                    rgba="0.6980 0.7843 0.7333 1" />
+                <color rgba="0.6980 0.7843 0.7333 1" />
                 </material>
             </visual>
             <collision>
@@ -644,7 +470,8 @@
             <origin xyz="0.0394969463769 0.0 0.0382752038125 " rpy="0.0 0.0 0.0"/>
             <limit lower="-3.14" upper="3.14" velocity="100.0" effort="0.1"/>
             <mimic joint="gripper_finger1_joint" multiplier="1.49462955"/>
-        </joint>
+</joint>
+
   <joint name="gripper_finger2_finger_tip_joint" type="continuous">
     <parent link="gripper_finger2_inner_knuckle_link"/>
     <child link="gripper_finger2_finger_tip_link"/>
@@ -653,6 +480,7 @@
             <limit lower="-3.14" upper="3.14" velocity="100.0" effort="0.1"/>
             <mimic joint="gripper_finger1_joint" multiplier="1.49462955"/>
   </joint>
+
   <link name="gripper_finger1_finger_tip_link">
             <visual>
                 <geometry>
@@ -660,8 +488,7 @@
                 </geometry>
                <material
                     name="">
-                <color
-                    rgba="0.6980 0.7843 0.7333 1" />
+                <color rgba="0.6980 0.7843 0.7333 1" />
                 </material>
             </visual>
             <collision>
@@ -685,8 +512,7 @@
                 </geometry>
                 <material
                     name="">
-                <color
-                    rgba="0.6980 0.7843 0.7333 1" />
+                <color rgba="0.6980 0.7843 0.7333 1" />
                 </material>
             </visual>
             <collision>
@@ -706,412 +532,233 @@
   <link
     name="Arm_L1_link">
     <inertial>
-      <origin
-        xyz="-2.4273E-09 0.0050107 0.003883"
-        rpy="0 0 0" />
-      <mass
-        value="1.1218" />
-      <inertia
-        ixx="0.0023329"
-        ixy="-2.1019E-09"
-        ixz="-1.0212E-09"
-        iyy="0.0021983"
-        iyz="2.1828E-05"
-        izz="0.0015374" />
+      <origin xyz="-2.4273E-09 0.0050107 0.003883" rpy="0 0 0" />
+      <mass value="1.1218" />
+      <inertia ixx="0.0023329" ixy="-2.1019E-09" ixz="-1.0212E-09" iyy="0.0021983" iyz="2.1828E-05" izz="0.0015374" />
     </inertial>
     <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh
-          filename="package://eod_robot_description/meshes/Arm_L1_link.STL" />
+        <mesh filename="package://eod_robot_description/meshes/Arm_L1_link.STL" />
       </geometry>
       <material
         name="">
-        <color
-          rgba="0.2706 0.5373 0.5804 1" />
+        <color rgba="0.2706 0.5373 0.5804 1" />
       </material>
     </visual>
     <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh
-          filename="package://eod_robot_description/meshes/Arm_L1_link.STL" />
+        <mesh filename="package://eod_robot_description/meshes/Arm_L1_link.STL" />
       </geometry>
     </collision>
   </link>
 
-  <joint
-    name="Arm_L1_joint"
-    type="revolute">
-    <origin
-      xyz="0.05 0.20099 -0.060889"
-      rpy="1.1342 0 -3.1416" />
-    <parent
-      link="base_link" />
-    <child
-      link="Arm_L1_link" />
-    <axis
-      xyz="0 0 1" />
-    <limit
-      lower="-6.28"
-      upper="6.28"
-      effort="0"
-      velocity="0" />
+  <joint name="Arm_L1_joint" type="revolute">
+    <origin xyz="0.05 0.20099 -0.060889" rpy="1.1342 0 -3.1416" />
+    <parent link="base_link" />
+    <child link="Arm_L1_link" />
+    <axis xyz="0 0 1" />
+    <limit lower="-6.28" upper="6.28" effort="300" velocity="5" />
   </joint>
+
   <link
     name="Arm_L2_link">
     <inertial>
-      <origin
-        xyz="-1.0801E-07 0.0029806 0.12303"
-        rpy="0 0 0" />
-      <mass
-        value="2.9228" />
-      <inertia
-        ixx="0.0062307"
-        ixy="-8.6863E-09"
-        ixz="5.4046E-09"
-        iyy="0.0046397"
-        iyz="9.0159E-10"
-        izz="0.0053184" />
+      <origin xyz="-1.0801E-07 0.0029806 0.12303" rpy="0 0 0" />
+      <mass value="2.9228" />
+      <inertia ixx="0.0062307" ixy="-8.6863E-09" ixz="5.4046E-09" iyy="0.0046397" iyz="9.0159E-10" izz="0.0053184" />
     </inertial>
     <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh
-          filename="package://eod_robot_description/meshes/Arm_L2_link.STL" />
+        <mesh filename="package://eod_robot_description/meshes/Arm_L2_link.STL" />
       </geometry>
       <material
         name="">
-        <color
-          rgba="0.2706 0.5373 0.5804 1" />
+        <color rgba="0.2706 0.5373 0.5804 1" />
       </material>
     </visual>
     <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh
-          filename="package://eod_robot_description/meshes/Arm_L2_link.STL" />
+        <mesh filename="package://eod_robot_description/meshes/Arm_L2_link.STL" />
       </geometry>
     </collision>
   </link>
 
-  <joint
-    name="Arm_L2_joint"
-    type="revolute">
-    <origin
-      xyz="0 0.1196 0"
-      rpy="0 1.5708 0" />
-    <parent
-      link="Arm_L1_link" />
-    <child
-      link="Arm_L2_link" />
-    <axis
-      xyz="0 1 0" />
-    <limit
-      lower="-6.28"
-      upper="6.28"
-      effort="0"
-      velocity="0" />
+  <joint name="Arm_L2_joint" type="revolute">
+    <origin xyz="0 0.1196 0" rpy="0 1.5708 0" />
+    <parent link="Arm_L1_link" />
+    <child link="Arm_L2_link" />
+    <axis xyz="0 1 0" />
+    <limit lower="-6.28" upper="6.28" effort="300" velocity="5" />
   </joint>
+
   <link
     name="Arm_L3_link">
     <inertial>
-      <origin
-        xyz="-1.2556E-07 0.011438 0.1421"
-        rpy="0 0 0" />
-      <mass
-        value="1.5455" />
-      <inertia
-        ixx="0.0061651"
-        ixy="-2.5101E-09"
-        ixz="-9.3994E-09"
-        iyy="0.0052977"
-        iyz="0.0011604"
-        izz="0.0023808" />
+      <origin xyz="-1.2556E-07 0.011438 0.1421" rpy="0 0 0" />
+      <mass value="1.5455" />
+      <inertia ixx="0.0061651" ixy="-2.5101E-09" ixz="-9.3994E-09" iyy="0.0052977" iyz="0.0011604" izz="0.0023808" />
     </inertial>
     <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh
-          filename="package://eod_robot_description/meshes/Arm_L3_link.STL" />
+        <mesh filename="package://eod_robot_description/meshes/Arm_L3_link.STL" />
       </geometry>
       <material
         name="">
-        <color
-          rgba="0.2706 0.5373 0.5804 1" />
+        <color rgba="0.2706 0.5373 0.5804 1" />
       </material>
     </visual>
     <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh
-          filename="package://eod_robot_description/meshes/Arm_L3_link.STL" />
+        <mesh filename="package://eod_robot_description/meshes/Arm_L3_link.STL" />
       </geometry>
     </collision>
   </link>
 
-  <joint
-    name="Arm_L3_joint"
-    type="revolute">
-    <origin
-      xyz="0 -0.15098 0.24594"
-      rpy="0 0 0" />
-    <parent
-      link="Arm_L2_link" />
-    <child
-      link="Arm_L3_link" />
-    <axis
-      xyz="0 1 0" />
-    <limit
-      lower="-6.28"
-      upper="6.28"
-      effort="0"
-      velocity="0" />
+  <joint name="Arm_L3_joint" type="revolute">
+    <origin xyz="0 -0.15098 0.24594" rpy="0 0 0" />
+    <parent link="Arm_L2_link" />
+    <child link="Arm_L3_link" />
+    <axis xyz="0 1 0" />
+    <limit lower="-6.28" upper="6.28" effort="300" velocity="5" />
   </joint>
-  <link
-    name="Arm_L4_link">
+
+  <link name="Arm_L4_link">
     <inertial>
-      <origin
-        xyz="1.5867E-07 0.10315 -0.002932"
-        rpy="0 0 0" />
-      <mass
-        value="0.66592" />
-      <inertia
-        ixx="0.0010283"
-        ixy="2.5683E-09"
-        ixz="3.2476E-09"
-        iyy="0.00090972"
-        iyz="1.3372E-05"
-        izz="0.00064819" />
+      <origin xyz="1.5867E-07 0.10315 -0.002932" rpy="0 0 0" />
+      <mass value="0.66592" />
+      <inertia ixx="0.0010283" ixy="2.5683E-09" ixz="3.2476E-09" iyy="0.00090972" iyz="1.3372E-05" izz="0.00064819" />
     </inertial>
     <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh
-          filename="package://eod_robot_description/meshes/Arm_L4_link.STL" />
+        <mesh filename="package://eod_robot_description/meshes/Arm_L4_link.STL" />
       </geometry>
       <material
         name="">
-        <color
-          rgba="0.2706 0.5373 0.5804 1" />
+        <color rgba="0.2706 0.5373 0.5804 1" />
       </material>
     </visual>
     <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh
-          filename="package://eod_robot_description/meshes/Arm_L4_link.STL" />
+        <mesh filename="package://eod_robot_description/meshes/Arm_L4_link.STL" />
       </geometry>
     </collision>
   </link>
 
-  <joint
-    name="Arm_L4_joint"
-    type="revolute">
-    <origin
-      xyz="0 0 0.25532"
-      rpy="0 1.5708 0" />
-    <parent
-      link="Arm_L3_link" />
-    <child
-      link="Arm_L4_link" />
-    <axis
-      xyz="0 1 0" />
-    <limit
-      lower="-6.28"
-      upper="6.28"
-      effort="0"
-      velocity="0" />
+  <joint name="Arm_L4_joint" type="revolute">
+    <origin xyz="0 0 0.25532" rpy="0 1.5708 0" />
+    <parent link="Arm_L3_link" />
+    <child link="Arm_L4_link" />
+    <axis xyz="0 1 0" />
+    <limit lower="-6.28" upper="6.28" effort="100" velocity="5" />
   </joint>
+
   <link
     name="Arm_L5_link">
     <inertial>
-      <origin
-        xyz="-1.3433E-07 -0.0029321 0.10325"
-        rpy="0 0 0" />
-      <mass
-        value="0.66592" />
-      <inertia
-        ixx="0.0010283"
-        ixy="-1.8758E-09"
-        ixz="-2.2545E-09"
-        iyy="0.00064819"
-        iyz="1.3371E-05"
-        izz="0.00090972" />
+      <origin xyz="-1.3433E-07 -0.0029321 0.10325" rpy="0 0 0" />
+      <mass value="0.66592" />
+      <inertia ixx="0.0010283" ixy="-1.8758E-09" ixz="-2.2545E-09" iyy="0.00064819" iyz="1.3371E-05" izz="0.00090972" />
     </inertial>
     <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh
-          filename="package://eod_robot_description/meshes/Arm_L5_link.STL" />
+        <mesh filename="package://eod_robot_description/meshes/Arm_L5_link.STL" />
       </geometry>
       <material
         name="">
-        <color
-          rgba="0.2706 0.5373 0.5804 1" />
+        <color rgba="0.2706 0.5373 0.5804 1" />
       </material>
     </visual>
     <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh
-          filename="package://eod_robot_description/meshes/Arm_L5_link.STL" />
+        <mesh filename="package://eod_robot_description/meshes/Arm_L5_link.STL" />
       </geometry>
     </collision>
   </link>
 
-  <joint
-    name="Arm_L5_joint"
-    type="revolute">
-    <origin
-      xyz="0 0.11 0"
-      rpy="0 0 0" />
-    <parent
-      link="Arm_L4_link" />
-    <child
-      link="Arm_L5_link" />
-    <axis
-      xyz="0 0 1" />
-    <limit
-      lower="-6.28"
-      upper="6.28"
-      effort="0"
-      velocity="0" />
+  <joint name="Arm_L5_joint" type="revolute">
+    <origin xyz="0 0.11 0" rpy="0 0 0" />
+    <parent link="Arm_L4_link" />
+    <child link="Arm_L5_link" />
+    <axis xyz="0 0 1" />
+    <limit lower="-6.28" upper="6.28" effort="100" velocity="5" />
   </joint>
+
   <link
     name="Arm_L6_link">
     <inertial>
-      <origin
-        xyz="0.00023435 0.092454 0.00011923"
-        rpy="0 0 0" />
-      <mass
-        value="0.088885" />
-      <inertia
-        ixx="3.3913E-05"
-        ixy="-5.1497E-07"
-        ixz="-1.8352E-07"
-        iyy="2.4791E-05"
-        iyz="-2.6787E-07"
-        izz="3.4453E-05" />
+      <origin xyz="0.00023435 0.092454 0.00011923" rpy="0 0 0" />
+      <mass value="0.088885" />
+      <inertia ixx="3.3913E-05" ixy="-5.1497E-07" ixz="-1.8352E-07" iyy="2.4791E-05" iyz="-2.6787E-07" izz="3.4453E-05" />
     </inertial>
     <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh
-          filename="package://eod_robot_description/meshes/Arm_L6_link.STL" />
+        <mesh filename="package://eod_robot_description/meshes/Arm_L6_link.STL" />
       </geometry>
       <material
         name="">
-        <color
-          rgba="0.6980 0.7843 0.7333 1" />
+        <color rgba="0.6980 0.7843 0.7333 1" />
       </material>
     </visual>
     <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh
-          filename="package://eod_robot_description/meshes/Arm_L6_link.STL" />
+        <mesh filename="package://eod_robot_description/meshes/Arm_L6_link.STL" />
       </geometry>
     </collision>
   </link>
 
-  <joint
-    name="Arm_L6_joint"
-    type="revolute">
-    <origin
-      xyz="0 0 0.1101"
-      rpy="0 0.4363 0" />
-    <parent
-      link="Arm_L5_link" />
-    <child
-      link="Arm_L6_link" />
-    <axis
-      xyz="0 1 0" />
-    <limit
-      lower="-6.28"
-      upper="6.28"
-      effort="0"
-      velocity="0" />
+  <joint name="Arm_L6_joint" type="revolute">
+    <origin xyz="0 0 0.1101" rpy="0 0.4363 0" />
+    <parent link="Arm_L5_link" />
+    <child link="Arm_L6_link" />
+    <axis xyz="0 1 0" />
+    <limit lower="-6.28" upper="6.28" effort="100" velocity="5" />
   </joint>
+
   <link
     name="Arm_L6_link_add">
     <inertial>
-      <origin
-        xyz="-0.00033659 0.063349 -0.0018397"
-        rpy="0 0 0" />
-      <mass
-        value="0.040885" />
-      <inertia
-        ixx="1.7434E-05"
-        ixy="-3.1147E-13"
-        ixz="-5.083E-07"
-        iyy="3.0506E-05"
-        iyz="-5.7966E-13"
-        izz="1.4748E-05" />
+      <origin xyz="-0.00033659 0.063349 -0.0018397" rpy="0 0 0" />
+      <mass value="0.040885" />
+      <inertia ixx="1.7434E-05" ixy="-3.1147E-13" ixz="-5.083E-07" iyy="3.0506E-05" iyz="-5.7966E-13" izz="1.4748E-05" />
     </inertial>
     <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh
-          filename="package://eod_robot_description/meshes/Arm_R6_link.STL" />
+        <mesh filename="package://eod_robot_description/meshes/Arm_R6_link.STL" />
       </geometry>
       <material
         name="">
-        <color
-          rgba="0.6980 0.7843 0.7333 1" />
+        <color rgba="0.6980 0.7843 0.7333 1" />
       </material>
     </visual>
     <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh
-          filename="package://eod_robot_description/meshes/Arm_R6_link.STL" />
+        <mesh filename="package://eod_robot_description/meshes/Arm_R6_link.STL" />
       </geometry>
     </collision>
   </link>
-    <joint
+
+ <joint
     name="Arm_L6_joint_add"
     type="fixed">
-    <origin
-      xyz="0 0 0"
-      rpy="0 -2.1991 0" />
-    <parent
-      link="Arm_L6_link" />
-    <child
-      link="Arm_L6_link_add" />
-    <axis
-      xyz="0 1 0" />
+    <origin xyz="0 0 0" rpy="0 -2.1991 0" />
+    <parent link="Arm_L6_link" />
+    <child link="Arm_L6_link_add" />
+    <axis xyz="0 1 0" />
   </joint>
-
-
 
   <transmission name="Arm_R1_trans">
     <type>transmission_interface/SimpleTransmission</type>
@@ -1267,49 +914,42 @@
 
   <gazebo>
     <plugin filename="libroboticsgroup_gazebo_mimic_joint_plugin.so" name="mimic_dh_robotics_ag95_1">
-      <robotNamespace>/eod_robot_description</robotNamespace>
       <joint>gripper_finger1_joint</joint>
       <mimicJoint>gripper_finger2_joint</mimicJoint>
       <multiplier>1.0</multiplier>
       <offset>0.0</offset>
     </plugin>
     <plugin filename="libroboticsgroup_gazebo_mimic_joint_plugin.so" name="mimic_dh_robotics_ag95_2">
-      <robotNamespace>/eod_robot_description</robotNamespace>
       <joint>gripper_finger1_joint</joint>
       <mimicJoint>gripper_finger2_inner_knuckle_joint</mimicJoint>
       <multiplier>1.49462955</multiplier>
       <offset>0.0</offset>
     </plugin>
     <plugin filename="libroboticsgroup_gazebo_mimic_joint_plugin.so" name="mimic_dh_robotics_ag95_3">
-      <robotNamespace>/eod_robot_description</robotNamespace>
       <joint>gripper_finger1_joint</joint>
       <mimicJoint>gripper_finger1_inner_knuckle_joint</mimicJoint>
       <multiplier>1.49462955</multiplier>
       <offset>0.0</offset>
     </plugin>
     <plugin filename="libroboticsgroup_gazebo_mimic_joint_plugin.so" name="mimic_dh_robotics_ag95_4">
-      <robotNamespace>/eod_robot_description</robotNamespace>
       <joint>gripper_finger1_joint</joint>
       <mimicJoint>gripper_finger1_finger_tip_joint</mimicJoint>
       <multiplier>1.49462955</multiplier>          
       <offset>0.0</offset>
     </plugin>
     <plugin filename="libroboticsgroup_gazebo_mimic_joint_plugin.so" name="mimic_dh_robotics_ag95_5">
-      <robotNamespace>/eod_robot_description</robotNamespace>
       <joint>gripper_finger1_joint</joint>
       <mimicJoint>gripper_finger2_finger_tip_joint</mimicJoint>
       <multiplier>1.49462955</multiplier>          
       <offset>0.0</offset>
     </plugin>
     <plugin filename="libroboticsgroup_gazebo_mimic_joint_plugin.so" name="mimic_dh_robotics_ag95_6">
-      <robotNamespace>/eod_robot_description</robotNamespace>
       <joint>gripper_finger1_joint</joint>
       <mimicJoint>gripper_finger1_finger_joint</mimicJoint>
       <multiplier>0.4563942</multiplier>
       <offset>0.0</offset>
     </plugin>
     <plugin filename="libroboticsgroup_gazebo_mimic_joint_plugin.so" name="mimic_dh_robotics_ag95_7">
-      <robotNamespace>/eod_robot_description</robotNamespace>
       <joint>gripper_finger1_joint</joint>
       <mimicJoint>gripper_finger2_finger_joint</mimicJoint>
       <multiplier>0.4563942</multiplier>

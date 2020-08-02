@@ -1,4 +1,5 @@
-<package format="2">
+<?xml version="1.0"?>
+<package>
   <name>eod_robot_description</name>
   <version>1.0.0</version>
   <description>
@@ -8,7 +9,26 @@ for eod_robot_description robot</p>
   </description>
   <author>TODO</author>
   <maintainer email="TODO@email.com"/>
-  <license>BSD</license>
+
+  <license>TODO</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <run_depend>controller_manager</run_depend>
+  <run_depend>effort_controllers</run_depend>
+  <run_depend>gazebo_plugins</run_depend>
+  <run_depend>gazebo_ros</run_depend>
+  <run_depend>gazebo_ros_control</run_depend>
+  <run_depend>joint_state_controller</run_depend>
+  <run_depend>joint_state_publisher</run_depend>
+  <run_depend>robot_state_publisher</run_depend>  
+  <!-- The export tag contains other, unspecified, tags -->
+  <export>
+    <!-- Other tools can request additional information be placed here -->
+
+  </export>
+
+  <!--<license>BSD</license>
   <buildtool_depend>catkin</buildtool_depend>
   <depend>roslaunch</depend>
   <depend>robot_state_publisher</depend>
@@ -26,5 +46,6 @@ for eod_robot_description robot</p>
 <build_export_depend>controller_manager</build_export_depend>
 <exec_depend>std_msgs</exec_depend>
 <exec_depend>message_generation</exec_depend>
-<exec_depend>controller_manager</exec_depend>
+<exec_depend>controller_manager</exec_depend>-->
+
 </package>

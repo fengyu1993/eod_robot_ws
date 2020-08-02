@@ -26,8 +26,6 @@ int main(int argc, char **argv)
   ros::Rate loop_rate(50);
   
   int start_time, elapsed;
-  double angle_R1;
-  int flag = 1;
   
   while(not start_time)
   {
@@ -43,35 +41,47 @@ int main(int argc, char **argv)
     std_msgs::Float64 joint_R1_angle, joint_R2_angle, joint_R3_angle, joint_R4_angle, joint_R5_angle, joint_R6_angle,
                       joint_L1_angle, joint_L2_angle, joint_L3_angle, joint_L4_angle, joint_L5_angle, joint_L6_angle;
 
-    joint_R1_angle.data = sin(2*M_PI*0.1*elapsed)*(M_PI/2);
-    joint_R2_angle.data = sin(2*M_PI*0.1*elapsed)*(M_PI/2);
-    joint_R3_angle.data = sin(2*M_PI*0.1*elapsed)*(M_PI/2);
-    joint_R4_angle.data = sin(2*M_PI*0.1*elapsed)*(M_PI/2);
-    joint_R5_angle.data = sin(2*M_PI*0.1*elapsed)*(M_PI/2);
-    joint_R6_angle.data = sin(2*M_PI*0.1*elapsed)*(M_PI/2);
-    joint_L1_angle.data = sin(2*M_PI*0.1*elapsed)*(M_PI/2);
-    joint_L2_angle.data = sin(2*M_PI*0.1*elapsed)*(M_PI/2);
-    joint_L3_angle.data = sin(2*M_PI*0.1*elapsed)*(M_PI/2);
-    joint_L4_angle.data = sin(2*M_PI*0.1*elapsed)*(M_PI/2);
-    joint_L5_angle.data = sin(2*M_PI*0.1*elapsed)*(M_PI/2);
-    joint_L6_angle.data = sin(2*M_PI*0.1*elapsed)*(M_PI/2);
+    // joint_R1_angle.data = 0;
+    // joint_R2_angle.data = 0;
+    // joint_R3_angle.data = 0;
+    // joint_R4_angle.data = 0;
+    // joint_R5_angle.data = 0;
+    // joint_R6_angle.data = 0;
+    // joint_L1_angle.data = 0;
+    // joint_L2_angle.data = 0;
+    // joint_L3_angle.data = 0;
+    // joint_L4_angle.data = 0;
+    // joint_L5_angle.data = 0;
+    // joint_L6_angle.data = 0;
 
-    // std::cout << "joint_R1_angle = " << joint_R1_angle.data << std::endl;
+    joint_R1_angle.data = 1.5708;
+    joint_R2_angle.data = -0.4363;
+    joint_R3_angle.data = 0.0000;
+    joint_R4_angle.data = -1.5708;
+    joint_R5_angle.data = 1.5708;
+    joint_R6_angle.data = -1.5708;
+    joint_L1_angle.data = -1.5708;
+    joint_L2_angle.data = -2.7053;
+    joint_L3_angle.data = 0.0000;
+    joint_L4_angle.data = -1.5708;
+    joint_L5_angle.data = -1.5708;
+    joint_L6_angle.data = -1.5708;
 
-	joint_R1_pub.publish(joint_R1_angle);
-	joint_R2_pub.publish(joint_R2_angle);
-	joint_R3_pub.publish(joint_R3_angle);
-	joint_R4_pub.publish(joint_R4_angle);
-	joint_R5_pub.publish(joint_R5_angle);
-	joint_R6_pub.publish(joint_R6_angle);
-	joint_L1_pub.publish(joint_L1_angle);
-	joint_L2_pub.publish(joint_L2_angle);
-	joint_L3_pub.publish(joint_L3_angle);
-	joint_L4_pub.publish(joint_L4_angle);
-	joint_L5_pub.publish(joint_L5_angle);
-	joint_L6_pub.publish(joint_L6_angle);
-	
-	loop_rate.sleep();
+
+    joint_R1_pub.publish(joint_R1_angle);
+    joint_R2_pub.publish(joint_R2_angle);
+    joint_R3_pub.publish(joint_R3_angle);
+    joint_R4_pub.publish(joint_R4_angle);
+    joint_R5_pub.publish(joint_R5_angle);
+    joint_R6_pub.publish(joint_R6_angle);
+    joint_L1_pub.publish(joint_L1_angle);
+    joint_L2_pub.publish(joint_L2_angle);
+    joint_L3_pub.publish(joint_L3_angle);
+    joint_L4_pub.publish(joint_L4_angle);
+    joint_L5_pub.publish(joint_L5_angle);
+    joint_L6_pub.publish(joint_L6_angle);
+    
+    loop_rate.sleep();
  
   }
 

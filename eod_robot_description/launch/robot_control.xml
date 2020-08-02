@@ -1,7 +1,7 @@
 <launch>
   <rosparam file="$(find eod_robot_description)/config/eod_robot_description_control.yaml" command="load"/>
 
-  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+  <node name="spawner" pkg="controller_manager" type="spawner" respawn="false"
 	      output="screen" ns="/eod_robot_description" args="joint_state_controller 
         Arm_R1_joint_position_controller 
         Arm_R2_joint_position_controller 
@@ -16,5 +16,20 @@
         Arm_L4_joint_position_controller 
         Arm_L5_joint_position_controller 
         Arm_L6_joint_position_controller"/>
+
+  <!--<node name="spawner" pkg="controller_manager" type="spawner" respawn="false"
+	      output="screen" ns="/eod_robot_description" args="joint_state_controller 
+        Arm_R1_joint_position_controller 
+        Arm_R2_joint_position_controller 
+        Arm_R3_joint_position_controller
+        Arm_R4_joint_position_controller 
+        Arm_R5_joint_position_controller 
+        Arm_R6_joint_position_controller
+        Arm_L1_joint_position_controller 
+        Arm_L2_joint_position_controller 
+        Arm_L3_joint_position_controller
+        Arm_L4_joint_position_controller 
+        Arm_L5_joint_position_controller 
+        Arm_L6_joint_position_controller"/>-->
 
 </launch>
