@@ -227,12 +227,12 @@
     </collision>
   </link>
 
-  <joint name="Arm_R6_joint" type="revolute">
+  <joint name="Arm_R6_joint" type="continuous">
     <origin xyz="0 0 0.1101" rpy="0 -1.74 0" />
     <parent link="Arm_R5_link" />
     <child link="Arm_R6_link" />
     <axis xyz="0 1 0" />
-    <limit lower="-6.28" upper="6.28" effort="100" velocity="5" />
+    <limit effort="100" velocity="5" />
   </joint>
 
      
@@ -280,7 +280,7 @@
     <axis xyz="0 -1 0"/>
     <origin rpy="0.0 0.0 0.0" xyz="0.016  0 0.10586 "/>
     <limit lower="-3.14" upper="3.14" velocity="100.0" effort="1000"/>
-    <mimic joint="gripper_finger1_joint"/>
+    <mimic joint="gripper_finger1_joint" multiplier="0.4563942" offset="0"  />
   </joint>
 
   <link name="gripper_finger1_knuckle_link">
@@ -307,7 +307,7 @@
             </inertial>
         </link>
 
-  <link name="gripper_finger2_knuckle_link">
+       <link name="gripper_finger2_knuckle_link">
             <visual>
                 <geometry>
                     <mesh filename="package://eod_robot_description/meshes/crank_Link.STL"  scale = "0.001 0.001 0.001"/>
@@ -337,7 +337,7 @@
             <axis xyz="0 -1 0"/>
             <origin xyz="0.0292080077784 0.0 -0.0227132622407" rpy="0 0 0" />
             <limit lower="-3.14" upper="3.14" velocity="100.0" effort="0.1"/>
-            <mimic joint="gripper_finger1_joint" multiplier="0.4563942" offset="0"/>
+            <mimic joint="gripper_finger1_joint" multiplier="0.4563942" offset="0"  />
         </joint>
 
         <joint name="gripper_finger2_finger_joint" type="continuous">
@@ -346,9 +346,9 @@
             <axis xyz="0 -1 0"/>
             <origin xyz="0.0292080077784 0.0 -0.0227132622407" rpy="0 0 0" />
             <limit lower="-3.14" upper="3.14" velocity="100.0" effort="0.1"/>
-            <mimic joint="gripper_finger1_joint" multiplier="0.4563942" offset="0"/>
+            <mimic joint="gripper_finger1_joint" multiplier="0.4563942" offset="0"  />
         </joint>
-  <link name="gripper_finger1_finger_link">
+      <link name="gripper_finger1_finger_link">
             <visual>
                 <geometry>
                     <mesh filename="package://eod_robot_description/meshes/rod_Link.STL"  scale = "0.001 0.001 0.001"/>
@@ -402,7 +402,7 @@
             <axis xyz="0 -1 0"/>
             <origin rpy="0.0 0.0 3.14" xyz="-0.016 0 0.10586"/>
             <limit lower="-3.14" upper="3.14" velocity="100.0" effort="0.1"/>
-            <mimic joint="gripper_finger1_joint" multiplier="1.49462955"  offset="0"/>
+            <mimic joint="gripper_finger1_joint" multiplier="1.49462955"  offset="0"  />
  </joint>
 
   <joint name="gripper_finger2_inner_knuckle_joint" type="continuous">
@@ -411,7 +411,7 @@
             <axis xyz="0 -1 0"/>
             <origin rpy="0.0 0.0 0.0" xyz="0.016 0 0.10586"/>
             <limit lower="-3.14" upper="3.14" velocity="100.0" effort="0.1"/>
-            <mimic joint="gripper_finger1_joint" multiplier="1.49462955"  offset="0"/>
+            <mimic joint="gripper_finger1_joint" multiplier="1.49462955"  offset="0"  />
   </joint>
 
      <link name="gripper_finger1_inner_knuckle_link">
@@ -469,7 +469,7 @@
             <axis xyz="0 1 0"/>
             <origin xyz="0.0394969463769 0.0 0.0382752038125 " rpy="0.0 0.0 0.0"/>
             <limit lower="-3.14" upper="3.14" velocity="100.0" effort="0.1"/>
-            <mimic joint="gripper_finger1_joint" multiplier="1.49462955"/>
+            <mimic joint="gripper_finger1_joint" multiplier="1.49462955" offset="0"  />
 </joint>
 
   <joint name="gripper_finger2_finger_tip_joint" type="continuous">
@@ -478,10 +478,10 @@
             <axis xyz="0 1 0"/>
             <origin rpy="0.0 0.0 0.0" xyz="0.0394969463769  0.0 0.0382752038125  "/>
             <limit lower="-3.14" upper="3.14" velocity="100.0" effort="0.1"/>
-            <mimic joint="gripper_finger1_joint" multiplier="1.49462955"/>
+            <mimic joint="gripper_finger1_joint" multiplier="1.49462955" offset="0"  />
   </joint>
 
-  <link name="gripper_finger1_finger_tip_link">
+  <link name="gripper_finger1_finger_tip_link"> 
             <visual>
                 <geometry>
                     <mesh filename="package://eod_robot_description/meshes/distal_phalanx_Link.STL"  scale = "0.001 0.001 0.001"/>
@@ -718,12 +718,12 @@
     </collision>
   </link>
 
-  <joint name="Arm_L6_joint" type="revolute">
+  <joint name="Arm_L6_joint" type="continuous">
     <origin xyz="0 0 0.1101" rpy="0 0.4363 0" />
     <parent link="Arm_L5_link" />
     <child link="Arm_L6_link" />
     <axis xyz="0 1 0" />
-    <limit lower="-6.28" upper="6.28" effort="100" velocity="5" />
+    <limit effort="100" velocity="5" />
   </joint>
 
   <link
@@ -912,42 +912,43 @@
     </plugin>
   </gazebo>
 
-  <gazebo>
+<gazebo>
+    <!-- loading plugin: mimic joints works in gazebo now -->
     <plugin filename="libroboticsgroup_gazebo_mimic_joint_plugin.so" name="mimic_dh_robotics_ag95_1">
       <joint>gripper_finger1_joint</joint>
       <mimicJoint>gripper_finger2_joint</mimicJoint>
       <multiplier>1.0</multiplier>
-      <offset>0.0</offset>
+      <offset>0.0</offset>       
     </plugin>
     <plugin filename="libroboticsgroup_gazebo_mimic_joint_plugin.so" name="mimic_dh_robotics_ag95_2">
       <joint>gripper_finger1_joint</joint>
       <mimicJoint>gripper_finger2_inner_knuckle_joint</mimicJoint>
       <multiplier>1.49462955</multiplier>
-      <offset>0.0</offset>
+      <offset>0.0</offset>       
     </plugin>
     <plugin filename="libroboticsgroup_gazebo_mimic_joint_plugin.so" name="mimic_dh_robotics_ag95_3">
       <joint>gripper_finger1_joint</joint>
       <mimicJoint>gripper_finger1_inner_knuckle_joint</mimicJoint>
       <multiplier>1.49462955</multiplier>
-      <offset>0.0</offset>
+      <offset>0.0</offset>       
     </plugin>
     <plugin filename="libroboticsgroup_gazebo_mimic_joint_plugin.so" name="mimic_dh_robotics_ag95_4">
       <joint>gripper_finger1_joint</joint>
       <mimicJoint>gripper_finger1_finger_tip_joint</mimicJoint>
       <multiplier>1.49462955</multiplier>          
-      <offset>0.0</offset>
+      <offset>0.0</offset>       
     </plugin>
     <plugin filename="libroboticsgroup_gazebo_mimic_joint_plugin.so" name="mimic_dh_robotics_ag95_5">
       <joint>gripper_finger1_joint</joint>
       <mimicJoint>gripper_finger2_finger_tip_joint</mimicJoint>
       <multiplier>1.49462955</multiplier>          
-      <offset>0.0</offset>
+      <offset>0.0</offset>       
     </plugin>
     <plugin filename="libroboticsgroup_gazebo_mimic_joint_plugin.so" name="mimic_dh_robotics_ag95_6">
       <joint>gripper_finger1_joint</joint>
       <mimicJoint>gripper_finger1_finger_joint</mimicJoint>
       <multiplier>0.4563942</multiplier>
-      <offset>0.0</offset>
+      <offset>0.0</offset>       
     </plugin>
     <plugin filename="libroboticsgroup_gazebo_mimic_joint_plugin.so" name="mimic_dh_robotics_ag95_7">
       <joint>gripper_finger1_joint</joint>

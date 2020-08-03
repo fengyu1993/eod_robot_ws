@@ -30,18 +30,6 @@ eod_robot_description:
     joint: Arm_R6_joint
     pid: {p: 5.0, i: 0.05, d: 0.1}
 
-  Gripper_finger1_joint_position_controller:
-    type: position_controllers/JointTrajectoryController
-    joints:
-      - gripper_finger1_joint
-    constraints:
-        goal_time: 0.6
-        stopped_velocity_tolerance: 0.05
-        gripper_finger1_joint: {trajectory: 0.1, goal: 0.1}
-    stop_trajectory_duration: 0.5
-    state_publish_rate:  25
-    action_monitor_rate: 10
-
   Arm_L1_joint_position_controller:
     type: effort_controllers/JointPositionController
     joint: Arm_L1_joint
@@ -67,5 +55,18 @@ eod_robot_description:
     joint: Arm_L6_joint
     pid: {p: 5.0, i: 0.05, d: 0.1}
   
+  Gripper_finger1_joint_position_controller:
+    type: position_controllers/JointTrajectoryController
+    joints:
+      - gripper_finger1_joint
+    pid_gains: 
+      gripper_finger1_joint: {p: 100,  d: 1, i: 1, i_clamp: 1}
+    constraints:
+        goal_time: 0.6
+        stopped_velocity_tolerance: 0.05
+        gripper_finger1_joint: {trajectory: 0.1, goal: 0.0}
+    stop_trajectory_duration: 0.5
+    state_publish_rate:  50
+    action_monitor_rate: 10
 
  
