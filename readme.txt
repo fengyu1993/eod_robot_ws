@@ -7,7 +7,8 @@ eod_robot_description:
 	yaml参数文件存放着eod_robot的基本参数，其他需要控制机器人运动的包都需加载这个文件
 	eod_robot的参数的名字是固定的，不允许改动
 	可在rviz中显示并动态调节各关节角度
-	gezabo仿真还未验证
+	gezabo仿真也已验证，但机械爪存在问题（时间长会散开）
+
 
 2020.07.13
 eod_robot_state_publisher:
@@ -37,15 +38,19 @@ eod_robot_teleop_twist_keyboard:
 	用到了机器人学的知识，用到eod_robot_library库
 	撰写了msg和yaml文件
 
+
 2020.07.30
 eod_robot_arm_rviz_marker:
 	通过拖动rviz中的marker改变两机械臂末端执行器的位置
 	用到逆运动学
 
+
 2020.07.31
 eod_robot_dependlib:
 	存放着eod_robot需要的依赖文件:
 		roboticsgroup_gazebo_plugins: 机械爪gazebo仿真需要的插件
+		realsense-ros: d435i摄像头需要的插件
+
 
 2020.08.01
 eod_robot_moveit_config：

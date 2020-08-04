@@ -12,10 +12,10 @@
     <arg name="debug" value="false"/>
   </include>
 
+  <node name="gazebo_mover" type="gazebo_mover" pkg="eod_robot_description" output="screen" /> 
+
   <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn= "false" output="screen" 
         args="-urdf -param robot_description -x 0 -y 0 -z 0.496 -R 0 -P 0 -Y 0 -model eod_robot_description"/> 
-
-  <node name="gazebo_mover" type="gazebo_mover" pkg="eod_robot_description" output="screen" /> 
 
 </launch>
 

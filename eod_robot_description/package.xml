@@ -25,7 +25,7 @@ for eod_robot_description robot</p>
   <!-- The export tag contains other, unspecified, tags -->
   <export>
     <!-- Other tools can request additional information be placed here -->
-
+  <exec_depend>roboticsgroup_gazebo_plugins</exec_depend> 
   </export>
 
   <!--<license>BSD</license>

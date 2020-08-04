@@ -59,14 +59,81 @@ eod_robot_description:
     type: position_controllers/JointTrajectoryController
     joints:
       - gripper_finger1_joint
-    pids: 
-      gripper_finger1_joint: {p: 100,  d: 1, i: 1, i_clamp: 1}
     constraints:
         goal_time: 0.6
         stopped_velocity_tolerance: 0.05
-        gripper_finger1_joint: {trajectory: 0.1, goal: 0.0}
+        gripper_finger1_joint: {trajectory: 0.1, goal: 0.0}   
     stop_trajectory_duration: 0.5
     state_publish_rate:  50
     action_monitor_rate: 10
+
+  # gazebo_ros_control:
+  #   pid_gains:
+  #     gripper_finger1_joint:
+  #       p: 20.0
+  #       i: 0.1
+  #       d: 0.0
+  #       i_clamp: 0.2
+  #       antiwindup: false
+  #       publish_state: true
+
+      # gripper_finger2_joint:
+      #   p: 0.1
+      #   i: 0.1
+      #   d: 0.0
+      #   i_clamp: 0.2
+      #   antiwindup: false
+      #   publish_state: true
+
+      # gripper_finger2_inner_knuckle_joint:
+      #   p: 20.0
+      #   i: 0.1
+      #   d: 0.0
+      #   i_clamp: 0.2
+      #   antiwindup: false
+      #   publish_state: true
+
+      # gripper_finger1_inner_knuckle_joint:
+      #   p: 20.0
+      #   i: 0.1
+      #   d: 0.0
+      #   i_clamp: 0.2
+      #   antiwindup: false
+      #   publish_state: true
+
+      # gripper_finger1_finger_tip_joint:
+      #   p: 20.0
+      #   i: 0.1
+      #   d: 0.0
+      #   i_clamp: 0.2
+      #   antiwindup: false
+      #   publish_state: true
+
+      # gripper_finger2_finger_tip_joint:
+      #   p: 20.0
+      #   i: 0.1
+      #   d: 0.0
+      #   i_clamp: 0.2
+      #   antiwindup: false
+      #   publish_state: true
+
+      # gripper_finger1_finger_joint:
+      #   p: 20.0
+      #   i: 0.1
+      #   d: 0.0
+      #   i_clamp: 0.2
+      #   antiwindup: false
+      #   publish_state: true
+
+      # gripper_finger2_finger_joint:
+      #   p: 20.0
+      #   i: 0.1
+      #   d: 0.0
+      #   i_clamp: 0.2
+      #   antiwindup: false
+      #   publish_state: true
+
+
+
 
  
