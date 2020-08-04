@@ -113,6 +113,7 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
+  include ${catkin_INCLUDE_DIRS}
   include 
   ${catkin_INCLUDE_DIRS}
   ${EIGEN3_INCLUDE_DIR}
@@ -211,6 +212,16 @@ add_executable(state_publisher
 )
 add_dependencies(state_publisher ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(state_publisher
+  ${catkin_LIBRARIES}
+  modern_robotics_library
+  eod_robotics_library
+)
+
+add_executable(state_publisher_gazebo
+  src/state_publisher_gazebo.cpp
+)
+add_dependencies(state_publisher_gazebo ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(state_publisher_gazebo
   ${catkin_LIBRARIES}
   modern_robotics_library
   eod_robotics_library

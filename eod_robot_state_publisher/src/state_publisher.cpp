@@ -16,7 +16,7 @@ int main(int argc, char** argv)
 
     double rad2angle = 180.0 / M_PI;
     VectorXd angle_arm_left(6); VectorXd angle_arm_right(6);
-    double gripper_finger1, gripper_finger1_limit_max, gripper_finger1_limit_min;;
+    double gripper_finger1, gripper_finger1_limit_max, gripper_finger1_limit_min;
     Matrix4d vecihle_odom; Matrix3d R_vecihle_odom; Vector3d p_vecihle_odom;
 
     get_gripper_finger1_limit_max(gripper_finger1_limit_max);
