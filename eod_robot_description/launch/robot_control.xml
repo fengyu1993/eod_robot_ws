@@ -3,6 +3,10 @@
 
   <node name="spawner" pkg="controller_manager" type="spawner" respawn="false"
 	      output="screen" ns="/eod_robot_description" args="joint_state_controller 
+        left_front_velocity_controller
+        right_front_velocity_controller
+        right_back_velocity_controller
+        left_back_velocity_controller
         Arm_R1_joint_position_controller 
         Arm_R2_joint_position_controller 
         Arm_R3_joint_position_controller

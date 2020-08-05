@@ -16,6 +16,18 @@
                 <color rgba="0 0.5 0.8  0"/>  
             </material>  
         </visual>  
+        <inertial>
+            <mass value="2" />
+            <inertia ixx="0.005402" ixy= "0" ixz= "0"
+                iyy="0.009604" iyz= "0"
+                izz="0.005402" /> 
+        </inertial>   
+        <collision>
+          <origin xyz="0 -0.03 0" rpy="1.5708 0 0" />
+          <geometry>
+            <cylinder length="0.06" radius="0.098"/>
+          </geometry>
+        </collision>  
     </link>  
     
     <joint name="right_front_wheel_joint" type="continuous">  
@@ -37,6 +49,18 @@
             <color rgba="0 0.5 0.8 0"/>  
           </material>  
       </visual>  
+        <inertial>
+            <mass value="2" />
+            <inertia ixx="0.005402" ixy= "0" ixz= "0"
+                iyy="0.009604" iyz= "0"
+                izz="0.005402" /> 
+        </inertial>  
+        <collision>
+          <origin xyz="0 -0.03 0" rpy="1.5708 0 0" />
+          <geometry>
+            <cylinder length="0.06" radius="0.098"/>
+          </geometry>
+        </collision>   
     </link>  
     
     <joint name="right_back_wheel_joint" type="continuous">  
@@ -58,6 +82,18 @@
                 <color rgba="0 0.5 0.8 0"/>  
             </material>  
         </visual>  
+        <inertial>
+            <mass value="2" />
+            <inertia ixx="0.005402" ixy= "0" ixz= "0"
+                iyy="0.009604" iyz= "0"
+                izz="0.005402" /> 
+        </inertial>   
+        <collision>
+          <origin xyz="0 -0.03 0" rpy="1.5708 0 0" />
+          <geometry>
+            <cylinder length="0.06" radius="0.098"/>
+          </geometry>
+        </collision>  
     </link>  
     
     <joint name="left_front_wheel_joint" type="continuous">  
@@ -78,7 +114,19 @@
             <material name="">  
                 <color rgba="0 0.5 0.8 0"/>  
             </material>  
-        </visual>  
+        </visual> 
+        <inertial>
+            <mass value="2" />
+            <inertia ixx="0.005402" ixy= "0" ixz= "0"
+                iyy="0.009604" iyz= "0"
+                izz="0.005402" /> 
+        </inertial>  
+        <collision>
+          <origin xyz="0 -0.03 0" rpy="1.5708 0 0" />
+          <geometry>
+            <cylinder length="0.06" radius="0.098"/>
+          </geometry>
+        </collision>       
     </link>  
     
     <joint name="left_back_wheel_joint" type="continuous">  
@@ -1166,6 +1214,49 @@
 
   <link name="left_camera_color_optical_frame"/>
 
+    <transmission name="left_front_wheel_joint_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="left_front_wheel_joint" >
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="left_front_wheel_joint_motor">
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+    <transmission name="right_front_wheel_joint_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="right_front_wheel_joint" >
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="right_front_wheel_joint_motor">
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+    <transmission name="right_back_wheel_joint_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="right_back_wheel_joint" >
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="right_back_wheel_joint_motor">
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+    <transmission name="left_back_wheel_joint_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="left_back_wheel_joint" >
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="left_back_wheel_joint_motor">
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
 
   <transmission name="Arm_R1_trans">
     <type>transmission_interface/SimpleTransmission</type>
@@ -1322,18 +1413,21 @@
 <gazebo>
     <!-- loading plugin: mimic joints works in gazebo now -->
     <plugin filename="libroboticsgroup_gazebo_mimic_joint_plugin.so" name="mimic_dh_robotics_ag95_1">
+      <robotNamespace>/eod_robot_description</robotNamespace>
       <joint>gripper_finger1_joint</joint>
       <mimicJoint>gripper_finger2_joint</mimicJoint>
       <multiplier>1.0</multiplier>
       <offset>0.0</offset>    
     </plugin>
     <plugin filename="libroboticsgroup_gazebo_mimic_joint_plugin.so" name="mimic_dh_robotics_ag95_2">
+      <robotNamespace>/eod_robot_description</robotNamespace>
       <joint>gripper_finger1_joint</joint>
       <mimicJoint>gripper_finger2_inner_knuckle_joint</mimicJoint>
       <multiplier>1.49462955</multiplier>
       <offset>0.0</offset> 
     </plugin>
     <plugin filename="libroboticsgroup_gazebo_mimic_joint_plugin.so" name="mimic_dh_robotics_ag95_3">
+      <robotNamespace>/eod_robot_description</robotNamespace>
       <joint>gripper_finger1_joint</joint>
       <mimicJoint>gripper_finger1_inner_knuckle_joint</mimicJoint>
       <multiplier>1.49462955</multiplier>
@@ -1341,6 +1435,7 @@
       <!--<hasPID>true</hasPID>      -->
     </plugin>
     <plugin filename="libroboticsgroup_gazebo_mimic_joint_plugin.so" name="mimic_dh_robotics_ag95_4">
+      <robotNamespace>/eod_robot_description</robotNamespace>
       <joint>gripper_finger1_joint</joint>
       <mimicJoint>gripper_finger1_finger_tip_joint</mimicJoint>
       <multiplier>1.49462955</multiplier>          
@@ -1348,6 +1443,7 @@
       <!--<hasPID>true</hasPID>     -->
     </plugin>
     <plugin filename="libroboticsgroup_gazebo_mimic_joint_plugin.so" name="mimic_dh_robotics_ag95_5">
+      <robotNamespace>/eod_robot_description</robotNamespace>
       <joint>gripper_finger1_joint</joint>
       <mimicJoint>gripper_finger2_finger_tip_joint</mimicJoint>
       <multiplier>1.49462955</multiplier>          
@@ -1355,6 +1451,7 @@
       <!--<hasPID>true</hasPID>      -->
     </plugin>
     <plugin filename="libroboticsgroup_gazebo_mimic_joint_plugin.so" name="mimic_dh_robotics_ag95_6">
+      <robotNamespace>/eod_robot_description</robotNamespace>
       <joint>gripper_finger1_joint</joint>
       <mimicJoint>gripper_finger1_finger_joint</mimicJoint>
       <multiplier>0.4563942</multiplier>
@@ -1362,12 +1459,68 @@
       <!--<hasPID>true</hasPID>      -->
     </plugin>
     <plugin filename="libroboticsgroup_gazebo_mimic_joint_plugin.so" name="mimic_dh_robotics_ag95_7">
+      <robotNamespace>/eod_robot_description</robotNamespace>
       <joint>gripper_finger1_joint</joint>
       <mimicJoint>gripper_finger2_finger_joint</mimicJoint>
       <multiplier>0.4563942</multiplier>
       <offset>0.0</offset>
       <!--<hasPID>true</hasPID>-->
     </plugin>
+  </gazebo>
+
+<!--<gazebo>
+  <plugin name="skid_steer_drive_controller" filename="libgazebo_ros_skid_steer_drive.so">
+    <updateRate>50.0</updateRate>
+    <robotNamespace>/</robotNamespace>
+    <leftFrontJoint>left_front_wheel_joint</leftFrontJoint>
+    <leftRearJoint>left_back_wheel_joint</leftRearJoint>
+    <rightFrontJoint>right_front_wheel_joint</rightFrontJoint>
+    <rightRearJoint>right_back_wheel_joint</rightRearJoint>
+    <wheelSeparation>4</wheelSeparation>
+    <wheelDiameter>0.196</wheelDiameter>
+    <commandTopic>cmd_vel</commandTopic>
+    <odometryTopic>odom</odometryTopic>
+    <robotBaseFrame>base_link</robotBaseFrame>
+    <odometryFrame>odom</odometryFrame>
+    <torque>80</torque>
+    <topicName>cmd_vel</topicName>
+    <broadcastTF>1</broadcastTF>
+  </plugin>
+</gazebo>  -->
+  <gazebo reference="right_front_wheel">
+    <mu1>10000000</mu1>
+    <mu2>10000000</mu2>
+    <kp>10000000</kp>
+    <kd>1</kd>  
+    <minDepth>0.01</minDepth>
+    <maxVel>100</maxVel>          
+  </gazebo>
+
+  <gazebo reference="right_back_wheel">
+    <mu1>10000000</mu1>
+    <mu2>10000000</mu2>
+    <kp>10000000</kp>
+    <kd>1</kd>  
+    <minDepth>0.01</minDepth>
+    <maxVel>100</maxVel>          
+  </gazebo>
+
+  <gazebo reference="left_front_wheel">
+    <mu1>10000000</mu1>
+    <mu2>10000000</mu2>
+    <kp>10000000</kp>
+    <kd>1</kd>  
+    <minDepth>0.01</minDepth>
+    <maxVel>100</maxVel>          
+  </gazebo>
+
+  <gazebo reference="left_back_wheel">
+    <mu1>10000000</mu1>
+    <mu2>10000000</mu2>
+    <kp>10000000</kp>
+    <kd>1</kd>  
+    <minDepth>0.01</minDepth>
+    <maxVel>100</maxVel>          
   </gazebo>
 
   <gazebo reference="base_link">
