@@ -8,13 +8,36 @@ double arm_right_joint[6], arm_left_joint[6], gripper_joint;
 
 void joint_states_Callback(const sensor_msgs::JointState::ConstPtr& msg)
 {
-    for(int i = 0; i < 6; i++)
-      arm_right_joint[i] = msg->position[i];
-
-    gripper_joint = msg->position[6];
-
-    for(int i = 0; i < 6; i++)
-      arm_left_joint[i] = msg->position[i+14];
+  for(int i = 0; i < msg->position.size(); i++){
+    if(msg->name[i] == "Arm_R1_joint")
+      arm_right_joint[0] = msg->position[i];
+    else if(msg->name[i] == "Arm_R2_joint")
+      arm_right_joint[1] = msg->position[i];
+    else if(msg->name[i] == "Arm_R3_joint")
+      arm_right_joint[2] = msg->position[i];
+    else if(msg->name[i] == "Arm_R4_joint")
+      arm_right_joint[3] = msg->position[i];
+    else if(msg->name[i] == "Arm_R5_joint")
+      arm_right_joint[4] = msg->position[i];
+    else if(msg->name[i] == "Arm_R6_joint")
+      arm_right_joint[5] = msg->position[i];
+    else if(msg->name[i] == "Arm_L1_joint")
+      arm_left_joint[0] = msg->position[i];
+    else if(msg->name[i] == "Arm_L2_joint")
+      arm_left_joint[1] = msg->position[i];
+    else if(msg->name[i] == "Arm_L3_joint")
+      arm_left_joint[2] = msg->position[i];
+    else if(msg->name[i] == "Arm_L4_joint")
+      arm_left_joint[3] = msg->position[i];
+    else if(msg->name[i] == "Arm_L5_joint")
+      arm_left_joint[4] = msg->position[i];
+    else if(msg->name[i] == "Arm_L6_joint")
+      arm_left_joint[5] = msg->position[i];
+    else if(msg->name[i] == "gripper_finger1_joint")
+      gripper_joint = msg->position[i];
+    else
+      continue;
+  }
 }
 
 int main(int argc, char **argv)

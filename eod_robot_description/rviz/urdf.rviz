@@ -10,7 +10,7 @@ Panels:
         - /Grid1/Offset1
         - /RobotModel1
         - /TF1
-      Splitter Ratio: 0.5
+      Splitter Ratio: 0.6823529601097107
     Tree Height: 728
   - Class: rviz/Selection
     Name: Selection
@@ -218,6 +218,11 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        left_back_wheel:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         left_camera_color_frame:
           Alpha: 1
           Show Axes: false
@@ -255,6 +260,16 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+        left_front_wheel:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_back_wheel:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         right_camera_color_frame:
           Alpha: 1
           Show Axes: false
@@ -292,6 +307,11 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+        right_front_wheel:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         world:
           Alpha: 1
           Show Axes: false
@@ -371,6 +391,8 @@ Visualization Manager:
           Value: true
         gripper_finger2_knuckle_link:
           Value: true
+        left_back_wheel:
+          Value: true
         left_camera_color_frame:
           Value: true
         left_camera_color_optical_frame:
@@ -389,6 +411,10 @@ Visualization Manager:
           Value: true
         left_camera_right_ir_optical_frame:
           Value: true
+        left_front_wheel:
+          Value: true
+        right_back_wheel:
+          Value: true
         right_camera_color_frame:
           Value: true
         right_camera_color_optical_frame:
@@ -406,6 +432,8 @@ Visualization Manager:
         right_camera_right_ir_frame:
           Value: true
         right_camera_right_ir_optical_frame:
+          Value: true
+        right_front_wheel:
           Value: true
         world:
           Value: true
@@ -482,6 +510,14 @@ Visualization Manager:
                 camera_right_ir_frame:
                   camera_right_ir_optical_frame:
                     {}
+            left_back_wheel:
+              {}
+            left_front_wheel:
+              {}
+            right_back_wheel:
+              {}
+            right_front_wheel:
+              {}
       Update Interval: 0
       Value: true
   Enabled: true
@@ -512,25 +548,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 5.002958297729492
+      Distance: 3.302933692932129
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 1.5949995517730713
-        Y: -0.5134075880050659
-        Z: -0.9720249176025391
+        X: -0.3842175304889679
+        Y: 0.5315458178520203
+        Z: -1.448950171470642
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.629797101020813
+      Pitch: 0.514797031879425
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 6.25177001953125
+      Yaw: 1.4635894298553467
     Saved: ~
 Window Geometry:
   Displays:
