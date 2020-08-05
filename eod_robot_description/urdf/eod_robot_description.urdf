@@ -4,7 +4,7 @@
      For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
 <robot name="eod_robot_description">
 
-  <link name="world"/>
+  <!--<link name="world"/>-->
 
     <link name="right_front_wheel">  
         <visual>  
@@ -162,10 +162,10 @@
     </collision>
   </link>
 
-  <joint name="fixed_base_joint" type="fixed">
+  <!--<joint name="fixed_base_joint" type="fixed">
     <parent link="world"/>
     <child link="base_link"/>
-  </joint>  
+  </joint>  -->
 
 
   <link name="camera_link">
