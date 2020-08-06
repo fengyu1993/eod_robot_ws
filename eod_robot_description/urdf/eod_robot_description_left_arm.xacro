@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<robot name="eod_robot_description_left_arm" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<xacro:macro name="left_arm">
+
+
+  <link
+    name="Arm_L1_link">
+    <inertial>
+      <origin xyz="-2.4273E-09 0.0050107 0.003883" rpy="0 0 0" />
+      <mass value="1.1218" />
+      <inertia ixx="0.0023329" ixy="-2.1019E-09" ixz="-1.0212E-09" iyy="0.0021983" iyz="2.1828E-05" izz="0.0015374" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://eod_robot_description/meshes/Arm_L1_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color rgba="0.2706 0.5373 0.5804 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://eod_robot_description/meshes/Arm_L1_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="Arm_L1_joint" type="revolute">
+    <origin xyz="0.05 0.20099 -0.060889" rpy="1.1342 0 -3.1416" />
+    <parent link="base_link" />
+    <child link="Arm_L1_link" />
+    <axis xyz="0 0 1" />
+    <limit lower="-6.28" upper="6.28" effort="300" velocity="5" />
+  </joint>
+
+  <link
+    name="Arm_L2_link">
+    <inertial>
+      <origin xyz="-1.0801E-07 0.0029806 0.12303" rpy="0 0 0" />
+      <mass value="2.9228" />
+      <inertia ixx="0.0062307" ixy="-8.6863E-09" ixz="5.4046E-09" iyy="0.0046397" iyz="9.0159E-10" izz="0.0053184" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://eod_robot_description/meshes/Arm_L2_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color rgba="0.2706 0.5373 0.5804 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://eod_robot_description/meshes/Arm_L2_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="Arm_L2_joint" type="revolute">
+    <origin xyz="0 0.1196 0" rpy="0 1.5708 0" />
+    <parent link="Arm_L1_link" />
+    <child link="Arm_L2_link" />
+    <axis xyz="0 1 0" />
+    <limit lower="-6.28" upper="6.28" effort="300" velocity="5" />
+  </joint>
+
+  <link
+    name="Arm_L3_link">
+    <inertial>
+      <origin xyz="-1.2556E-07 0.011438 0.1421" rpy="0 0 0" />
+      <mass value="1.5455" />
+      <inertia ixx="0.0061651" ixy="-2.5101E-09" ixz="-9.3994E-09" iyy="0.0052977" iyz="0.0011604" izz="0.0023808" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://eod_robot_description/meshes/Arm_L3_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color rgba="0.2706 0.5373 0.5804 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://eod_robot_description/meshes/Arm_L3_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="Arm_L3_joint" type="revolute">
+    <origin xyz="0 -0.15098 0.24594" rpy="0 0 0" />
+    <parent link="Arm_L2_link" />
+    <child link="Arm_L3_link" />
+    <axis xyz="0 1 0" />
+    <limit lower="-6.28" upper="6.28" effort="300" velocity="5" />
+  </joint>
+
+  <link name="Arm_L4_link">
+    <inertial>
+      <origin xyz="1.5867E-07 0.10315 -0.002932" rpy="0 0 0" />
+      <mass value="0.66592" />
+      <inertia ixx="0.0010283" ixy="2.5683E-09" ixz="3.2476E-09" iyy="0.00090972" iyz="1.3372E-05" izz="0.00064819" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://eod_robot_description/meshes/Arm_L4_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color rgba="0.2706 0.5373 0.5804 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://eod_robot_description/meshes/Arm_L4_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="Arm_L4_joint" type="revolute">
+    <origin xyz="0 0 0.25532" rpy="0 1.5708 0" />
+    <parent link="Arm_L3_link" />
+    <child link="Arm_L4_link" />
+    <axis xyz="0 1 0" />
+    <limit lower="-6.28" upper="6.28" effort="100" velocity="5" />
+  </joint>
+
+  <link
+    name="Arm_L5_link">
+    <inertial>
+      <origin xyz="-1.3433E-07 -0.0029321 0.10325" rpy="0 0 0" />
+      <mass value="0.66592" />
+      <inertia ixx="0.0010283" ixy="-1.8758E-09" ixz="-2.2545E-09" iyy="0.00064819" iyz="1.3371E-05" izz="0.00090972" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://eod_robot_description/meshes/Arm_L5_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color rgba="0.2706 0.5373 0.5804 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://eod_robot_description/meshes/Arm_L5_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="Arm_L5_joint" type="revolute">
+    <origin xyz="0 0.11 0" rpy="0 0 0" />
+    <parent link="Arm_L4_link" />
+    <child link="Arm_L5_link" />
+    <axis xyz="0 0 1" />
+    <limit lower="-6.28" upper="6.28" effort="100" velocity="5" />
+  </joint>
+
+  <link
+    name="Arm_L6_link">
+    <inertial>
+      <origin xyz="0.00023435 0.092454 0.00011923" rpy="0 0 0" />
+      <mass value="0.088885" />
+      <inertia ixx="3.3913E-05" ixy="-5.1497E-07" ixz="-1.8352E-07" iyy="2.4791E-05" iyz="-2.6787E-07" izz="3.4453E-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://eod_robot_description/meshes/Arm_L6_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color rgba="0.6980 0.7843 0.7333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://eod_robot_description/meshes/Arm_L6_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="Arm_L6_joint" type="continuous">
+    <origin xyz="0 0 0.1101" rpy="0 0.4363 0" />
+    <parent link="Arm_L5_link" />
+    <child link="Arm_L6_link" />
+    <axis xyz="0 1 0" />
+    <limit effort="100" velocity="5" />
+  </joint>
+
+  <link
+    name="Arm_L6_link_add">
+    <inertial>
+      <origin xyz="-0.00033659 0.063349 -0.0018397" rpy="0 0 0" />
+      <mass value="0.040885" />
+      <inertia ixx="1.7434E-05" ixy="-3.1147E-13" ixz="-5.083E-07" iyy="3.0506E-05" iyz="-5.7966E-13" izz="1.4748E-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://eod_robot_description/meshes/Arm_R6_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color rgba="0.6980 0.7843 0.7333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://eod_robot_description/meshes/Arm_R6_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+ <joint
+    name="Arm_L6_joint_add"
+    type="fixed">
+    <origin xyz="0 0 0" rpy="0 -2.1991 0" />
+    <parent link="Arm_L6_link" />
+    <child link="Arm_L6_link_add" />
+    <axis xyz="0 1 0" />
+  </joint>
+
+
+  <transmission name="Arm_L1_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="Arm_L1_joint">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="Arm_L1_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </actuator>
+  </transmission>
+
+  <transmission name="Arm_L2_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="Arm_L2_joint">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="Arm_L2_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </actuator>
+  </transmission>
+
+  <transmission name="Arm_L3_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="Arm_L3_joint">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="Arm_L3_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </actuator>
+  </transmission>
+
+  <transmission name="Arm_L4_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="Arm_L4_joint">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="Arm_L4_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </actuator>
+  </transmission>
+
+  <transmission name="Arm_L5_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="Arm_L5_joint">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="Arm_L5_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </actuator>
+  </transmission>
+
+  <transmission name="Arm_L6_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="Arm_L6_joint">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="Arm_L6_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </actuator>
+  </transmission>
+
+
+  <gazebo reference="Arm_L1_link">
+    <implicitSpringDamper>1</implicitSpringDamper>
+    <mu1>100000</mu1>
+    <mu2>100000</mu2>
+    <kp>100000000.0</kp>
+    <kd>1.0</kd>
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="Arm_L2_link">
+    <implicitSpringDamper>1</implicitSpringDamper>
+    <mu1>100000</mu1>
+    <mu2>100000</mu2>
+    <kp>100000000.0</kp>
+    <kd>1.0</kd>
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="Arm_L3_link">
+    <implicitSpringDamper>1</implicitSpringDamper>
+    <mu1>100000</mu1>
+    <mu2>100000</mu2>
+    <kp>100000000.0</kp>
+    <kd>1.0</kd>
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="Arm_L4_link">
+    <implicitSpringDamper>1</implicitSpringDamper>
+    <mu1>100000</mu1>
+    <mu2>100000</mu2>
+    <kp>100000000.0</kp>
+    <kd>1.0</kd>
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="Arm_L5_link">
+    <implicitSpringDamper>1</implicitSpringDamper>
+    <mu1>100000</mu1>
+    <mu2>100000</mu2>
+    <kp>100000000.0</kp>
+    <kd>1.0</kd>
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="Arm_L6_link">
+    <implicitSpringDamper>1</implicitSpringDamper>
+    <mu1>100000</mu1>
+    <mu2>100000</mu2>
+    <kp>100000000.0</kp>
+    <kd>1.0</kd>
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <gazebo reference="Arm_L6_link_add">
+    <implicitSpringDamper>1</implicitSpringDamper>
+    <mu1>100000</mu1>
+    <mu2>100000</mu2>
+    <kp>100000000.0</kp>
+    <kd>1.0</kd>
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+</xacro:macro>
+
+</robot>
