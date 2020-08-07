@@ -2,66 +2,72 @@
 
 <robot name="eod_robot_description_vehicle" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-<xacro:property name="m" value="10"/>
-<xacro:property name="d" value="0.3"/>
-<xacro:property name="w" value="0.2"/>
-<xacro:property name="h" value="0.1"/>
+
+<xacro:property name="wheel_x_front" value="-0.062"/>
+<xacro:property name="wheel_x_back" value="-0.602"/>
+<xacro:property name="wheel_z" value="-0.402"/>
+<xacro:property name="wheel_y" value="0.2765"/>
+<xacro:property name="Radius" value="0.108"/>
+<xacro:property name="casterMass" value="2"/>
+<xacro:property name="wheel_m" value="2"/>
+<xacro:property name="wheel_l" value="0.06"/>
+
 
 <xacro:macro name="vehicle">
 
-    <link name="right_front_wheel">  
-        <visual>  
-            <geometry>  
-                <cylinder length="0.06" radius="0.098"/>  
-            </geometry>  
-            <origin xyz="0 0.03 0" rpy="1.5708 0 0" />
+    <link name="caster_wheel_link">
+        <collision>
+            <origin xyz="${wheel_x_front} 0 ${wheel_z}" rpy="0 0 0"/>
+            <geometry>
+            <sphere radius="${Radius}"/>
+            </geometry>
+        </collision>
+        
+        <visual>
+            <origin xyz="${wheel_x_front} 0 ${wheel_z}" rpy="0 0 0"/>
+            <geometry>
+            <sphere radius="${Radius}"/>
+            </geometry>
             <material name="">  
                 <color rgba="0 0.5 0.8  0"/>  
             </material>  
-        </visual>  
+        </visual>
+
         <inertial>
-            <mass value="${m}" />
-            <inertia ixx="${1/12*m*(w*w + h*h)}" ixy= "0" ixz= "0"
-                iyy="${1/12*m*(d*d + h*h)}"  iyz= "0"
-                izz="${1/12*m*(d*d + w*w)}"  /> 
-        </inertial>   
-        <collision>
-          <origin xyz="0 -0.03 0" rpy="1.5708 0 0" />
-          <geometry>
-            <cylinder length="0.06" radius="0.098"/>
-          </geometry>
-        </collision>  
-    </link>  
-    
-    <joint name="right_front_wheel_joint" type="continuous">  
-        <axis xyz="0 1 0"/>  
-        <parent link="base_link"/>  
-        <child link="right_front_wheel"/>  
-        <origin rpy="0 0 0" xyz="-0.062 -0.2765 -0.402"/> 
-        <limit effort="100" velocity="100"/>  
-        <joint_properties damping="0.0" friction="0.0"/>  
-    </joint>  
-    
+            <origin xyz="${wheel_x_front} 0 ${wheel_z}" rpy="0 0 0"/>
+            <mass value="${casterMass}"/>
+            <inertia ixx="${2/5*casterMass*Radius*Radius}" ixy= "0" ixz= "0"
+                iyy="${2/5*casterMass*Radius*Radius}" iyz= "0"
+                izz="${2/5*casterMass*Radius*Radius}" /> 
+        </inertial>
+    </link>
+
+    <joint name="caster_wheel_fixed" type="fixed">
+        <parent link="base_link"/>
+        <child link="caster_wheel_link"/>
+    </joint>
+
+
     <link name="right_back_wheel">  
       <visual>  
           <geometry>  
-            <cylinder length="0.06" radius="0.098"/>  
+            <cylinder length="${wheel_l}" radius="${Radius}"/>  
           </geometry>  
-          <origin xyz="0 0.03 0" rpy="1.5708 0 0" />
+          <origin xyz="0 ${wheel_l/2} 0" rpy="1.5708 0 0" />
           <material name="">  
-            <color rgba="0 0.5 0.8 0"/>  
+            <color rgba="0 0.5 0.8 1"/>  
           </material>  
       </visual>  
         <inertial>
-            <mass value="2" />
-            <inertia ixx="0.005402" ixy= "0" ixz= "0"
-                iyy="0.009604" iyz= "0"
-                izz="0.005402" /> 
+            <mass value="${wheel_m}" />
+            <inertia ixx="${wheel_m/12*(3*Radius*Radius + wheel_l*wheel_l)}" ixy= "0" ixz= "0"
+                iyy="${wheel_m/2*Radius*Radius}" iyz= "0"
+                izz="${wheel_m/12*(3*Radius*Radius + wheel_l*wheel_l)}" /> 
         </inertial>  
         <collision>
-          <origin xyz="0 -0.03 0" rpy="1.5708 0 0" />
+          <origin xyz="0 ${-wheel_l/2} 0" rpy="1.5708 0 0" />
           <geometry>
-            <cylinder length="0.06" radius="0.098"/>
+            <cylinder length="${wheel_l}" radius="${Radius}"/>
           </geometry>
         </collision>   
     </link>  
@@ -70,64 +76,32 @@
         <axis xyz="0 1 0"/>  
         <parent link="base_link"/>  
         <child link="right_back_wheel"/>  
-        <origin rpy="0 0 0" xyz="-0.602 -0.276 -0.402"/>  
+        <origin rpy="0 0 0" xyz="${wheel_x_back} ${-wheel_y} ${wheel_z}"/>  
         <limit effort="100" velocity="100"/>  
         <joint_properties damping="0.0" friction="0.0"/>  
     </joint>  
-    
-    <link name="left_front_wheel">  
-        <visual>  
-            <geometry>  
-                <cylinder length="0.06" radius="0.098"/>  
-            </geometry>  
-            <origin xyz="0 -0.03 0" rpy="1.5708 0 0" />
-            <material name="">  
-                <color rgba="0 0.5 0.8 0"/>  
-            </material>  
-        </visual>  
-        <inertial>
-            <mass value="2" />
-            <inertia ixx="0.005402" ixy= "0" ixz= "0"
-                iyy="0.009604" iyz= "0"
-                izz="0.005402" /> 
-        </inertial>   
-        <collision>
-          <origin xyz="0 -0.03 0" rpy="1.5708 0 0" />
-          <geometry>
-            <cylinder length="0.06" radius="0.098"/>
-          </geometry>
-        </collision>  
-    </link>  
-    
-    <joint name="left_front_wheel_joint" type="continuous">  
-        <axis xyz="0 1 0"/>  
-        <parent link="base_link"/>  
-        <child link="left_front_wheel"/>  
-        <origin rpy="0 0 0" xyz="-0.062 0.2765 -0.402"/>  
-        <limit effort="100" velocity="100"/>  
-        <joint_properties damping="0.0" friction="0.0"/>  
-    </joint>  
+
     
     <link name="left_back_wheel">  
         <visual>  
             <geometry>  
-                <cylinder length="0.06" radius="0.098"/>  
+                <cylinder length="${wheel_l}" radius="${Radius}"/>   
             </geometry>  
-            <origin xyz="0 -0.03 0" rpy="1.5708 0 0" />
+            <origin xyz="0 ${-wheel_l/2} 0" rpy="1.5708 0 0" />
             <material name="">  
-                <color rgba="0 0.5 0.8 0"/>  
+                <color rgba="0 0.5 0.8 1"/>  
             </material>  
         </visual> 
         <inertial>
-            <mass value="2" />
-            <inertia ixx="0.005402" ixy= "0" ixz= "0"
-                iyy="0.009604" iyz= "0"
-                izz="0.005402" /> 
-        </inertial>  
+            <mass value="${wheel_m}" />
+            <inertia ixx="${wheel_m/12*(3*Radius*Radius + wheel_l*wheel_l)}" ixy= "0" ixz= "0"
+                iyy="${wheel_m/2*Radius*Radius}" iyz= "0"
+                izz="${wheel_m/12*(3*Radius*Radius + wheel_l*wheel_l)}" /> 
+        </inertial> 
         <collision>
-          <origin xyz="0 -0.03 0" rpy="1.5708 0 0" />
+          <origin xyz="0 ${-wheel_l/2} 0" rpy="1.5708 0 0" />
           <geometry>
-            <cylinder length="0.06" radius="0.098"/>
+            <cylinder length="${wheel_l}" radius="${Radius}"/>  
           </geometry>
         </collision>       
     </link>  
@@ -136,7 +110,7 @@
         <axis xyz="0 1 0"/>  
         <parent link="base_link"/>  
         <child link="left_back_wheel"/>  
-        <origin rpy="0 0 0" xyz="-0.602 0.2765 -0.402"/>  
+        <origin rpy="0 0 0" xyz="${wheel_x_back} ${wheel_y} ${wheel_z}"/>  
         <limit effort="100" velocity="100"/>  
         <joint_properties damping="0.0" friction="0.0"/>  
     </joint>  
@@ -165,68 +139,13 @@
     </collision>
   </link>    
 
-    
-    <link name="counter_weight_link">  
-        <visual>  
-            <geometry>  
-                <box size="0.3 0.2 0.1"/> 
-            </geometry>  
-            <origin xyz="0 0 0" rpy="0 0 0" />
-            <material name="">  
-                <color rgba="0 0.5 0.8 0"/>  
-            </material>  
-        </visual> 
-        <inertial>
-            <mass value="2" />
-            <inertia ixx="0.005402" ixy= "0" ixz= "0"
-                iyy="0.009604" iyz= "0"
-                izz="0.005402" /> 
-        </inertial>  
-        <collision>
-          <origin xyz="0 0 0" rpy="0 0 0" />
-          <geometry>
-            <box size="0.3 0.2 0.1"/> 
-          </geometry>
-        </collision>       
-    </link>  
-
-    <joint name="counter_weight_joint" type="fixed">  
-        <axis xyz="0 1 0"/>  
-        <parent link="base_link"/>  
-        <child link="counter_weight_link"/>  
-        <origin rpy="0 0 0" xyz="-0.602 0 -0.35"/>  
-    </joint> 
-
- 
-    <transmission name="left_front_wheel_joint_trans">
-        <type>transmission_interface/SimpleTransmission</type>
-        <joint name="left_front_wheel_joint" >
-            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-        </joint>
-        <actuator name="left_front_wheel_joint_motor">
-            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-            <mechanicalReduction>1</mechanicalReduction>
-        </actuator>
-    </transmission>
-
-    <transmission name="right_front_wheel_joint_trans">
-        <type>transmission_interface/SimpleTransmission</type>
-        <joint name="right_front_wheel_joint" >
-            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-        </joint>
-        <actuator name="right_front_wheel_joint_motor">
-            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-            <mechanicalReduction>1</mechanicalReduction>
-        </actuator>
-    </transmission>
-
     <transmission name="right_back_wheel_joint_trans">
         <type>transmission_interface/SimpleTransmission</type>
         <joint name="right_back_wheel_joint" >
-            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
         </joint>
         <actuator name="right_back_wheel_joint_motor">
-            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
             <mechanicalReduction>1</mechanicalReduction>
         </actuator>
     </transmission>
@@ -234,72 +153,57 @@
     <transmission name="left_back_wheel_joint_trans">
         <type>transmission_interface/SimpleTransmission</type>
         <joint name="left_back_wheel_joint" >
-            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
         </joint>
         <actuator name="left_back_wheel_joint_motor">
-            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
             <mechanicalReduction>1</mechanicalReduction>
         </actuator>
     </transmission>
- 
-<!--<gazebo>
-  <plugin name="skid_steer_drive_controller" filename="libgazebo_ros_skid_steer_drive.so">
-    <updateRate>50.0</updateRate>
-    <robotNamespace>/</robotNamespace>
-    <leftFrontJoint>left_front_wheel_joint</leftFrontJoint>
-    <leftRearJoint>left_back_wheel_joint</leftRearJoint>
-    <rightFrontJoint>right_front_wheel_joint</rightFrontJoint>
-    <rightRearJoint>right_back_wheel_joint</rightRearJoint>
-    <wheelSeparation>4</wheelSeparation>
-    <wheelDiameter>0.196</wheelDiameter>
+
+
+ <gazebo>
+  <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
+    <robotNamespace>/eod_robot_description</robotNamespace>
+    <alwaysOn>true</alwaysOn>
+    <legacyMode>false</legacyMode>
+    <updateRate>50</updateRate>
+    <leftJoint>left_back_wheel_joint</leftJoint>
+    <rightJoint>right_back_wheel_joint</rightJoint>
+    <wheelSeparation>${2*wheel_y - wheel_l}</wheelSeparation>
+    <wheelDiameter>${2*Radius}</wheelDiameter>
+    <wheelAcceleration>1.0</wheelAcceleration>
+    <torque>50</torque>
     <commandTopic>cmd_vel</commandTopic>
     <odometryTopic>odom</odometryTopic>
-    <robotBaseFrame>base_link</robotBaseFrame>
     <odometryFrame>odom</odometryFrame>
-    <torque>80</torque>
-    <topicName>cmd_vel</topicName>
-    <broadcastTF>1</broadcastTF>
+    <robotBaseFrame>base_link</robotBaseFrame>
+    <publishOdom>true</publishOdom>
   </plugin>
-</gazebo>  -->
+</gazebo>
 
-  <gazebo reference="right_front_wheel">
-    <mu1>10000000</mu1>
-    <mu2>10000000</mu2>
-    <kp>10000000</kp>
-    <kd>1</kd>  
-    <minDepth>0.01</minDepth>
-    <maxVel>100</maxVel>   
-    <material>Gazebo/GreenTransparent</material>       
-  </gazebo>
+<gazebo reference="caster_wheel_link">
+  <mu1>0.0</mu1>
+  <mu2>0.0</mu2>
+  <material>Gazebo/GreenTransparent</material>
+</gazebo>
 
   <gazebo reference="right_back_wheel">
-    <mu1>10000000</mu1>
-    <mu2>10000000</mu2>
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
     <kp>10000000</kp>
-    <kd>1</kd>  
-    <minDepth>0.01</minDepth>
-    <maxVel>100</maxVel>    
+    <kd>1.0</kd>  
+    <fdir1 value="1 0 0"/>   
     <material>Gazebo/GreenTransparent</material>      
   </gazebo>
 
-  <gazebo reference="left_front_wheel">
-    <mu1>10000000</mu1>
-    <mu2>10000000</mu2>
-    <kp>10000000</kp>
-    <kd>1</kd>  
-    <minDepth>0.01</minDepth>
-    <maxVel>100</maxVel>  
-    <material>Gazebo/GreenTransparent</material>        
-  </gazebo>
-
   <gazebo reference="left_back_wheel">
-    <mu1>10000000</mu1>
-    <mu2>10000000</mu2>
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
     <kp>10000000</kp>
-    <kd>1</kd>  
-    <minDepth>0.01</minDepth>
-    <maxVel>100</maxVel>          
-    <material>Gazebo/GreenTransparent</material>
+    <kd>1.0</kd>  
+    <fdir1 value="1 0 0"/>   
+    <material>Gazebo/GreenTransparent</material>    
   </gazebo>
 
 <gazebo reference="base_link">
