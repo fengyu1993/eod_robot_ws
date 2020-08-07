@@ -1,30 +1,22 @@
 <launch>
 
-  <param name= "robot_description" command= "cat $(find eod_robot_description)/urdf/eod_robot_description.urdf" />
+  <include file="$(find eod_robot_description)/launch/robot_description.xml"/>
 
-  <rosparam file= "$(find eod_robot_description)/param/eod_robot_param.yaml" command= "load"/>
+  <include file="$(find eod_robot_description)/launch/robot_control.xml"/>
   
   <rosparam file= "$(find eod_robot_teleop_twist_keyboard)/param/teleop.yaml" command= "load"/>
 
-  <node name= "state_publisher" pkg= "eod_robot_state_publisher" type= "state_publisher"/>
-
-  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
-        <remap from="/joint_states" to="/eod_robot_description/joint_states" />
-  </node>
+  <node name= "state_publisher_gazebo" pkg= "eod_robot_state_publisher" type= "state_publisher_gazebo"/>
 
   <node name="eod_robot_teleop_twist_keyboard_vecihle" pkg="eod_robot_teleop_twist_keyboard"  type="teleop_twist_keyboard.py"  output="screen" />
 
-  <node name= "state_publisher_vecihle" pkg= "eod_robot_teleop_twist_keyboard" type= "control_vecihle" output="screen" />
+  <node name= "state_publisher_vecihle" pkg= "eod_robot_teleop_twist_keyboard" type= "control_vecihle_gazebo" output="screen" />
 
   <node name= "state_publisher_arm_left" pkg= "eod_robot_teleop_twist_keyboard" type= "control_arm_left" output="screen" />
 
   <node name= "state_publisher_arm_right" pkg= "eod_robot_teleop_twist_keyboard" type= "control_arm_right" output="screen" />
 
   <node name= "state_publisher_gripper" pkg= "eod_robot_teleop_twist_keyboard" type= "control_gripper" output="screen" />
-
-  <include file="$(find eod_robot_description)/launch/robot_control.xml"/>
-
-  <node name= "state_publisher_command" pkg= "eod_robot_state_publisher" type= "state_publisher_gazebo" output="screen" />
 
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="world_name" value="$(find eod_robot_description)/worlds/eod_robot.world"/>
@@ -36,6 +28,6 @@
   </include>
 
   <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn= "false" output="screen" 
-        args="-urdf -param robot_description -x 0 -y 0 -z 0.496 -R 0 -P 0 -Y 0 -model eod_robot_description"/> 
+        args="-urdf -param robot_description -x 0 -y 0 -z 0.51 -R 0 -P 0 -Y 0 -model eod_robot_description"/> 
 
 </launch>

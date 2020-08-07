@@ -209,11 +209,21 @@ catkin_install_python(PROGRAMS
 # catkin_add_nosetests(test)
 
 
-add_executable(control_vecihle
-  src/control_vecihle.cpp
+add_executable(control_vecihle_rviz
+  src/control_vecihle_rviz.cpp
 )
-add_dependencies(control_vecihle ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(control_vecihle
+add_dependencies(control_vecihle_rviz ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(control_vecihle_rviz
+  ${catkin_LIBRARIES}
+  modern_robotics_library
+  eod_robotics_library
+)
+
+add_executable(control_vecihle_gazebo
+  src/control_vecihle_gazebo.cpp
+)
+add_dependencies(control_vecihle_gazebo ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(control_vecihle_gazebo
   ${catkin_LIBRARIES}
   modern_robotics_library
   eod_robotics_library

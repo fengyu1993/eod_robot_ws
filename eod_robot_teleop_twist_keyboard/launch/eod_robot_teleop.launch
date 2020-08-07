@@ -1,6 +1,8 @@
 <launch>
+  <arg name="model" default="$(find xacro)/xacro --inorder '$(find eod_robot_description)/urdf/eod_robot_description.xacro'" />
+  
+  <param name="robot_description" command="$(arg model)" />
 
-  <param name= "robot_description" command= "cat $(find eod_robot_description)/urdf/eod_robot_description.urdf" />
 
   <rosparam file= "$(find eod_robot_description)/param/eod_robot_param.yaml" command= "load"/>
   
@@ -12,7 +14,7 @@
 
   <node name="eod_robot_teleop_twist_keyboard_vecihle" pkg="eod_robot_teleop_twist_keyboard"  type="teleop_twist_keyboard.py"  output="screen" />
 
-  <node name= "state_publisher_vecihle" pkg= "eod_robot_teleop_twist_keyboard" type= "control_vecihle" output="screen" />
+  <node name= "state_publisher_vecihle" pkg= "eod_robot_teleop_twist_keyboard" type= "control_vecihle_rviz" output="screen" />
 
   <node name= "state_publisher_arm_left" pkg= "eod_robot_teleop_twist_keyboard" type= "control_arm_left" output="screen" />
 

@@ -55,7 +55,7 @@
           </geometry>  
           <origin xyz="0 ${wheel_l/2} 0" rpy="1.5708 0 0" />
           <material name="">  
-            <color rgba="0 0.5 0.8 1"/>  
+            <color rgba="0 0.5 0.8 0"/>  
           </material>  
       </visual>  
         <inertial>
@@ -89,7 +89,7 @@
             </geometry>  
             <origin xyz="0 ${-wheel_l/2} 0" rpy="1.5708 0 0" />
             <material name="">  
-                <color rgba="0 0.5 0.8 1"/>  
+                <color rgba="0 0.5 0.8 0"/>  
             </material>  
         </visual> 
         <inertial>

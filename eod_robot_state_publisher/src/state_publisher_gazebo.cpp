@@ -2,6 +2,7 @@
 #include "std_msgs/Float64.h"
 #include <sensor_msgs/JointState.h>
 #include <trajectory_msgs/JointTrajectory.h>
+#include <geometry_msgs/Twist.h>
 #include <math.h>
 #include <Eigen/Dense>
 #include <modern_robotics_lib.h>
@@ -14,7 +15,7 @@ int main(int argc, char **argv)
 
     ros::NodeHandle n_R1, n_R2, n_R3, n_R4, n_R5, n_R6, 
                     n_L1, n_L2, n_L3, n_L4, n_L5, n_L6,
-                    n_gripper;
+                    n_gripper, n_vecihle;
 
     ros::Publisher joint_R1_pub = n_R1.advertise<std_msgs::Float64>("/eod_robot_description/Arm_R1_joint_position_controller/command", 10);
     ros::Publisher joint_R2_pub = n_R2.advertise<std_msgs::Float64>("/eod_robot_description/Arm_R2_joint_position_controller/command", 10);
@@ -22,17 +23,26 @@ int main(int argc, char **argv)
     ros::Publisher joint_R4_pub = n_R4.advertise<std_msgs::Float64>("/eod_robot_description/Arm_R4_joint_position_controller/command", 10);
     ros::Publisher joint_R5_pub = n_R5.advertise<std_msgs::Float64>("/eod_robot_description/Arm_R5_joint_position_controller/command", 10);
     ros::Publisher joint_R6_pub = n_R6.advertise<std_msgs::Float64>("/eod_robot_description/Arm_R6_joint_position_controller/command", 10);
+    
     ros::Publisher joint_L1_pub = n_L1.advertise<std_msgs::Float64>("/eod_robot_description/Arm_L1_joint_position_controller/command", 10);
     ros::Publisher joint_L2_pub = n_L2.advertise<std_msgs::Float64>("/eod_robot_description/Arm_L2_joint_position_controller/command", 10);
     ros::Publisher joint_L3_pub = n_L3.advertise<std_msgs::Float64>("/eod_robot_description/Arm_L3_joint_position_controller/command", 10);
     ros::Publisher joint_L4_pub = n_L4.advertise<std_msgs::Float64>("/eod_robot_description/Arm_L4_joint_position_controller/command", 10);
     ros::Publisher joint_L5_pub = n_L5.advertise<std_msgs::Float64>("/eod_robot_description/Arm_L5_joint_position_controller/command", 10);
     ros::Publisher joint_L6_pub = n_L6.advertise<std_msgs::Float64>("/eod_robot_description/Arm_L6_joint_position_controller/command", 10);
+    
     ros::Publisher joint_gripper_pub = n_gripper.advertise<trajectory_msgs::JointTrajectory>("/eod_robot_description/Gripper_finger1_joint_position_controller/command", 10);
 
+    ros::Publisher velocity_vecihle_pub = n_vecihle.advertise<geometry_msgs::Twist>("/eod_robot_description/cmd_vel", 1);
+
     double rad2angle = 180.0 / M_PI;
+
     std_msgs::Float64 angle_command_right_arm[6], angle_command_left_arm[6];
+
+    geometry_msgs::Twist velocity_vecihle; double velocity_vecihle_linear, velocity_vecihle_angular;
+
     VectorXd angle_arm_left(6); VectorXd angle_arm_right(6);
+
     double gripper_finger1 = 0, gripper_finger1_old = 0, gripper_finger1_limit_max, gripper_finger1_limit_min;
 
     get_gripper_finger1_limit_max(gripper_finger1_limit_max);
@@ -102,6 +112,17 @@ int main(int argc, char **argv)
         joint_traj_gripper.points[0].time_from_start = ros::Duration(1.0);
         joint_traj_gripper.header.stamp = ros::Time::now();
 
+        // vecihle
+        get_vecihle_velocity(velocity_vecihle_linear, velocity_vecihle_angular);
+
+        velocity_vecihle.linear.x = velocity_vecihle_linear;
+        velocity_vecihle.linear.y = 0;
+        velocity_vecihle.linear.z = 0;
+        velocity_vecihle.angular.x = 0;
+        velocity_vecihle.angular.y = 0;
+        velocity_vecihle.angular.z = velocity_vecihle_angular;
+
+        // publish
         joint_R1_pub.publish(angle_command_right_arm[0]);
         joint_R2_pub.publish(angle_command_right_arm[1]);
         joint_R3_pub.publish(angle_command_right_arm[2]);
@@ -117,6 +138,8 @@ int main(int argc, char **argv)
         joint_L6_pub.publish(angle_command_left_arm[5]);
 
         joint_gripper_pub.publish(joint_traj_gripper);
+
+        velocity_vecihle_pub.publish(velocity_vecihle);
 
         loop_rate.sleep();
     

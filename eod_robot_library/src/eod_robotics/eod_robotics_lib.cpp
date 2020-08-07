@@ -222,6 +222,17 @@ bool get_vecihle_odom(Matrix4d& vecihle_odom)
     }
 }
 
+bool get_vecihle_velocity(double& linear, double& angular){
+    try {
+        bool ifget1 = ros::param::get(VECIHLE_LINEAR, linear);
+        bool ifget2 = ros::param::get(VECIHLE_ANGULAR, angular);
+        return ifget1 && ifget2;
+    }
+    catch(...) {
+        return false;
+    }
+}
+
 bool set_arm_right_joint_angle(VectorXd angle_arm_right)
 {
     try {
@@ -308,6 +319,21 @@ bool set_vecihle_odom(Matrix4d vecihle_odom)
     catch(...) {
         return false;
     }
+}
+
+bool set_vecihle_velocity(double linear, double angular){
+    try {
+        if(ros::param::has(VECIHLE_LINEAR) && ros::param::has(VECIHLE_ANGULAR)){
+            ros::param::get(VECIHLE_LINEAR, linear);
+            ros::param::get(VECIHLE_ANGULAR, angular);
+            return true;
+        }
+        else
+            return false;
+    }
+    catch(...) {
+        return false;
+    }    
 }
 
  

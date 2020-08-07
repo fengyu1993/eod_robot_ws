@@ -25,8 +25,8 @@ int main(int argc, char** argv)
     geometry_msgs::TransformStamped odom_trans;
 
     sensor_msgs::JointState joint_state;
-    joint_state.name.resize(13);
-    joint_state.position.resize(13);
+    joint_state.name.resize(15);
+    joint_state.position.resize(15);
     joint_state.name[0] = "Arm_R1_joint";
     joint_state.name[1] = "Arm_R2_joint";
     joint_state.name[2] = "Arm_R3_joint";
@@ -40,6 +40,8 @@ int main(int argc, char** argv)
     joint_state.name[10] = "Arm_L5_joint";
     joint_state.name[11] = "Arm_L6_joint";
     joint_state.name[12] = "gripper_finger1_joint";
+    joint_state.name[13] = "left_back_wheel_joint";
+    joint_state.name[14] = "right_back_wheel_joint";
 
 
     odom_trans.header.frame_id = "odom";
@@ -92,6 +94,9 @@ int main(int argc, char** argv)
             ROS_INFO("gripper close percent = %f%%", gripper_finger1 / (gripper_finger1_limit_max - gripper_finger1_limit_min) * 100.0);
 
         joint_state.position[12] = gripper_finger1;
+
+        joint_state.position[13] = 0;
+        joint_state.position[14] = 0;
 
         // vehicle transform
         get_vecihle_odom(vecihle_odom);

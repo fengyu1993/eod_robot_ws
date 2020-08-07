@@ -1,6 +1,8 @@
 <launch>
 
-  <param name= "robot_description" command= "cat $(find eod_robot_description)/urdf/eod_robot_description.urdf" />
+  <arg name="model" default="$(find xacro)/xacro --inorder '$(find eod_robot_description)/urdf/eod_robot_description.xacro'" />
+  
+  <param name="robot_description" command="$(arg model)" />
 
   <rosparam file= "$(find eod_robot_description)/param/eod_robot_param.yaml" command= "load"/>
 

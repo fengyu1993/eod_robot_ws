@@ -13,6 +13,8 @@
 #define     GRIPPER_LIMIT_MIN   "gripper_finger1_limit_min"
 #define     GRIPPER_LIMIT_MAX   "gripper_finger1_limit_max"
 #define     VECIHLE_ODOM        "vecihle_odom"
+#define     VECIHLE_LINEAR      "vecihle_linear"
+#define     VECIHLE_ANGULAR     "vecihle_angular"
 
 
 Matrix4d eod_robot_FKinSpace(Matrix4d M, MatrixXd Slist, VectorXd thetalist, Matrix4d T_base_arm);
@@ -45,6 +47,8 @@ bool get_gripper_finger1_limit_min(double& gripper_finger1_limit_min);
 
 bool get_vecihle_odom(Matrix4d& vecihle_odom);
 
+bool get_vecihle_velocity(double& linear, double& angular);
+
 bool set_arm_right_joint_angle(VectorXd angle_arm_right);
 
 bool set_arm_left_joint_angle(VectorXd angle_arm_left);
@@ -52,6 +56,8 @@ bool set_arm_left_joint_angle(VectorXd angle_arm_left);
 bool set_gripper_finger1_position(double gripper_finger1);
 
 bool set_vecihle_odom(Matrix4d vecihle_odom);
+
+bool set_vecihle_velocity(double linear, double angular);
 
 Eigen::Quaterniond euler2Quaternion(const double roll, const double pitch, const double yaw);
 
