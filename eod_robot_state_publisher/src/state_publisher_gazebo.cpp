@@ -8,6 +8,8 @@
 #include <modern_robotics_lib.h>
 #include "eod_robotics_lib.h"
 
+// #define GRIPPER "gripper_finger1_joint"
+#define GRIPPER "finger_joint"
 
 int main(int argc, char **argv)
 {
@@ -53,7 +55,7 @@ int main(int argc, char **argv)
     joint_traj_gripper.header.frame_id = "base_link";
     joint_traj_gripper.joint_names.resize(1);
     joint_traj_gripper.points.resize(1);
-    joint_traj_gripper.joint_names[0] = "gripper_finger1_joint";
+    joint_traj_gripper.joint_names[0] = GRIPPER;
 
     ros::Rate loop_rate(50);
 
@@ -102,12 +104,15 @@ int main(int argc, char **argv)
 
         if(gripper_finger1 != gripper_finger1_old){
             ROS_INFO("gripper close percent = %f%%", gripper_finger1 / (gripper_finger1_limit_max - gripper_finger1_limit_min) * 100.0);
+            ROS_INFO("gripper close = %f", gripper_finger1 );
+            
             gripper_finger1_old = gripper_finger1;
         }
             
         trajectory_msgs::JointTrajectoryPoint points_n;
 
         points_n.positions.push_back(gripper_finger1);
+
         joint_traj_gripper.points[0] = points_n;
         joint_traj_gripper.points[0].time_from_start = ros::Duration(1.0);
         joint_traj_gripper.header.stamp = ros::Time::now();

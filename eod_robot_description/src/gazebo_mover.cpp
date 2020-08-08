@@ -5,6 +5,9 @@
 #include <trajectory_msgs/JointTrajectory.h>
 #include <math.h>
 
+// #define GRIPPER "gripper_finger1_joint"
+#define GRIPPER "finger_joint"
+
 double arm_right_joint[6], arm_left_joint[6], gripper_joint, 
        vehicle_linear, vehicle_anglar;
 
@@ -39,7 +42,7 @@ void joint_states_Callback(const sensor_msgs::JointState::ConstPtr& msg)
       arm_left_joint[4] = msg->position[i];
     else if(msg->name[i] == "Arm_L6_joint")
       arm_left_joint[5] = msg->position[i];
-    else if(msg->name[i] == "gripper_finger1_joint")
+    else if(msg->name[i] == GRIPPER)
       gripper_joint = msg->position[i];
     else
       continue;
@@ -87,7 +90,7 @@ int main(int argc, char **argv)
   joint_traj_gripper.header.frame_id = "base_link";
   joint_traj_gripper.joint_names.resize(1);
   joint_traj_gripper.points.resize(1);
-  joint_traj_gripper.joint_names[0] = "gripper_finger1_joint";
+  joint_traj_gripper.joint_names[0] = GRIPPER;
 
   while (ros::ok())	
   {  
@@ -146,6 +149,3 @@ int main(int argc, char **argv)
   return 0;
 }
 
-// rostopic  pub /eod_robot_description/Gripper_finger1_joint_position_controller/command trajectory_msgs/JointTrajectory '{joint_names:["gripper_finger1_joint"],points: [{positions:[0.65], time_from_start: [1.0,0.0]}]}' 
-
-// rostopic  echo /eod_robot_description/Gripper_finger1_joint_position_controller/command 

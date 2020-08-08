@@ -5,6 +5,7 @@
   <xacro:include filename="$(find eod_robot_description)/urdf/eod_robot_description_right_arm.xacro" />
   <xacro:include filename="$(find eod_robot_description)/urdf/eod_robot_description_left_arm.xacro" />
   <xacro:include filename="$(find eod_robot_description)/urdf/eod_robot_description_gripper.xacro" />
+  <xacro:include filename="$(find eod_robot_description)/urdf/eod_robot_description_gripper_robotiq.xacro" />
   <xacro:include filename="$(find eod_robot_description)/urdf/eod_robot_description_cameras.xacro" />
 
   <gazebo>
@@ -17,7 +18,8 @@
   <xacro:vehicle/>
   <xacro:right_arm/>
   <xacro:left_arm/>
-  <xacro:gripper/>
+  <!--<xacro:gripper/>-->
+  <xacro:gripper_robotiq/>
   <xacro:cameras/>
 
 </robot>

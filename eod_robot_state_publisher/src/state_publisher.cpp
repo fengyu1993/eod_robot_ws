@@ -6,6 +6,9 @@
 #include "modern_robotics_lib.h"
 #include "eod_robotics_lib.h"
 
+// #define GRIPPER "gripper_finger1_joint"
+#define GRIPPER "finger_joint"
+
 int main(int argc, char** argv)
 { 
     ros::init(argc, argv, "state_publisher");
@@ -39,7 +42,7 @@ int main(int argc, char** argv)
     joint_state.name[9] = "Arm_L4_joint";
     joint_state.name[10] = "Arm_L5_joint";
     joint_state.name[11] = "Arm_L6_joint";
-    joint_state.name[12] = "gripper_finger1_joint";
+    joint_state.name[12] = GRIPPER;
     joint_state.name[13] = "left_back_wheel_joint";
     joint_state.name[14] = "right_back_wheel_joint";
 

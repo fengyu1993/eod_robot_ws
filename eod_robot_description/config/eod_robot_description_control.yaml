@@ -68,96 +68,135 @@ eod_robot_description:
   Gripper_finger1_joint_position_controller:
     type: position_controllers/JointTrajectoryController
     joints:
-      - gripper_finger1_joint
+      # - gripper_finger1_joint
+      - finger_joint
     constraints:
         goal_time: 0.6
         stopped_velocity_tolerance: 0.05
-        gripper_finger1_joint: {trajectory: 0.1, goal: 0.0}   
+        gripper_finger1_joint: {trajectory: 0.1, goal: 0.2}   
     stop_trajectory_duration: 0.5
     state_publish_rate:  50
     action_monitor_rate: 10
 
+    # robotiq
+  gazebo_ros_control:
+    pid_gains:
+      # these gains are used by the gazebo_ros_control plugin
+      finger_joint:
+        p: 10.0
+        i: 0.5
+        d: 0.0
+        i_clamp: 0.2
+        antiwindup: false
+        publish_state: true
+      # the following gains are used by the gazebo_mimic_joint plugin
+      left_inner_knuckle_joint:
+        p: 10.0
+        i: 0.5
+        d: 0.0
+        i_clamp: 0.2
+        antiwindup: false
+        publish_state: true
+
+      left_inner_finger_joint:
+        p: 10.0
+        i: 0.5
+        d: 0.0
+        i_clamp: 0.2
+        antiwindup: false
+        publish_state: true
+
+      right_outer_knuckle_joint:
+        p: 10.0
+        i: 0.5
+        d: 0.0
+        i_clamp: 0.2
+        antiwindup: false
+        publish_state: true
+
+      right_inner_knuckle_joint:
+        p: 10.0
+        i: 0.5
+        d: 0.0
+        i_clamp: 0.2
+        antiwindup: false
+        publish_state: true
+
+      right_inner_finger_joint:
+        p: 10.0
+        i: 0.1
+        d: 0.0
+        i_clamp: 0.2
+        antiwindup: false
+        publish_state: true
+
+
+    # gripper  
   # gazebo_ros_control:
   #   pid_gains:
-  #     left_front_wheel_joint:
-  #       p: 100.0
-  #       i: 0.5
-  #       d: 0.0    
-  #     left_back_wheel_joint:
-  #       p: 100.0
-  #       i: 0.5
-  #       d: 0.0  
-  #     right_front_wheel_joint:
-  #       p: 100.0
-  #       i: 0.5
-  #       d: 0.0    
-  #     right_back_wheel_joint:
-  #       p: 100.0
-  #       i: 0.5
-  #       d: 0.0  
-      # gripper_finger1_joint:
-      #   p: 20.0
-      #   i: 0.1
-      #   d: 0.0
-      #   i_clamp: 0.2
-      #   antiwindup: false
-      #   publish_state: true
+  #     gripper_finger1_joint:
+  #       p: 10.0
+  #       i: 0.1
+  #       d: 0.0
+  #       i_clamp: 0.2
+  #       antiwindup: false
+  #       publish_state: true
 
-      # gripper_finger2_joint:
-      #   p: 0.1
-      #   i: 0.1
-      #   d: 0.0
-      #   i_clamp: 0.2
-      #   antiwindup: false
-      #   publish_state: true
+  #     gripper_finger2_joint:
+  #       p: 0.1
+  #       i: 0.1
+  #       d: 0.0
+  #       i_clamp: 0.2
+  #       antiwindup: false
+  #       publish_state: true
 
-      # gripper_finger2_inner_knuckle_joint:
-      #   p: 20.0
-      #   i: 0.1
-      #   d: 0.0
-      #   i_clamp: 0.2
-      #   antiwindup: false
-      #   publish_state: true
+  #     gripper_finger2_inner_knuckle_joint:
+  #       p: 10.0
+  #       i: 0.1
+  #       d: 0.0
+  #       i_clamp: 0.2
+  #       antiwindup: false
+  #       publish_state: true
 
-      # gripper_finger1_inner_knuckle_joint:
-      #   p: 20.0
-      #   i: 0.1
-      #   d: 0.0
-      #   i_clamp: 0.2
-      #   antiwindup: false
-      #   publish_state: true
+  #     gripper_finger1_inner_knuckle_joint:
+  #       p: 10.0
+  #       i: 0.1
+  #       d: 0.0
+  #       i_clamp: 0.2
+  #       antiwindup: false
+  #       publish_state: true
 
-      # gripper_finger1_finger_tip_joint:
-      #   p: 20.0
-      #   i: 0.1
-      #   d: 0.0
-      #   i_clamp: 0.2
-      #   antiwindup: false
-      #   publish_state: true
+  #     gripper_finger1_finger_tip_joint:
+  #       p: 10.0
+  #       i: 0.1
+  #       d: 0.0
+  #       i_clamp: 0.2
+  #       antiwindup: false
+  #       publish_state: true
 
-      # gripper_finger2_finger_tip_joint:
-      #   p: 20.0
-      #   i: 0.1
-      #   d: 0.0
-      #   i_clamp: 0.2
-      #   antiwindup: false
-      #   publish_state: true
+  #     gripper_finger2_finger_tip_joint:
+  #       p: 10.0
+  #       i: 0.1
+  #       d: 0.0
+  #       i_clamp: 0.2
+  #       antiwindup: false
+  #       publish_state: true
 
-      # gripper_finger1_finger_joint:
-      #   p: 20.0
-      #   i: 0.1
-      #   d: 0.0
-      #   i_clamp: 0.2
-      #   antiwindup: false
-      #   publish_state: true
+  #     gripper_finger1_finger_joint:
+  #       p: 10.0
+  #       i: 0.1
+  #       d: 0.0
+  #       i_clamp: 0.2
+  #       antiwindup: false
+  #       publish_state: true
 
-      # gripper_finger2_finger_joint:
-      #   p: 20.0
-      #   i: 0.1
-      #   d: 0.0
-      #   i_clamp: 0.2
-      #   antiwindup: false
-      #   publish_state: true
+  #     gripper_finger2_finger_joint:
+  #       p: 10.0
+  #       i: 0.1
+  #       d: 0.0
+  #       i_clamp: 0.2
+  #       antiwindup: false
+  #       publish_state: true
 
 
 
