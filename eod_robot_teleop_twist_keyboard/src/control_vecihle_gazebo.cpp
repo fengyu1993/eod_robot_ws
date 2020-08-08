@@ -24,7 +24,7 @@ int main(int argc, char** argv)
 
     ros::NodeHandle n;
 
-    ros::Subscriber sub = n.subscribe("cmd_eod_robot_vel", 100, vecihle_vel_Callback);
+    ros::Subscriber sub = n.subscribe("cmd_eod_robot_vel", 10, vecihle_vel_Callback);
 
     double dt;
 

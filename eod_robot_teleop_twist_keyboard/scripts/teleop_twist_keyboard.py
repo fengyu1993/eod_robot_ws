@@ -258,14 +258,14 @@ if __name__=="__main__":
 
                 x_gripper = moveBindings[key][14]
 
-                print("x_vecihle = %s, th_vecihle = %s" % (x_vecihle, th_vecihle))
-                print("arm_left_S = [%s, %s, %s, %s, %s, %s]" % \
-                (arm_left_S.linear.x, arm_left_S.linear.y, arm_left_S.linear.z, \
-                arm_left_S.angular.x, arm_left_S.angular.y, arm_left_S.angular.z))
-                print("arm_right_S = [%s, %s, %s, %s, %s, %s]" % \
-                (arm_right_S.linear.x, arm_right_S.linear.y, arm_right_S.linear.z, \
-                arm_right_S.angular.x, arm_right_S.angular.y, arm_right_S.angular.z))
-                print("x_gripper = %s" % (x_gripper))
+                # print("x_vecihle = %s, th_vecihle = %s" % (x_vecihle, th_vecihle))
+                # print("arm_left_S = [%s, %s, %s, %s, %s, %s]" % \
+                # (arm_left_S.linear.x, arm_left_S.linear.y, arm_left_S.linear.z, \
+                # arm_left_S.angular.x, arm_left_S.angular.y, arm_left_S.angular.z))
+                # print("arm_right_S = [%s, %s, %s, %s, %s, %s]" % \
+                # (arm_right_S.linear.x, arm_right_S.linear.y, arm_right_S.linear.z, \
+                # arm_right_S.angular.x, arm_right_S.angular.y, arm_right_S.angular.z))
+                # print("x_gripper = %s" % (x_gripper))
             elif key in speedBindings.keys():
                 speed_vecihle = speed_vecihle * speedBindings[key][0]
                 turn_vecihle = turn_vecihle * speedBindings[key][1]

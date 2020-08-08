@@ -1,0 +1,19 @@
+<launch>
+
+  <!--<param name="robot_description" textfile="$(find eod_robot_description)/urdf/eod_robot_description.urdf" />-->
+
+  <arg name="model" default="$(find xacro)/xacro --inorder '$(find eod_robot_description)/urdf/eod_robot_description.xacro'" />
+  
+  <param name="robot_description" command="$(arg model)" />
+
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+    <param name="use_gui" value="false"/>
+  </node>
+  
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
+        <remap from="/joint_states" to="/eod_robot_description/joint_states" />
+  </node>
+
+  <rosparam file= "$(find eod_robot_description)/param/eod_robot_param.yaml" command= "load"/>
+
+</launch>

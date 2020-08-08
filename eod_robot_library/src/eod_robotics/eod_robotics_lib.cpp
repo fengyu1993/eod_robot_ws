@@ -324,8 +324,8 @@ bool set_vecihle_odom(Matrix4d vecihle_odom)
 bool set_vecihle_velocity(double linear, double angular){
     try {
         if(ros::param::has(VECIHLE_LINEAR) && ros::param::has(VECIHLE_ANGULAR)){
-            ros::param::get(VECIHLE_LINEAR, linear);
-            ros::param::get(VECIHLE_ANGULAR, angular);
+            ros::param::set(VECIHLE_LINEAR, linear);
+            ros::param::set(VECIHLE_ANGULAR, angular);
             return true;
         }
         else
