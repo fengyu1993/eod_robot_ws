@@ -5,169 +5,113 @@
 <xacro:macro name="cameras">
 
 <!--vehicle_camera-->
-  <link name="camera_link">
+  <link name="vehicle_camera_link">
     <visual>
-      <origin 
-        rpy="1.57079632679 0 1.57079632679" 
-        xyz="0.0149 -0.0175 0"/>
+      <origin rpy="1.57079632679 0.00 1.57079632679" xyz="0.0149 0.0175 0"/>
       <geometry>
-        <!-- <box size="${d435_cam_width} ${d435_cam_height} ${d435_cam_depth}"/> -->
-        <mesh 
-          filename="package://eod_robot_description/meshes/d435.dae"/>
-        <!--<mesh filename="package://realsense2_description/meshes/d435/d435.dae" />-->
+        <mesh filename="package://eod_robot_description/meshes/d435.dae"/>
       </geometry>
-      <material name="">
-        <color rgba="1 0 0 1" />
+        <material name=""> <color rgba="1 0 0 1" />
       </material>
     </visual>
     <collision>
-      <origin 
-        rpy="0 0 0" 
-        xyz="0 -0.0175 0"/>
+      <origin rpy="0 0 0" xyz="0 0.0175 0"/>
       <geometry>
         <box size="0.02505 0.09 0.025"/>
       </geometry>
     </collision>
     <inertial>
-      <!-- The following are not reliable values, and should not be used for modeling -->
       <mass value="0.564"/>
       <origin xyz="0 0 0"/>
-      <inertia 
-        ixx="0.003881243" 
-        ixy="0.0" 
-        ixz="0.0" 
-        iyy="0.000498940" 
-        iyz="0.0" 
-        izz="0.003879257"/>
+      <inertia ixx="0.003881243"  ixy="0.0" ixz="0.0" iyy="0.000498940" iyz="0.0" izz="0.003879257"/>
     </inertial>
   </link>
 
   <joint name="base_camera_joint" type="fixed">
-    <origin 
-      xyz="0.1 -0.0175 0.03381" 
-      rpy="3.14159 0.00 0.00 "/>
+    <origin xyz="0.1 -0.0175 0.03381" rpy="0.00 0.00 0.00 "/>
     <parent link="base_link"/>
-    <child link="camera_link"/>
+    <child link="vehicle_camera_link"/>
   </joint >
 
-  <joint name="camera_depth_joint" type="fixed">
-    <origin 
-      rpy="0 0 0"  
-      xyz="0 0 0"/>
-    <parent link="camera_link"/>
-    <child link="camera_depth_frame"/>
+  <joint name="vehicle_camera_depth_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <parent link="vehicle_camera_link"/>
+    <child link="vehicle_camera_depth_frame"/>
   </joint>
 
-  <link name="camera_depth_frame"/>
+  <link name="vehicle_camera_depth_frame">
+    <inertial>
+      <mass value="0.001" />
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
+              iyy="0.0001" iyz="0.0"
+              izz="0.0001" />
+    </inertial>
+  </link>
 
-  <joint name="camera_depth_optical_joint" type="fixed">
+  <joint name="vehicle_camera_depth_optical_joint" type="fixed">
     <origin 
-      rpy="-1.57079632679 0 -1.57079632679" 
-      xyz="0 0 0"/>
-    <parent link="camera_depth_frame"/>
-    <child link="camera_depth_optical_frame"/>
+      rpy="-1.57079632679 0 -1.57079632679" xyz="0 0 0"/>
+    <parent link="vehicle_camera_depth_frame"/>
+    <child link="vehicle_camera_depth_optical_frame"/>
   </joint>
 
-  <link name="camera_depth_optical_frame"/>
-<!-- camera left IR joints and links -->
-  <joint name="camera_left_ir_joint" type="fixed">
-    <origin 
-      rpy="0 0 0" 
-      xyz="0 0.0 0"/>
-    <parent link="camera_depth_frame"/>
-    <child link="camera_left_ir_frame"/>
-  </joint>
-
-  <link name="camera_left_ir_frame"/>
-  <joint name="camera_left_ir_optical_joint" type="fixed">
-    <origin 
-      rpy="-1.57079632679 0 -1.57079632679" 
-      xyz="0 0 0"/>
-    <parent link="camera_left_ir_frame"/>
-    <child link="camera_left_ir_optical_frame"/>
-  </joint>
-
-  <link name="camera_left_ir_optical_frame"/>
-  <!-- camera right IR joints and links -->
-  <joint name="camera_right_ir_joint" type="fixed">
-    <origin 
-      rpy="0 0 0" 
-      xyz="0 -0.05 0"/>
-    <parent link="camera_depth_frame"/>
-    <child link="camera_right_ir_frame"/>
-  </joint>  
-
-  <link name="camera_right_ir_frame"/>
-  <joint name="camera_right_ir_optical_joint" type="fixed">
-    <origin 
-      rpy="-1.57079632679 0 -1.57079632679" 
-      xyz="0 0 0"/>
-    <parent link="camera_right_ir_frame"/>
-    <child link="camera_right_ir_optical_frame"/>
-  </joint> 
-
-  <link name="camera_right_ir_optical_frame"/>
-  <!-- camera color joints and links -->
-  <joint name="camera_color_joint" type="fixed">
-    <origin 
-      rpy="0 0 0" 
-      xyz="0 0.015 0"/>
-    <parent link="camera_depth_frame"/>
-    <child link="camera_color_frame"/>
-  </joint> 
-
-  <link name="camera_color_frame"/>
-  <joint name="camera_color_optical_joint" type="fixed">
-   <origin
-     rpy="-1.57079632679 0 -1.57079632679" 
-     xyz="0 0 0"/>
-   <parent link="camera_color_frame"/>
-   <child link="camera_color_optical_frame"/>
- </joint>
-  <link name="camera_color_optical_frame"/>
+  <link name="vehicle_camera_depth_optical_frame">
+    <inertial>
+      <mass value="0.001" />
+      <origin rpy="0 0 0"  xyz="0 0 0" />
+      <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
+              iyy="0.0001" iyz="0.0"
+              izz="0.0001" />
+    </inertial>
+  </link>
+ 
 
 <!--right_camera-->
 <joint name="right_base_camera_joint" type="fixed">
-	  <origin xyz="-0.027 0.0815 -0.0515" rpy="0.18 0.00 1.57079632679 "/>
+    <origin xyz="-0.027 0.0815 -0.0515" rpy="-2.9615926 0.00 1.57079632679 "/>
     <parent link="Arm_R6_link"/>
 	  <child link="right_camera_link"/>
 </joint >
 
   <link name="right_camera_link">
     <visual>
-      <origin rpy="1.57079632679 0 1.57079632679" xyz="0.0149 -0.0175 0"/>
+       <origin rpy="1.57079632679 0.00 1.57079632679" xyz="0.0149 0.0175 0"/>
       <geometry>
-        <!-- <box size="${d435_cam_width} ${d435_cam_height} ${d435_cam_depth}"/> -->
         <mesh filename="package://eod_robot_description/meshes/d435.dae"/>
-        <!--<mesh filename="package://realsense2_description/meshes/d435/d435.dae" />-->
       </geometry>
-            <material
-        name="">
-        <color rgba="1 0 0 1" />
+      <material
+        name=""> <color rgba="1 0 0 1" />
       </material>
     </visual>
     <collision>
-      <origin rpy="0 0 0" xyz="0 -0.0175 0"/>
+      <origin rpy="0 0 0" xyz="0 0.0175 0"/>
       <geometry>
         <box size="0.02505 0.09 0.025"/>
       </geometry>
     </collision>
     <inertial>
-      <!-- The following are not reliable values, and should not be used for modeling -->
       <mass value="0.564"/>
       <origin xyz="0 0 0"/>
       <inertia ixx="0.003881243" ixy="0.0" ixz="0.0" iyy="0.000498940" iyz="0.0" izz="0.003879257"/>
     </inertial>
   </link>
 
-  <!-- camera depth joints and links -->
   <joint name="right_camera_depth_joint" type="fixed">
     <origin rpy="0 0 0" xyz="0 0 0"/>
     <parent link="right_camera_link"/>
     <child link="right_camera_depth_frame"/>
   </joint>
 
-  <link name="right_camera_depth_frame"/>
+  <link name="right_camera_depth_frame">
+    <inertial>
+      <mass value="0.001" />
+      <origin xyz="0 0 0" />
+      <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
+              iyy="0.0001" iyz="0.0"
+              izz="0.0001" />
+    </inertial>
+  </link>
 
   <joint name="right_camera_depth_optical_joint" type="fixed">
     <origin rpy="-1.57079632679 0 -1.57079632679" xyz="0 0 0"/>
@@ -175,84 +119,38 @@
     <child link="right_camera_depth_optical_frame"/>
   </joint>
 
-  <link name="right_camera_depth_optical_frame"/>
-
-  <!-- camera left IR joints and links -->
-  <joint name="right_camera_left_ir_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="0 0.0 0"/>
-    <parent link="right_camera_depth_frame"/>
-    <child link="right_camera_left_ir_frame"/>
-  </joint>
-
-  <link name="right_camera_left_ir_frame"/>
-
-  <joint name="right_camera_left_ir_optical_joint" type="fixed">
-    <origin rpy="-1.57079632679 0 -1.57079632679" xyz="0 0 0"/>
-    <parent link="right_camera_left_ir_frame"/>
-    <child link="right_camera_left_ir_optical_frame"/>
-  </joint>
-
-  <link name="right_camera_left_ir_optical_frame"/>
-
-  <!-- camera right IR joints and links -->
-  <joint name="right_camera_right_ir_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="0 -0.05 0"/>
-    <parent link="right_camera_depth_frame"/>
-    <child link="right_camera_right_ir_frame"/>
-  </joint>
-
-  <link name="right_camera_right_ir_frame"/>
-
-  <joint name="right_camera_right_ir_optical_joint" type="fixed">
-    <origin rpy="-1.57079632679 0 -1.57079632679" xyz="0 0 0"/>
-    <parent link="right_camera_right_ir_frame"/>
-    <child link="right_camera_right_ir_optical_frame"/>
-  </joint>
-
-  <link name="right_camera_right_ir_optical_frame"/>
-
-  <!-- camera color joints and links -->
-  <joint name="right_camera_color_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="0 0.015 0"/>
-    <parent link="right_camera_depth_frame"/>
-    <child link="right_camera_color_frame"/>
-  </joint>
-
-  <link name="right_camera_color_frame"/>
-
-  <joint name="right_camera_color_optical_joint" type="fixed">
-    <origin rpy="-1.57079632679 0 -1.57079632679" xyz="0 0 0"/>
-    <parent link="right_camera_color_frame"/>
-    <child link="right_camera_color_optical_frame"/>
-  </joint>
-
-  <link name="right_camera_color_optical_frame"/>
+  <link name="right_camera_depth_optical_frame">
+    <inertial>
+      <mass value="0.001" />
+      <origin xyz="0 0 0" />
+      <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
+              iyy="0.0001" iyz="0.0"
+              izz="0.0001" />
+    </inertial>
+  </link>
 
 <!--left_camera-->
 <joint name="left_base_camera_joint" type="fixed">
-	<origin xyz="-0.027 0.0815 -0.0515" rpy="0.18 0.00 1.57079632679"/>
+	<origin xyz="-0.027 0.0815 -0.0515" rpy="-2.9615926 0.00 1.57079632679"/>
 	<parent link="Arm_L6_link_add"/>
 	<child link="left_camera_link"/>
 </joint >
 
   <link name="left_camera_link">
     <visual>
-      <origin rpy="1.57079632679 0 1.57079632679" xyz="0.0149 -0.0175 0"/>
+      <origin rpy="1.57079632679 0.00 1.57079632679" xyz="0.0149 0.0175 0"/>
       <geometry>
-        <!-- <box size="${d435_cam_width} ${d435_cam_height} ${d435_cam_depth}"/> -->
         <mesh filename="package://eod_robot_description/meshes/d435.dae"/>
-        <!--<mesh filename="package://realsense2_description/meshes/d435/d435.dae" />-->
       </geometry>
       <material name="camera_aluminum"/>
     </visual>
     <collision>
-      <origin rpy="0 0 0" xyz="0 -0.0175 0"/>
+      <origin rpy="0 0 0" xyz="0 0.0175 0"/>
       <geometry>
         <box size="0.02505 0.09 0.025"/>
       </geometry>
     </collision>
     <inertial>
-      <!-- The following are not reliable values, and should not be used for modeling -->
       <mass value="0.564"/>
       <origin xyz="0 0 0"/>
       <inertia ixx="0.003881243" ixy="0.0" ixz="0.0" iyy="0.000498940" iyz="0.0" izz="0.003879257"/>
@@ -266,7 +164,15 @@
     <child link="left_camera_depth_frame"/>
   </joint>
 
-  <link name="left_camera_depth_frame"/>
+  <link name="left_camera_depth_frame">
+    <inertial>
+      <mass value="0.001" />
+      <origin xyz="0 0 0" />
+      <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
+              iyy="0.0001" iyz="0.0"
+              izz="0.0001" />
+    </inertial>
+  </link>
 
   <joint name="left_camera_depth_optical_joint" type="fixed">
     <origin rpy="-1.57079632679 0 -1.57079632679" xyz="0 0 0"/>
@@ -274,66 +180,23 @@
     <child link="left_camera_depth_optical_frame"/>
   </joint>
 
-  <link name="left_camera_depth_optical_frame"/>
+  <link name="left_camera_depth_optical_frame">
+    <inertial>
+      <mass value="0.001" />
+      <origin xyz="0 0 0" />
+      <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
+              iyy="0.0001" iyz="0.0"
+              izz="0.0001" />
+    </inertial>
+  </link>
 
-  <!-- camera left IR joints and links -->
-  <joint name="left_camera_left_ir_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="0 0.0 0"/>
-    <parent link="left_camera_depth_frame"/>
-    <child link="left_camera_left_ir_frame"/>
-  </joint>
-
-  <link name="left_camera_left_ir_frame"/>
-
-  <joint name="left_camera_left_ir_optical_joint" type="fixed">
-    <origin rpy="-1.57079632679 0 -1.57079632679" xyz="0 0 0"/>
-    <parent link="left_camera_left_ir_frame"/>
-    <child link="left_camera_left_ir_optical_frame"/>
-  </joint>
-
-  <link name="left_camera_left_ir_optical_frame"/>
-
-  <!-- camera right IR joints and links -->
-  <joint name="left_camera_right_ir_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="0 -0.05 0"/>
-    <parent link="left_camera_depth_frame"/>
-    <child link="left_camera_right_ir_frame"/>
-  </joint>
-
-  <link name="left_camera_right_ir_frame"/>
-
-  <joint name="left_camera_right_ir_optical_joint" type="fixed">
-    <origin rpy="-1.57079632679 0 -1.57079632679" xyz="0 0 0"/>
-    <parent link="left_camera_right_ir_frame"/>
-    <child link="left_camera_right_ir_optical_frame"/>
-  </joint>
-
-  <link name="left_camera_right_ir_optical_frame"/>
-
-  <!-- camera color joints and links -->
-  <joint name="left_camera_color_joint" type="fixed">
-      <origin rpy="0 0 0" xyz="0 0.015 0"/>
-      <parent link="left_camera_depth_frame"/>
-      <child link="left_camera_color_frame"/>
-  </joint>
-
-  <link name="left_camera_color_frame"/>
-
-<joint name="left_camera_color_optical_joint" type="fixed">
-    <origin rpy="-1.57079632679 0 -1.57079632679" xyz="0 0 0"/>
-    <parent link="left_camera_color_frame"/>
-    <child link="left_camera_color_optical_frame"/>
-  </joint>
-
-  <link name="left_camera_color_optical_frame"/>
-
-  <gazebo reference="camera_link">
+  <gazebo reference="vehicle_camera_link">
     <implicitSpringDamper>1</implicitSpringDamper>
     <mu1>100000</mu1>
     <mu2>100000</mu2>
     <kp>100000000.0</kp>
     <kd>1.0</kd>
-    <material>Gazebo/Green</material>
+    <material>Gazebo/GreenTransparent</material>
   </gazebo>
 
   <gazebo reference="right_camera_link">
@@ -342,16 +205,143 @@
     <mu2>100000</mu2>
     <kp>100000000.0</kp>
     <kd>1.0</kd>
-    <material>Gazebo/Red</material>
+    <material>Gazebo/RedTransparent</material>
   </gazebo>
+
   <gazebo reference="left_camera_link">
     <implicitSpringDamper>1</implicitSpringDamper>
     <mu1>100000</mu1>
     <mu2>100000</mu2>
     <kp>100000000.0</kp>
     <kd>1.0</kd>
-    <material>Gazebo/Red</material>
+    <material>Gazebo/RedTransparent</material>
   </gazebo>
+
+<gazebo reference="vehicle_camera_link">
+  <sensor name="vehicle_camera_link_camera" type="depth">
+    <update_rate>20</update_rate>
+    <camera>
+      <horizontal_fov>1.047198</horizontal_fov>
+      <image>
+        <width>640</width>
+        <height>480</height>
+        <format>R8G8B8</format>
+      </image>
+      <clip>
+        <near>0.05</near>
+        <far>8.0</far>
+      </clip>
+    </camera>
+    <plugin name="vehicle_camera_controller" filename="libgazebo_ros_openni_kinect.so">
+      <robotNamespace>/eod_robot_description</robotNamespace>
+      <baseline>0.1</baseline>
+      <alwaysOn>true</alwaysOn>
+      <updateRate>10.0</updateRate>
+      <cameraName>vehicle_camera_ir</cameraName>
+      <imageTopicName>vehicle_camera/color/image_raw</imageTopicName>
+      <cameraInfoTopicName>vehicle_camera/color/camera_info</cameraInfoTopicName>
+      <depthImageTopicName>vehicle_camera/depth/image_raw</depthImageTopicName>
+      <depthImageInfoTopicName>vehicle_camera/depth/camera_info</depthImageInfoTopicName>
+      <pointCloudTopicName>vehicle_camera/depth/points</pointCloudTopicName>
+      <frameName>vehicle_camera_depth_optical_frame</frameName>
+      <pointCloudCutoff>0.4</pointCloudCutoff>
+      <distortionK1>0.0</distortionK1>
+      <distortionK2>0.0</distortionK2>
+      <distortionK3>0.0</distortionK3>
+      <distortionT1>0.0</distortionT1>
+      <distortionT2>0.0</distortionT2>
+      <CxPrime>0</CxPrime>
+      <Cx>0</Cx>
+      <Cy>0</Cy>
+      <focalLength>0</focalLength>
+      <hackBaseline>0</hackBaseline>
+    </plugin>
+  </sensor>
+</gazebo>
+
+<gazebo reference="right_camera_link">
+  <sensor name="right_camera_link_camera" type="depth">
+    <update_rate>20</update_rate>
+    <camera>
+      <horizontal_fov>1.047198</horizontal_fov>
+      <image>
+        <width>640</width>
+        <height>480</height>
+        <format>R8G8B8</format>
+      </image>
+      <clip>
+        <near>0.05</near>
+        <far>8.0</far>
+      </clip>
+    </camera>
+    <plugin name="right_camera_controller" filename="libgazebo_ros_openni_kinect.so">
+      <robotNamespace>/eod_robot_description</robotNamespace>
+      <baseline>0.1</baseline>
+      <alwaysOn>true</alwaysOn>
+      <updateRate>10.0</updateRate>
+      <cameraName>right_camera_ir</cameraName>
+      <imageTopicName>right_camera/color/image_raw</imageTopicName>
+      <cameraInfoTopicName>right_camera/color/camera_info</cameraInfoTopicName>
+      <depthImageTopicName>right_camera/depth/image_raw</depthImageTopicName>
+      <depthImageInfoTopicName>right_camera/depth/camera_info</depthImageInfoTopicName>
+      <pointCloudTopicName>right_camera/depth/points</pointCloudTopicName>
+      <frameName>right_camera_depth_optical_frame</frameName>
+      <pointCloudCutoff>0.4</pointCloudCutoff>
+      <distortionK1>0.0</distortionK1>
+      <distortionK2>0.0</distortionK2>
+      <distortionK3>0.0</distortionK3>
+      <distortionT1>0.0</distortionT1>
+      <distortionT2>0.0</distortionT2>
+      <CxPrime>0</CxPrime>
+      <Cx>0</Cx>
+      <Cy>0</Cy>
+      <focalLength>0</focalLength>
+      <hackBaseline>0</hackBaseline>
+    </plugin>
+  </sensor>
+</gazebo>
+
+<gazebo reference="left_camera_link">
+  <sensor name="left_camera_link_camera" type="depth">
+    <update_rate>20</update_rate>
+    <camera>
+      <horizontal_fov>1.047198</horizontal_fov>
+      <image>
+        <width>640</width>
+        <height>480</height>
+        <format>R8G8B8</format>
+      </image>
+      <clip>
+        <near>0.05</near>
+        <far>8.0</far>
+      </clip>
+    </camera>
+    <plugin name="left_camera_controller" filename="libgazebo_ros_openni_kinect.so">
+      <robotNamespace>/eod_robot_description</robotNamespace>
+      <baseline>0.1</baseline>
+      <alwaysOn>true</alwaysOn>
+      <updateRate>10.0</updateRate>
+      <cameraName>left_camera_ir</cameraName>
+      <imageTopicName>left_camera/color/image_raw</imageTopicName>
+      <cameraInfoTopicName>left_camera/color/camera_info</cameraInfoTopicName>
+      <depthImageTopicName>left_camera/depth/image_raw</depthImageTopicName>
+      <depthImageInfoTopicName>left_camera/depth/camera_info</depthImageInfoTopicName>
+      <pointCloudTopicName>left_camera/depth/points</pointCloudTopicName>
+      <frameName>left_camera_depth_optical_frame</frameName>
+      <pointCloudCutoff>0.4</pointCloudCutoff>
+      <distortionK1>0.0</distortionK1>
+      <distortionK2>0.0</distortionK2>
+      <distortionK3>0.0</distortionK3>
+      <distortionT1>0.0</distortionT1>
+      <distortionT2>0.0</distortionT2>
+      <CxPrime>0</CxPrime>
+      <Cx>0</Cx>
+      <Cy>0</Cy>
+      <focalLength>0</focalLength>
+      <hackBaseline>0</hackBaseline>
+    </plugin>
+  </sensor>
+</gazebo>
 
 </xacro:macro>
 

@@ -4,10 +4,6 @@
   <arg name="model" default="$(find xacro)/xacro --inorder '$(find eod_robot_description)/urdf/eod_robot_description.xacro'" />
   
   <param name="robot_description" command="$(arg model)" />
-
-  <!--<param
-    name="robot_description"
-    textfile="$(find eod_robot_description)/urdf/eod_robot_description.urdf" />-->
   
   <param name="use_gui" value="$(arg gui)" />
 
