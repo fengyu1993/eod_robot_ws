@@ -7,7 +7,9 @@ project(eod_robot_camera)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS roscpp rospy tf sensor_msgs std_msgs eod_robot_library cv_bridge OpenCV)
+find_package(catkin REQUIRED COMPONENTS roscpp rospy tf sensor_msgs std_msgs eod_robot_library cv_bridge image_transport)
+
+find_package(OpenCV REQUIRED)
 
 # find_package( REQUIRED) 
 
@@ -114,8 +116,10 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
+  include ${catkin_INCLUDE_DIRS}
   include
   ${catkin_INCLUDE_DIRS}
+  ${OpenCV_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
@@ -210,4 +214,23 @@ add_executable(vehicle_camera_show
 add_dependencies(vehicle_camera_show ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(vehicle_camera_show
   ${catkin_LIBRARIES}
+  ${OpenCV_LIBRARIES}
+)
+
+add_executable(right_camera_show
+  src/right_camera_show.cpp
+)
+add_dependencies(right_camera_show ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(right_camera_show
+  ${catkin_LIBRARIES}
+  ${OpenCV_LIBRARIES}
+)
+
+add_executable(left_camera_show
+  src/left_camera_show.cpp
+)
+add_dependencies(left_camera_show ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(left_camera_show
+  ${catkin_LIBRARIES}
+  ${OpenCV_LIBRARIES}
 )

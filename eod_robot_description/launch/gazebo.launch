@@ -21,6 +21,10 @@
 
   <node name="vehicle_camera_show" type="vehicle_camera_show" pkg="eod_robot_camera" output="screen" /> 
 
+  <node name="right_camera_show" type="right_camera_show" pkg="eod_robot_camera" output="screen" /> 
+
+  <node name="left_camera_show" type="left_camera_show" pkg="eod_robot_camera" output="screen" /> 
+
 </launch>
 
  
