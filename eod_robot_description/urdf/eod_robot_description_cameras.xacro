@@ -217,6 +217,27 @@
     <material>Gazebo/RedTransparent</material>
   </gazebo>
 
+  <gazebo reference="vehicle_camera_link">
+    <gravity>true</gravity>
+    <sensor name="imu_sensor" type="imu">
+      <always_on>true</always_on>
+      <update_rate>100</update_rate>
+      <visualize>true</visualize>
+      <topic>__default_topic__</topic>
+      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+        <robotNamespace>/eod_robot_description</robotNamespace>
+        <topicName>vehicle_camera_imu</topicName>
+        <bodyName>vehicle_camera_link</bodyName>
+        <updateRateHZ>100.0</updateRateHZ>
+        <gaussianNoise>0.0</gaussianNoise>
+        <xyzOffset>0 0 0</xyzOffset>
+        <rpyOffset>0 0 0</rpyOffset>
+        <frameName>vehicle_camera_depth_optical_frame</frameName>
+      </plugin>
+      <pose>0 0 0 0 0 0</pose>
+    </sensor>
+  </gazebo>
+
 <gazebo reference="vehicle_camera_link">
   <sensor name="vehicle_camera_link_camera" type="depth">
     <update_rate>20</update_rate>
