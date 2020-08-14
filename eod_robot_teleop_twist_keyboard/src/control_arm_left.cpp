@@ -47,7 +47,7 @@ int main(int argc, char** argv)
 
     n.getParam("dt", dt);
     get_arm_left_joint_angle(angle_arm_left);
-    get_arm_left_param(Slist_arm_left, M_arm_left, T_base_left_arm);
+    get_arm_left_ParamSpace(Slist_arm_left, M_arm_left, T_base_left_arm);
     
     ros::Rate loop_rate(1 / dt);
 
@@ -63,9 +63,9 @@ int main(int argc, char** argv)
             }
             else if(arm_left_joint_or_task.data == false){ // task space
                 if(!NearZear(sum_twist(arm_left_twist))){
-                    Matrix4d T_effect = eod_robot_FKinSpace(M_arm_left, Slist_arm_left, angle_arm_left, T_base_left_arm);
+                    Matrix4d T_effect = eod_robot_right_arm_FKinSpace(angle_arm_left);
                     T_effect.block<3,3>(0,0) = Matrix3d::Identity();
-                    MatrixXd Jacobian_arm_left = Adjoint(TransInv(T_effect)) * eod_robot_JacobianSpace(Slist_arm_left, angle_arm_left, T_base_left_arm);
+                    MatrixXd Jacobian_arm_left = Adjoint(TransInv(T_effect)) * eod_robot_left_arm_JacobianSpace(angle_arm_left);
                 
                     VectorXd twist_arm_left(6);
                     twist_arm_left[0] = arm_left_twist.angular.x;

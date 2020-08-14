@@ -215,6 +215,7 @@ add_executable(control_vecihle_rviz
 add_dependencies(control_vecihle_rviz ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(control_vecihle_rviz
   ${catkin_LIBRARIES}
+  ${EIGEN3_LIBRARIES}
   modern_robotics_library
   eod_robotics_library
 )
@@ -225,6 +226,7 @@ add_executable(control_vecihle_gazebo
 add_dependencies(control_vecihle_gazebo ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(control_vecihle_gazebo
   ${catkin_LIBRARIES}
+  ${EIGEN3_LIBRARIES}
   modern_robotics_library
   eod_robotics_library
 )
@@ -235,6 +237,7 @@ add_executable(control_arm_left
 add_dependencies(control_arm_left ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(control_arm_left
   ${catkin_LIBRARIES}
+  ${EIGEN3_LIBRARIES}
   modern_robotics_library
   eod_robotics_library
 )
@@ -245,6 +248,7 @@ add_executable(control_arm_right
 add_dependencies(control_arm_right ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(control_arm_right
   ${catkin_LIBRARIES}
+  ${EIGEN3_LIBRARIES}
   modern_robotics_library
   eod_robotics_library
 )
@@ -255,6 +259,7 @@ add_executable(control_gripper
 add_dependencies(control_gripper ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(control_gripper
   ${catkin_LIBRARIES}
+  ${EIGEN3_LIBRARIES}
   modern_robotics_library
   eod_robotics_library
 )

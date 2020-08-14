@@ -5,6 +5,24 @@ Matrix4d eod_robot_FKinSpace(Matrix4d M, MatrixXd Slist, VectorXd thetalist, Mat
     return T_base_arm * FKinSpace(M, Slist, thetalist);
 }
 
+Matrix4d eod_robot_right_arm_FKinSpace(VectorXd thetalist)
+{
+    MatrixXd Slist_arm_right(6,6); Matrix4d M_arm_right; Matrix4d T_base_right_arm;
+
+    get_arm_right_ParamSpace(Slist_arm_right, M_arm_right, T_base_right_arm);
+
+    return eod_robot_FKinSpace(M_arm_right, Slist_arm_right, thetalist, T_base_right_arm);
+}
+
+Matrix4d eod_robot_left_arm_FKinSpace(VectorXd thetalist)
+{
+    MatrixXd Slist_arm_left(6,6); Matrix4d M_arm_left; Matrix4d T_base_left_arm;
+
+    get_arm_left_ParamSpace(Slist_arm_left, M_arm_left, T_base_left_arm);
+
+    return eod_robot_FKinSpace(M_arm_left, Slist_arm_left, thetalist, T_base_left_arm);
+}
+
 Matrix4d eod_robot_FKinBody(Matrix4d M, MatrixXd Blist, VectorXd thetalist, Matrix4d T_base_arm)
 {
     return T_base_arm * FKinBody(M, Blist, thetalist);
@@ -18,6 +36,26 @@ bool eod_robot_IKinSpace(MatrixXd Slist, Matrix4d M, Matrix4d T, VectorXd thetal
 
     return IKinSpace(Slist, M, T_temp, thetalist0, eomg, ev, thetalist);
 }
+
+bool eod_robot_right_arm_IKinSpace(Matrix4d T, VectorXd thetalist0, double eomg, double ev, VectorXd& thetalist)
+{
+    MatrixXd Slist_arm_right(6,6); Matrix4d M_arm_right; Matrix4d T_base_right_arm;
+
+    get_arm_right_ParamSpace(Slist_arm_right, M_arm_right, T_base_right_arm);    
+
+    return eod_robot_IKinSpace(Slist_arm_right, M_arm_right, T, thetalist0, eomg, ev, thetalist, T_base_right_arm);
+
+}
+
+bool eod_robot_left_arm_IKinSpace(Matrix4d T, VectorXd thetalist0, double eomg, double ev, VectorXd& thetalist)
+{
+    MatrixXd Slist_arm_left(6,6); Matrix4d M_arm_left; Matrix4d T_base_left_arm;
+
+    get_arm_left_ParamSpace(Slist_arm_left, M_arm_left, T_base_left_arm);  
+
+    return eod_robot_IKinSpace(Slist_arm_left, M_arm_left, T, thetalist0, eomg, ev, thetalist, T_base_left_arm);  
+}
+
 
 bool eod_robot_IKinBody(MatrixXd Blist, Matrix4d M, Matrix4d T, VectorXd thetalist0, double eomg, double ev, VectorXd& thetalist, Matrix4d T_base_arm)
 {
@@ -35,6 +73,28 @@ Matrix4d eod_robot_FKinSpace_world(Matrix4d M, MatrixXd Slist, VectorXd thetalis
     return vecihle_odom * eod_robot_FKinSpace(M, Slist, thetalist, T_base_arm);
 }
 
+Matrix4d eod_robot_right_arm_FKinSpace_world(VectorXd thetalist)
+{
+    MatrixXd Slist_arm_right(6,6); Matrix4d M_arm_right; Matrix4d T_base_right_arm; Matrix4d vecihle_odom;
+
+    get_arm_right_ParamSpace(Slist_arm_right, M_arm_right, T_base_right_arm);
+
+    get_vecihle_odom(vecihle_odom);
+
+    return eod_robot_FKinSpace_world(M_arm_right, Slist_arm_right, thetalist, T_base_right_arm, vecihle_odom);
+}
+
+Matrix4d eod_robot_left_arm_FKinSpace_world(VectorXd thetalist)
+{
+    MatrixXd Slist_arm_left(6,6); Matrix4d M_arm_left; Matrix4d T_base_left_arm; Matrix4d vecihle_odom;
+
+    get_arm_left_ParamSpace(Slist_arm_left, M_arm_left, T_base_left_arm); 
+
+    get_vecihle_odom(vecihle_odom);
+
+    return eod_robot_FKinSpace_world(M_arm_left, Slist_arm_left, thetalist, T_base_left_arm, vecihle_odom);
+}
+
 Matrix4d eod_robot_FKinBody_world(Matrix4d M, MatrixXd Blist, VectorXd thetalist, Matrix4d T_base_arm, Matrix4d vecihle_odom)
 {
     return vecihle_odom * eod_robot_FKinBody(M, Blist, thetalist, T_base_arm);
@@ -45,7 +105,30 @@ MatrixXd eod_robot_JacobianSpace(MatrixXd Slist,VectorXd thetalist, Matrix4d T_b
     return Adjoint(T_base_arm) * JacobianSpace(Slist, thetalist);
 }
 
-bool get_arm_left_param(MatrixXd& Slist_arm_left, Matrix4d& M_arm_left, Matrix4d& T_base_left_arm)
+MatrixXd eod_robot_right_arm_JacobianSpace(VectorXd thetalist)
+{
+    MatrixXd Slist_arm_right(6,6); Matrix4d M_arm_right; Matrix4d T_base_right_arm; 
+
+    get_arm_right_ParamSpace(Slist_arm_right, M_arm_right, T_base_right_arm);
+
+    return eod_robot_JacobianSpace(Slist_arm_right, thetalist, T_base_right_arm);
+}
+
+MatrixXd eod_robot_left_arm_JacobianSpace(VectorXd thetalist)
+{
+    MatrixXd Slist_arm_left(6,6); Matrix4d M_arm_left; Matrix4d T_base_left_arm; 
+
+    get_arm_left_ParamSpace(Slist_arm_left, M_arm_left, T_base_left_arm); 
+
+    return eod_robot_JacobianSpace(Slist_arm_left, thetalist, T_base_left_arm);
+}
+
+MatrixXd eod_robot_JacobianBody(MatrixXd Blist,VectorXd thetalist)
+{
+    return JacobianBody(Blist, thetalist);
+}
+
+bool get_arm_left_ParamSpace(MatrixXd& Slist_arm_left, Matrix4d& M_arm_left, Matrix4d& T_base_left_arm)
 {
     try {
         XmlRpc::XmlRpcValue param_yaml;
@@ -88,7 +171,7 @@ bool get_arm_left_param(MatrixXd& Slist_arm_left, Matrix4d& M_arm_left, Matrix4d
 
 }
 
-bool get_arm_right_param(MatrixXd& Slist_arm_right, Matrix4d& M_arm_right, Matrix4d& T_base_right_arm)
+bool get_arm_right_ParamSpace(MatrixXd& Slist_arm_right, Matrix4d& M_arm_right, Matrix4d& T_base_right_arm)
 {
     try {
         XmlRpc::XmlRpcValue param_yaml;

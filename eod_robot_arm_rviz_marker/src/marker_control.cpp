@@ -104,11 +104,10 @@ void processFeedback( const visualization_msgs::InteractiveMarkerFeedbackConstPt
      RpToTrans(R, p, T); 
 
       if (feedback->marker_name == "arm left marker"){
-        get_arm_left_param(Slist, M, T_base_arm); 
 
         get_arm_left_joint_angle(thetalist0); 
 
-        suc = eod_robot_IKinSpace(Slist, M, T, thetalist0, 0.01, 0.001, angle_arm_left, T_base_arm);
+        suc = eod_robot_left_arm_IKinSpace(T, thetalist0, 0.01, 0.001, angle_arm_left);
 
         if(suc){
             set_arm_left_joint_angle(angle_arm_left);
@@ -120,11 +119,10 @@ void processFeedback( const visualization_msgs::InteractiveMarkerFeedbackConstPt
 
       }
       else if (feedback->marker_name == "arm right marker"){
-        get_arm_right_param(Slist, M, T_base_arm);
 
         get_arm_right_joint_angle(thetalist0);
 
-        suc = eod_robot_IKinSpace(Slist, M, T, thetalist0, 0.01, 0.001, angle_arm_right, T_base_arm);
+        suc = eod_robot_right_arm_IKinSpace(T, thetalist0, 0.01, 0.001, angle_arm_right);
 
         if(suc){
             set_arm_right_joint_angle(angle_arm_right);
@@ -240,17 +238,14 @@ int main(int argc, char** argv)
 
     XmlRpc::XmlRpcValue param_yaml;
 
-    VectorXd angle_arm_left(6); MatrixXd Slist_arm_left(6,6); Matrix4d M_arm_left; Matrix4d T_base_left_arm;
-    get_arm_left_param(Slist_arm_left, M_arm_left, T_base_left_arm);
-    get_arm_left_joint_angle(angle_arm_left);
+    VectorXd angle_arm_left(6);     
+    VectorXd angle_arm_right(6); 
 
-    VectorXd angle_arm_right(6); MatrixXd Slist_arm_right(6,6); Matrix4d M_arm_right; Matrix4d T_base_right_arm;
-    get_arm_right_param(Slist_arm_right, M_arm_right, T_base_right_arm);
+    get_arm_left_joint_angle(angle_arm_left);    
     get_arm_right_joint_angle(angle_arm_right);
 
-    Matrix4d T_arm_left_effect = eod_robot_FKinSpace(M_arm_left, Slist_arm_left, angle_arm_left, T_base_left_arm);
-
-    Matrix4d T_arm_right_effect = eod_robot_FKinSpace(M_arm_right, Slist_arm_right, angle_arm_right, T_base_right_arm);
+    Matrix4d T_arm_left_effect = eod_robot_left_arm_FKinSpace(angle_arm_left);
+    Matrix4d T_arm_right_effect = eod_robot_right_arm_FKinSpace(angle_arm_right);
 
     make6DofMarker(false, visualization_msgs::InteractiveMarkerControl::NONE, T_arm_left_effect, "arm left marker", true);
     make6DofMarker(false, visualization_msgs::InteractiveMarkerControl::NONE, T_arm_right_effect, "arm right marker", true);

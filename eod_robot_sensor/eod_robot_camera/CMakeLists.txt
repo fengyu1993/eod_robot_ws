@@ -11,6 +11,8 @@ find_package(catkin REQUIRED COMPONENTS roscpp rospy tf sensor_msgs std_msgs eod
 
 find_package(OpenCV REQUIRED)
 
+find_package(Eigen3 REQUIRED)
+
 # find_package( REQUIRED) 
 
 ## System dependencies are found with CMake's conventions
@@ -120,6 +122,7 @@ include_directories(
   include
   ${catkin_INCLUDE_DIRS}
   ${OpenCV_INCLUDE_DIRS}
+  ${EIGEN3_INCLUDE_DIR}
 )
 
 ## Declare a C++ library
@@ -215,6 +218,7 @@ add_dependencies(vehicle_camera_show ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catki
 target_link_libraries(vehicle_camera_show
   ${catkin_LIBRARIES}
   ${OpenCV_LIBRARIES}
+  ${EIGEN3_LIBRARIES}
 )
 
 add_executable(right_camera_show
@@ -224,6 +228,7 @@ add_dependencies(right_camera_show ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_
 target_link_libraries(right_camera_show
   ${catkin_LIBRARIES}
   ${OpenCV_LIBRARIES}
+  ${EIGEN3_LIBRARIES}
 )
 
 add_executable(left_camera_show
@@ -233,4 +238,5 @@ add_dependencies(left_camera_show ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_E
 target_link_libraries(left_camera_show
   ${catkin_LIBRARIES}
   ${OpenCV_LIBRARIES}
+  ${EIGEN3_LIBRARIES}
 )

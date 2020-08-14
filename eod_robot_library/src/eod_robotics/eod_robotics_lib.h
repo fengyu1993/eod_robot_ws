@@ -19,21 +19,39 @@
 
 Matrix4d eod_robot_FKinSpace(Matrix4d M, MatrixXd Slist, VectorXd thetalist, Matrix4d T_base_arm);
 
+Matrix4d eod_robot_right_arm_FKinSpace(VectorXd thetalist);
+
+Matrix4d eod_robot_left_arm_FKinSpace(VectorXd thetalist);
+
 Matrix4d eod_robot_FKinBody(Matrix4d M, MatrixXd Blist, VectorXd thetalist, Matrix4d T_base_arm);
 
 bool eod_robot_IKinSpace(MatrixXd Slist, Matrix4d M, Matrix4d T, VectorXd thetalist0, double eomg, double ev, VectorXd& thetalist, Matrix4d T_base_arm);
+
+bool eod_robot_right_arm_IKinSpace(Matrix4d T, VectorXd thetalist0, double eomg, double ev, VectorXd& thetalist);
+
+bool eod_robot_left_arm_IKinSpace(Matrix4d T, VectorXd thetalist0, double eomg, double ev, VectorXd& thetalist);
 
 bool eod_robot_IKinBody(MatrixXd Blist, Matrix4d M, Matrix4d T, VectorXd thetalist0, double eomg, double ev, VectorXd& thetalist, Matrix4d T_base_arm);
 
 Matrix4d eod_robot_FKinSpace_world(Matrix4d M, MatrixXd Slist, VectorXd thetalist, Matrix4d T_base_arm, Matrix4d vecihle_odom);
 
+Matrix4d eod_robot_right_arm_FKinSpace_world(VectorXd thetalist);
+
+Matrix4d eod_robot_left_arm_FKinSpace_world(VectorXd thetalist);
+
 Matrix4d eod_robot_FKinBody_world(Matrix4d M, MatrixXd Blist, VectorXd thetalist, Matrix4d T_base_arm, Matrix4d vecihle_odom);
 
 MatrixXd eod_robot_JacobianSpace(MatrixXd Slist,VectorXd thetalist, Matrix4d T_base_arm);
 
-bool get_arm_left_param(MatrixXd& Slist_arm_left, Matrix4d& M_arm_left, Matrix4d& T_base_left_arm);
+MatrixXd eod_robot_right_arm_JacobianSpace(VectorXd thetalist);
 
-bool get_arm_right_param(MatrixXd& Slist_arm_right, Matrix4d& M_arm_right, Matrix4d& T_base_right_arm);
+MatrixXd eod_robot_left_arm_JacobianSpace(VectorXd thetalist);
+
+MatrixXd eod_robot_JacobianBody(MatrixXd Blist,VectorXd thetalist);
+
+bool get_arm_left_ParamSpace(MatrixXd& Slist_arm_left, Matrix4d& M_arm_left, Matrix4d& T_base_left_arm);
+
+bool get_arm_right_ParamSpace(MatrixXd& Slist_arm_right, Matrix4d& M_arm_right, Matrix4d& T_base_right_arm);
 
 bool get_arm_right_joint_angle(VectorXd& angle_arm_right);
 
