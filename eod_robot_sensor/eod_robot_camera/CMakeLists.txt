@@ -7,7 +7,7 @@ project(eod_robot_camera)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS roscpp rospy tf sensor_msgs std_msgs eod_robot_library cv_bridge image_transport)
+find_package(catkin REQUIRED COMPONENTS roscpp rospy tf sensor_msgs std_msgs eod_robot_library cv_bridge image_transport )
 
 find_package(OpenCV REQUIRED)
 
@@ -123,6 +123,8 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
   ${OpenCV_INCLUDE_DIRS}
   ${EIGEN3_INCLUDE_DIR}
+  ../../eod_robot_library/src/modern_robotics
+  ../../eod_robot_library/src/eod_robotics
 )
 
 ## Declare a C++ library
@@ -219,6 +221,8 @@ target_link_libraries(vehicle_camera_show
   ${catkin_LIBRARIES}
   ${OpenCV_LIBRARIES}
   ${EIGEN3_LIBRARIES}
+  modern_robotics_library
+  eod_robotics_library
 )
 
 add_executable(right_camera_show
@@ -229,6 +233,8 @@ target_link_libraries(right_camera_show
   ${catkin_LIBRARIES}
   ${OpenCV_LIBRARIES}
   ${EIGEN3_LIBRARIES}
+  modern_robotics_library
+  eod_robotics_library
 )
 
 add_executable(left_camera_show
@@ -239,4 +245,6 @@ target_link_libraries(left_camera_show
   ${catkin_LIBRARIES}
   ${OpenCV_LIBRARIES}
   ${EIGEN3_LIBRARIES}
+  modern_robotics_library
+  eod_robotics_library
 )

@@ -1,11 +1,36 @@
 #include <ros/ros.h>
 #include <iostream>
 #include <sensor_msgs/Image.h>
+#include <sensor_msgs/JointState.h>
 #include <tf/transform_listener.h>
 #include <cv_bridge/cv_bridge.h>
 #include <image_transport/image_transport.h>
 #include <opencv2/opencv.hpp>
 #include <Eigen/Dense>
+#include "modern_robotics_lib.h"
+#include "eod_robotics_lib.h"
+
+// Eigen::VectorXd angle(6,1);
+
+// void joint_states_Callback(const sensor_msgs::JointState::ConstPtr& msg)
+// {
+//   for(int i = 0; i < msg->position.size(); i++){
+//     if(msg->name[i] == "Arm_L1_joint")
+//       angle(0) = msg->position[i];
+//     else if(msg->name[i] == "Arm_L2_joint")
+//       angle(1) = msg->position[i];
+//     else if(msg->name[i] == "Arm_L3_joint")
+//       angle(2) = msg->position[i];
+//     else if(msg->name[i] == "Arm_L4_joint")
+//       angle(3) = msg->position[i];
+//     else if(msg->name[i] == "Arm_L5_joint")
+//       angle(4) = msg->position[i];
+//     else if(msg->name[i] == "Arm_L6_joint")
+//       angle(5) = msg->position[i];
+//     else
+//       continue;
+//   }
+// }
 
 void lc_color_Callback(const sensor_msgs::Image::ConstPtr& msg)
 {
@@ -29,11 +54,14 @@ void lc_depth_Callback(const sensor_msgs::Image::ConstPtr& msg)
     cv::waitKey (1);
 }
 
+
 int main(int argc, char** argv)
 {
     ros::init(argc, argv, "left_camera");
 
     ros::NodeHandle n_lc;
+
+    // ros::Subscriber joint_pub = n_lc.subscribe("/joint_states", 10, joint_states_Callback);
 
     image_transport::ImageTransport it(n_lc);
 
@@ -59,14 +87,21 @@ int main(int argc, char** argv)
     //         continue;
     //     }
 
-    //     Eigen::Translation3f tl_btol(transform.getOrigin().getX(), transform.getOrigin().getY(), transform.getOrigin().getZ());
+    //     Eigen::Translation3d tl_btol(transform.getOrigin().getX(), transform.getOrigin().getY(), transform.getOrigin().getZ());
     //     double roll, pitch, yaw;
     //     tf::Matrix3x3(transform.getRotation()).getEulerYPR(yaw, pitch, roll);
-    //     Eigen::AngleAxisf rot_x_btol(roll, Eigen::Vector3f::UnitX());
-    //     Eigen::AngleAxisf rot_y_btol(pitch, Eigen::Vector3f::UnitY());
-    //     Eigen::AngleAxisf rot_z_btol(yaw, Eigen::Vector3f::UnitZ());
-    //     Eigen::Matrix4f tf_btol = (tl_btol * rot_z_btol * rot_y_btol * rot_x_btol).matrix(); 
-    //     std::cout << "T_b_l = " << tf_btol << std::endl;
+    //     Eigen::AngleAxisd rot_x_btol(roll, Eigen::Vector3d::UnitX());
+    //     Eigen::AngleAxisd rot_y_btol(pitch, Eigen::Vector3d::UnitY());
+    //     Eigen::AngleAxisd rot_z_btol(yaw, Eigen::Vector3d::UnitZ());
+    //     Eigen::Matrix4d T_b_c = (tl_btol * rot_z_btol * rot_y_btol * rot_x_btol).matrix(); 
+
+    //     Eigen::Matrix4d T_b_e = eod_robot_left_arm_FKinSpace(angle);
+    //     Eigen::Matrix4d T_e_c = TransInv(T_b_e) * T_b_c;
+
+    //     std::cout << "T_b_c = " << std::endl << T_b_c << std::endl;
+    //     std::cout << "T_b_e = " << std::endl << T_b_e << std::endl;
+    //     std::cout << "T_e_c = " << std::endl << T_e_c << std::endl;
+
     //     ros::spinOnce();
     // }
 
