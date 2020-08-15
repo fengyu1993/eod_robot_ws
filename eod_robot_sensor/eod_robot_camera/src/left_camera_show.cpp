@@ -10,27 +10,27 @@
 #include "modern_robotics_lib.h"
 #include "eod_robotics_lib.h"
 
-Eigen::VectorXd angle(6,1);
+// Eigen::VectorXd angle(6,1);
 
-void joint_states_Callback(const sensor_msgs::JointState::ConstPtr& msg)
-{
-  for(int i = 0; i < msg->position.size(); i++){
-    if(msg->name[i] == "Arm_L1_joint")
-      angle(0) = msg->position[i];
-    else if(msg->name[i] == "Arm_L2_joint")
-      angle(1) = msg->position[i];
-    else if(msg->name[i] == "Arm_L3_joint")
-      angle(2) = msg->position[i];
-    else if(msg->name[i] == "Arm_L4_joint")
-      angle(3) = msg->position[i];
-    else if(msg->name[i] == "Arm_L5_joint")
-      angle(4) = msg->position[i];
-    else if(msg->name[i] == "Arm_L6_joint")
-      angle(5) = msg->position[i];
-    else
-      continue;
-  }
-}
+// void joint_states_Callback(const sensor_msgs::JointState::ConstPtr& msg)
+// {
+//   for(int i = 0; i < msg->position.size(); i++){
+//     if(msg->name[i] == "Arm_L1_joint")
+//       angle(0) = msg->position[i];
+//     else if(msg->name[i] == "Arm_L2_joint")
+//       angle(1) = msg->position[i];
+//     else if(msg->name[i] == "Arm_L3_joint")
+//       angle(2) = msg->position[i];
+//     else if(msg->name[i] == "Arm_L4_joint")
+//       angle(3) = msg->position[i];
+//     else if(msg->name[i] == "Arm_L5_joint")
+//       angle(4) = msg->position[i];
+//     else if(msg->name[i] == "Arm_L6_joint")
+//       angle(5) = msg->position[i];
+//     else
+//       continue;
+//   }
+// }
 
 void lc_color_Callback(const sensor_msgs::Image::ConstPtr& msg)
 {
@@ -61,7 +61,7 @@ int main(int argc, char** argv)
 
     ros::NodeHandle n_lc;
 
-    ros::Subscriber joint_pub = n_lc.subscribe("/joint_states", 10, joint_states_Callback);
+    // ros::Subscriber joint_pub = n_lc.subscribe("/joint_states", 10, joint_states_Callback);
 
     image_transport::ImageTransport it(n_lc);
 
@@ -73,39 +73,39 @@ int main(int argc, char** argv)
 
     cv::namedWindow("left_camera_image_depth");
 
-    tf::TransformListener listener;
+    // tf::TransformListener listener;
 
-    while(n_lc.ok()){
-        tf::StampedTransform transform;
-        try{
-            listener.waitForTransform("/base_link", "/left_camera_depth_optical_frame", ros::Time(0), ros::Duration(3.0));
-            listener.lookupTransform("/base_link", "/left_camera_depth_optical_frame", ros::Time(0), transform);
-        }
-        catch(tf::TransformException &ex){
-            ROS_ERROR("%s", ex.what());
-            ros::Duration(1.0).sleep();
-            continue;
-        }
+    // while(n_lc.ok()){
+    //     tf::StampedTransform transform;
+    //     try{
+    //         listener.waitForTransform("/base_link", "/left_camera_depth_optical_frame", ros::Time(0), ros::Duration(3.0));
+    //         listener.lookupTransform("/base_link", "/left_camera_depth_optical_frame", ros::Time(0), transform);
+    //     }
+    //     catch(tf::TransformException &ex){
+    //         ROS_ERROR("%s", ex.what());
+    //         ros::Duration(1.0).sleep();
+    //         continue;
+    //     }
 
-        Eigen::Translation3d tl_btol(transform.getOrigin().getX(), transform.getOrigin().getY(), transform.getOrigin().getZ());
-        double roll, pitch, yaw;
-        tf::Matrix3x3(transform.getRotation()).getEulerYPR(yaw, pitch, roll);
-        Eigen::AngleAxisd rot_x_btol(roll, Eigen::Vector3d::UnitX());
-        Eigen::AngleAxisd rot_y_btol(pitch, Eigen::Vector3d::UnitY());
-        Eigen::AngleAxisd rot_z_btol(yaw, Eigen::Vector3d::UnitZ());
-        Eigen::Matrix4d T_b_c = (tl_btol * rot_z_btol * rot_y_btol * rot_x_btol).matrix(); 
+    //     Eigen::Translation3d tl_btol(transform.getOrigin().getX(), transform.getOrigin().getY(), transform.getOrigin().getZ());
+    //     double roll, pitch, yaw;
+    //     tf::Matrix3x3(transform.getRotation()).getEulerYPR(yaw, pitch, roll);
+    //     Eigen::AngleAxisd rot_x_btol(roll, Eigen::Vector3d::UnitX());
+    //     Eigen::AngleAxisd rot_y_btol(pitch, Eigen::Vector3d::UnitY());
+    //     Eigen::AngleAxisd rot_z_btol(yaw, Eigen::Vector3d::UnitZ());
+    //     Eigen::Matrix4d T_b_c = (tl_btol * rot_z_btol * rot_y_btol * rot_x_btol).matrix(); 
 
-        Eigen::Matrix4d T_b_e = eod_robot_left_arm_FKinSpace(angle);
-        Eigen::Matrix4d T_e_c = TransInv(T_b_e) * T_b_c;
+    //     Eigen::Matrix4d T_b_e = eod_robot_left_arm_FKinSpace(angle);
+    //     Eigen::Matrix4d T_e_c = TransInv(T_b_e) * T_b_c;
 
-        std::cout << "T_b_c = " << std::endl << T_b_c << std::endl;
-        // std::cout << "T_b_e = " << std::endl << T_b_e << std::endl;
-        // std::cout << "T_e_c = " << std::endl << T_e_c << std::endl;
+    //     std::cout << "T_b_c = " << std::endl << T_b_c << std::endl;
+    //     std::cout << "T_b_e = " << std::endl << T_b_e << std::endl;
+    //     std::cout << "T_e_c = " << std::endl << T_e_c << std::endl;
 
-        ros::spinOnce();
-    }
+    //     ros::spinOnce();
+    // }
 
-    // ros::spin();
+    ros::spin();
 
     cv::destroyAllWindows();
 

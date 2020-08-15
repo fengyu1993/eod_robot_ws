@@ -75,11 +75,46 @@ int main(int argc, char** argv)
     // Eigen::Matrix3d R3 = euler2RotationMatrix(rpy2[2], rpy2[1], rpy2[0]);
     // cout << "R 3: " << R3 << endl;
 
-    Eigen::Quaterniond q;
-    q.x() = 0; q.y() = 0; q.z() = 0; q.w() = 0; 
-    
-    Eigen::Matrix3d R = Quaternion2RotationMatrix(q.x(), q.y(), q.z(), q.w());
-    Eigen::Quaterniond q2 = rotationMatrix2Quaterniond(R);
-    cout << "R = " << R << endl;
-    cout << "q2 = " << q2.x() << ", " << q2.y() << ", " << q2.z() << ", " <<  q2.w() << endl;
+    /* left arm*/
+    Vector3d l_p_b_c; l_p_b_c << -0.39555, 0.048624, 0.044706;
+    Matrix3d l_R_b_c = Quaternion2RotationMatrix(0.154052, -0.152216, 0.68617, 0.694456);
+    Matrix4d l_T_b_c;  RpToTrans(l_R_b_c, l_p_b_c, l_T_b_c);
+
+    Vector3d l_p_b_e; l_p_b_e << -0.4513, -0.00491466, 0.120025;
+    Matrix3d l_R_b_e(3,3); l_R_b_e << 1, 0, 0, 0, 0.9062, -0.4229, 0, 0.4229, 0.9062;
+    Matrix4d l_T_b_e;  RpToTrans(l_R_b_e, l_p_b_e, l_T_b_e);
+
+    Matrix4d l_T_e_c = TransInv(l_T_b_e) * l_T_b_c;
+
+    Matrix4d l_T_b_e_2(4,4);  
+    l_T_b_e_2 <<  0.00194287,0.999968,0.00780416,-0.0302846,0.000283611,-0.00780489,0.999991,0.376542,1.00002,-0.00194064,-0.000298766,0.550085,0,0,0,1;
+    Vector3d l_p_b_c_2; l_p_b_c_2 << -0.0142292, 0.285539, 0.60571;
+    Matrix3d l_R_b_c_2 = Quaternion2RotationMatrix(-0.707228, -0.000796242, -0.00631859, 0.706957);
+    Matrix4d l_T_b_c_2;  RpToTrans(l_R_b_c_2, l_p_b_c_2, l_T_b_c_2);
+
+    Matrix4d l_T_e_c_2 = TransInv(l_T_b_e_2) * l_T_b_c_2;
+
+    // cout << "l_T_e_c: " << endl << l_T_e_c << endl;
+    // cout << "l_T_e_c_2: " << endl << l_T_e_c_2 << endl;
+    // cout << "l_T_e_c_ave: " << endl << (l_T_e_c + l_T_e_c_2) / 2 << endl;
+
+    /* right arm*/
+    Vector3d r_p_b_c; r_p_b_c << 0.703928, -0.0454149, 0.0789382;
+    Matrix3d r_R_b_c = Quaternion2RotationMatrix(-0.153962, -0.152308, -0.686586, 0.694044);
+    Matrix4d r_T_b_c;  RpToTrans(r_R_b_c, r_p_b_c, r_T_b_c);
+    Vector3d r_p_b_c_2; r_p_b_c_2 << -0.183374, -0.310726, 0.915141;
+    Matrix3d r_R_b_c_2 = Quaternion2RotationMatrix(0.00532469, 0.715353, -0.698661, 0.0107353);
+    Matrix4d r_T_b_c_2;  RpToTrans(r_R_b_c_2, r_p_b_c_2, r_T_b_c_2);
+
+    Matrix4d r_T_b_e(4,4);  
+    r_T_b_e << -1, 0,  0, 0.7591, 0, -0.9062, 0.4229, 0.0498026, 0, 0.4229, 0.9062, 0.240332, 0, 0, 0, 1;
+    Matrix4d r_T_b_e_2(4,4);  
+    r_T_b_e_2 <<   -0.0118243, -0.999899, 0.00791875, -0.163403, -0.0235799, -0.00763844, -0.999714, -0.49562, 0.999673, -0.0120076, -0.0234872, 0.855644, 0, 0, 0, 1;
+
+    Matrix4d r_T_e_c = TransInv(r_T_b_e) * r_T_b_c;
+    Matrix4d r_T_e_c_2 = TransInv(r_T_b_e_2) * r_T_b_c_2;
+
+    cout << "r_T_e_c: " << endl << r_T_e_c << endl;
+    cout << "r_T_e_c_2: " << endl << r_T_e_c_2 << endl;
+    cout << "r_T_e_c_ave: " << endl << (r_T_e_c + r_T_e_c_2) / 2 << endl;
 }
