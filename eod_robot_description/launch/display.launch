@@ -11,6 +11,8 @@
 
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
 
+  <rosparam file= "$(find eod_robot_description)/param/eod_robot_param.yaml" command= "load"/>
+
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find eod_robot_description)/rviz/urdf.rviz" />
   
 </launch>
