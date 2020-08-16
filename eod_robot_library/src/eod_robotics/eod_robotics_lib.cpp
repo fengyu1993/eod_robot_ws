@@ -28,6 +28,24 @@ Matrix4d eod_robot_FKinBody(Matrix4d M, MatrixXd Blist, VectorXd thetalist, Matr
     return T_base_arm * FKinBody(M, Blist, thetalist);
 }
 
+Matrix4d eod_robot_right_arm_FKinBody(VectorXd thetalist)
+{
+    MatrixXd Blist_arm_right(6,6); Matrix4d M_arm_right; Matrix4d T_base_right_arm;
+
+    get_arm_right_ParamBody(Blist_arm_right, M_arm_right, T_base_right_arm);
+
+    return eod_robot_FKinBody(M_arm_right, Blist_arm_right, thetalist, T_base_right_arm);    
+}
+
+Matrix4d eod_robot_left_arm_FKinBody(VectorXd thetalist)
+{
+    MatrixXd Blist_arm_left(6,6); Matrix4d M_arm_left; Matrix4d T_base_left_arm;
+
+    get_arm_left_ParamSpace(Blist_arm_left, M_arm_left, T_base_left_arm);
+
+    return eod_robot_FKinSpace(M_arm_left, Blist_arm_left, thetalist, T_base_left_arm);
+}
+
 bool eod_robot_IKinSpace(MatrixXd Slist, Matrix4d M, Matrix4d T, VectorXd thetalist0, double eomg, double ev, VectorXd& thetalist, Matrix4d T_base_arm)
 {
     Matrix4d T_temp;
@@ -67,6 +85,24 @@ bool eod_robot_IKinBody(MatrixXd Blist, Matrix4d M, Matrix4d T, VectorXd thetali
 
 }
 
+bool eod_robot_right_arm_IKinBody(Matrix4d T, VectorXd thetalist0, double eomg, double ev, VectorXd& thetalist)
+{
+    MatrixXd Blist_arm_right(6,6); Matrix4d M_arm_right; Matrix4d T_base_right_arm;
+
+    get_arm_right_ParamBody(Blist_arm_right, M_arm_right, T_base_right_arm);    
+
+    return eod_robot_IKinBody(Blist_arm_right, M_arm_right, T, thetalist0, eomg, ev, thetalist, T_base_right_arm);
+}
+
+bool eod_robot_left_arm_IKinBody(Matrix4d T, VectorXd thetalist0, double eomg, double ev, VectorXd& thetalist)
+{
+    MatrixXd Blist_arm_left(6,6); Matrix4d M_arm_left; Matrix4d T_base_left_arm;
+
+    get_arm_left_ParamBody(Blist_arm_left, M_arm_left, T_base_left_arm);  
+
+    return eod_robot_IKinBody(Blist_arm_left, M_arm_left, T, thetalist0, eomg, ev, thetalist, T_base_left_arm); 
+}
+
 
 Matrix4d eod_robot_FKinSpace_world(Matrix4d M, MatrixXd Slist, VectorXd thetalist, Matrix4d T_base_arm, Matrix4d vecihle_odom)
 {
@@ -100,6 +136,28 @@ Matrix4d eod_robot_FKinBody_world(Matrix4d M, MatrixXd Blist, VectorXd thetalist
     return vecihle_odom * eod_robot_FKinBody(M, Blist, thetalist, T_base_arm);
 }
 
+Matrix4d eod_robot_right_arm_FKinBody_world(VectorXd thetalist)
+{
+    MatrixXd Blist_arm_right(6,6); Matrix4d M_arm_right; Matrix4d T_base_right_arm; Matrix4d vecihle_odom;
+
+    get_arm_right_ParamBody(Blist_arm_right, M_arm_right, T_base_right_arm);
+
+    get_vecihle_odom(vecihle_odom);
+
+    return eod_robot_FKinBody_world(M_arm_right, Blist_arm_right, thetalist, T_base_right_arm, vecihle_odom);
+}
+
+Matrix4d eod_robot_left_arm_FKinBody_world(VectorXd thetalist)
+{
+    MatrixXd Blist_arm_left(6,6); Matrix4d M_arm_left; Matrix4d T_base_left_arm; Matrix4d vecihle_odom;
+
+    get_arm_left_ParamBody(Blist_arm_left, M_arm_left, T_base_left_arm); 
+
+    get_vecihle_odom(vecihle_odom);
+
+    return eod_robot_FKinBody_world(M_arm_left, Blist_arm_left, thetalist, T_base_left_arm, vecihle_odom);
+}
+
 MatrixXd eod_robot_JacobianSpace(MatrixXd Slist,VectorXd thetalist, Matrix4d T_base_arm)
 {
     return Adjoint(T_base_arm) * JacobianSpace(Slist, thetalist);
@@ -126,6 +184,24 @@ MatrixXd eod_robot_left_arm_JacobianSpace(VectorXd thetalist)
 MatrixXd eod_robot_JacobianBody(MatrixXd Blist,VectorXd thetalist)
 {
     return JacobianBody(Blist, thetalist);
+}
+
+MatrixXd eod_robot_right_arm_JacobianBody(VectorXd thetalist)
+{
+    MatrixXd Blist_arm_right(6,6); Matrix4d M_arm_right; Matrix4d T_base_right_arm; 
+
+    get_arm_right_ParamBody(Blist_arm_right, M_arm_right, T_base_right_arm);
+
+    return eod_robot_JacobianBody(Blist_arm_right, thetalist);
+}
+
+MatrixXd eod_robot_left_arm_JacobianBody(VectorXd thetalist)
+{
+    MatrixXd Blist_arm_right(6,6); Matrix4d M_arm_left; Matrix4d T_base_left_arm; 
+
+    get_arm_left_ParamBody(Blist_arm_right, M_arm_left, T_base_left_arm); 
+
+    return eod_robot_JacobianBody(Blist_arm_right, thetalist);
 }
 
 bool get_arm_left_ParamSpace(MatrixXd& Slist_arm_left, Matrix4d& M_arm_left, Matrix4d& T_base_left_arm)
@@ -212,6 +288,91 @@ bool get_arm_right_ParamSpace(MatrixXd& Slist_arm_right, Matrix4d& M_arm_right, 
         return false;
     }
 
+}
+
+bool get_arm_left_ParamBody(MatrixXd& Blist_arm_left, Matrix4d& M_arm_left, Matrix4d& T_base_left_arm)
+{
+    try {
+        XmlRpc::XmlRpcValue param_yaml;
+
+        bool ifget1 = ros::param::get(BLIST_ARM_LEFT, param_yaml);
+        if(ifget1){
+            for(int i = 0; i < 6; i++){
+                std::stringstream S;
+                S << "S" << i+1;
+                for(int j = 0; j < param_yaml[i][S.str()].size(); j++)
+                    Blist_arm_left(j, i) = param_yaml[i][S.str()][j];
+            }
+        }
+
+        bool ifget2 = ros::param::get(M_ARM_LEFT, param_yaml);
+        if(ifget2){
+            for(int i = 0; i < 4; i++){
+                std::stringstream S;
+                S << "row" << i+1;
+                for(int j = 0; j < param_yaml[i][S.str()].size(); j++)
+                    M_arm_left(i, j) = param_yaml[i][S.str()][j];
+            }
+        }
+
+        bool ifget3 = ros::param::get(T_BASE_LEFT_ARM, param_yaml);
+        if(ifget3){
+            for(int i = 0; i < 4; i++){
+                std::stringstream S;
+                S << "row" << i+1;
+                for(int j = 0; j < param_yaml[i][S.str()].size(); j++)
+                    T_base_left_arm(i, j) = param_yaml[i][S.str()][j];
+            }
+        }
+
+        return ifget1 && ifget2 && ifget3;
+    }
+    catch(...) {
+        return false;
+    }
+
+}
+
+bool get_arm_right_ParamBody(MatrixXd& Blist_arm_right, Matrix4d& M_arm_right, Matrix4d& T_base_right_arm)
+{
+    try {
+        XmlRpc::XmlRpcValue param_yaml;
+
+        bool ifget1 = ros::param::get(BLIST_ARM_RIGHT, param_yaml);
+        if(ifget1){
+            for(int i = 0; i < 6; i++){
+                std::stringstream S;
+                S << "S" << i+1;
+                for(int j = 0; j < param_yaml[i][S.str()].size(); j++)
+                    Blist_arm_right(j, i) = param_yaml[i][S.str()][j];
+            }
+        }
+
+        bool ifget2 = ros::param::get(M_ARM_RIGHT, param_yaml);
+        if(ifget2){
+            for(int i = 0; i < 4; i++){
+                std::stringstream S;
+                S << "row" << i+1;
+                for(int j = 0; j < param_yaml[i][S.str()].size(); j++)
+                    M_arm_right(i, j) = param_yaml[i][S.str()][j];
+            }
+        }
+
+        bool ifget3 = ros::param::get(T_BASE_RIGHT_ARM, param_yaml);
+        if(ifget3){
+            for(int i = 0; i < 4; i++){
+                std::stringstream S;
+                S << "row" << i+1;
+                for(int j = 0; j < param_yaml[i][S.str()].size(); j++)
+                    T_base_right_arm(i, j) = param_yaml[i][S.str()][j];
+            } 
+        }
+       
+        return ifget1 && ifget2 && ifget3;
+    }
+    catch(...) {
+        return false;
+    }
 }
 
 bool get_arm_right_joint_angle(VectorXd& angle_arm_right)

@@ -23,6 +23,8 @@
 #define     M_ARM_RIGHT                 "M_arm_right"
 #define     T_LEFT_EFFECTOR_CAMERA      "T_left_effector_camera"
 #define     T_RIGHT_EFFECTOR_CAMERA     "T_right_effector_camera"
+#define     BLIST_ARM_LEFT              "Blist_arm_left"
+#define     BLIST_ARM_RIGHT             "Blist_arm_right"
 
 /*机器人Base坐标系正运动学：相对于base_link坐标系*/
 Matrix4d eod_robot_FKinSpace(Matrix4d M, MatrixXd Slist, VectorXd thetalist, Matrix4d T_base_arm);
@@ -36,6 +38,12 @@ Matrix4d eod_robot_left_arm_FKinSpace(VectorXd thetalist);
 /*机器人Body坐标系正运动学：相对于base_link坐标系*/
 Matrix4d eod_robot_FKinBody(Matrix4d M, MatrixXd Blist, VectorXd thetalist, Matrix4d T_base_arm);
 
+/*机器人右臂Body坐标系正运动学：相对于base_link坐标系*/
+Matrix4d eod_robot_right_arm_FKinBody(VectorXd thetalist);
+
+/*机器人左臂Body坐标系正运动学：相对于base_link坐标系*/
+Matrix4d eod_robot_left_arm_FKinBody(VectorXd thetalist);
+
 /*机器人Base坐标系逆运动学：牛顿-辛普森方法*/
 bool eod_robot_IKinSpace(MatrixXd Slist, Matrix4d M, Matrix4d T, VectorXd thetalist0, double eomg, double ev, VectorXd& thetalist, Matrix4d T_base_arm);
 
@@ -47,6 +55,12 @@ bool eod_robot_left_arm_IKinSpace(Matrix4d T, VectorXd thetalist0, double eomg, 
 
 /*机器人Body坐标系逆运动学：牛顿-辛普森方法*/
 bool eod_robot_IKinBody(MatrixXd Blist, Matrix4d M, Matrix4d T, VectorXd thetalist0, double eomg, double ev, VectorXd& thetalist, Matrix4d T_base_arm);
+
+/*机器人右臂Body坐标系逆运动学：牛顿-辛普森方法*/
+bool eod_robot_right_arm_IKinBody(Matrix4d T, VectorXd thetalist0, double eomg, double ev, VectorXd& thetalist);
+
+/*机器人左臂Body坐标系逆运动学：牛顿-辛普森方法*/
+bool eod_robot_left_arm_IKinBody(Matrix4d T, VectorXd thetalist0, double eomg, double ev, VectorXd& thetalist);
 
 /*机器人Base坐标系正运动学：相对于世界坐标系*/
 Matrix4d eod_robot_FKinSpace_world(Matrix4d M, MatrixXd Slist, VectorXd thetalist, Matrix4d T_base_arm, Matrix4d vecihle_odom);
@@ -60,6 +74,12 @@ Matrix4d eod_robot_left_arm_FKinSpace_world(VectorXd thetalist);
 /*机器人Body坐标系正运动学：相对于世界坐标系*/
 Matrix4d eod_robot_FKinBody_world(Matrix4d M, MatrixXd Blist, VectorXd thetalist, Matrix4d T_base_arm, Matrix4d vecihle_odom);
 
+/*机器人右臂Body坐标系正运动学：相对于世界坐标系*/
+Matrix4d eod_robot_right_arm_FKinBody_world(VectorXd thetalist);
+
+/*机器人左臂Body坐标系正运动学：相对于世界坐标系*/
+Matrix4d eod_robot_left_arm_FKinBody_world(VectorXd thetalist);
+
 /*机器人Base坐标系雅克比矩阵*/
 MatrixXd eod_robot_JacobianSpace(MatrixXd Slist,VectorXd thetalist, Matrix4d T_base_arm);
 
@@ -72,11 +92,23 @@ MatrixXd eod_robot_left_arm_JacobianSpace(VectorXd thetalist);
 /*机器人Body坐标系雅克比矩阵*/
 MatrixXd eod_robot_JacobianBody(MatrixXd Blist,VectorXd thetalist);
 
+/*机器人右臂Body坐标系雅克比矩阵*/
+MatrixXd eod_robot_right_arm_JacobianBody(VectorXd thetalist);
+
+/*机器人左臂Body坐标系雅克比矩阵*/
+MatrixXd eod_robot_left_arm_JacobianBody(VectorXd thetalist);
+
 /*获取左臂Base坐标系POE参数*/
 bool get_arm_left_ParamSpace(MatrixXd& Slist_arm_left, Matrix4d& M_arm_left, Matrix4d& T_base_left_arm);
 
 /*获取右臂Base坐标系POE参数*/
 bool get_arm_right_ParamSpace(MatrixXd& Slist_arm_right, Matrix4d& M_arm_right, Matrix4d& T_base_right_arm);
+
+/*获取左臂Body坐标系POE参数*/
+bool get_arm_left_ParamBody(MatrixXd& Blist_arm_left, Matrix4d& M_arm_left, Matrix4d& T_base_left_arm);
+
+/*获取右臂Body坐标系POE参数*/
+bool get_arm_right_ParamBody(MatrixXd& Blist_arm_right, Matrix4d& M_arm_right, Matrix4d& T_base_right_arm);
 
 /*获取右臂期望关节角度*/
 bool get_arm_right_joint_angle(VectorXd& angle_arm_right);

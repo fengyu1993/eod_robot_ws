@@ -41,17 +41,6 @@ void lc_color_Callback(const sensor_msgs::Image::ConstPtr& msg)
     cv::imshow("left_camera_image_color", image_color);
 
     cv::waitKey (1);
-
-    Matrix4d T_right_effector_camera, T_left_effector_camera;
-
-    bool flag1 = get_arm_left_T_effector_camera(T_left_effector_camera);
-
-    bool flag2 = get_arm_right_T_effector_camera(T_right_effector_camera);
-
-    std::cout << "flag1 " << std::endl << flag1 << std::endl;
-    std::cout << "flag2 " << std::endl << flag2 << std::endl;
-    std::cout << "T_left_effector_camera： " << std::endl << T_left_effector_camera << std::endl;
-    std::cout << "T_right_effector_camera " << std::endl << T_right_effector_camera << std::endl;
 }
 
 void lc_depth_Callback(const sensor_msgs::Image::ConstPtr& msg)
@@ -107,10 +96,12 @@ int main(int argc, char** argv)
     //     Eigen::Matrix4d T_b_c = (tl_btol * rot_z_btol * rot_y_btol * rot_x_btol).matrix(); 
 
     //     Eigen::Matrix4d T_b_e = eod_robot_left_arm_FKinSpace(angle);
+    //     Eigen::Matrix4d T_b_e_2 = eod_robot_left_arm_FKinBody(angle);
+
     //     Eigen::Matrix4d T_e_c = TransInv(T_b_e) * T_b_c;
 
     //     std::cout << "T_b_c = " << std::endl << T_b_c << std::endl;
-    //     std::cout << "T_b_e = " << std::endl << T_b_e << std::endl;
+    //     std::cout << "T_b_e - T_b_e_2 = " << std::endl << T_b_e - T_b_e_2 << std::endl;
     //     std::cout << "T_e_c = " << std::endl << T_e_c << std::endl;
 
     //     ros::spinOnce();
