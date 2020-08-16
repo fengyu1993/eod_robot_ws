@@ -197,11 +197,11 @@ MatrixXd eod_robot_right_arm_JacobianBody(VectorXd thetalist)
 
 MatrixXd eod_robot_left_arm_JacobianBody(VectorXd thetalist)
 {
-    MatrixXd Blist_arm_right(6,6); Matrix4d M_arm_left; Matrix4d T_base_left_arm; 
+    MatrixXd Blist_arm_left(6,6); Matrix4d M_arm_left; Matrix4d T_base_left_arm; 
 
-    get_arm_left_ParamBody(Blist_arm_right, M_arm_left, T_base_left_arm); 
+    get_arm_left_ParamBody(Blist_arm_left, M_arm_left, T_base_left_arm); 
 
-    return eod_robot_JacobianBody(Blist_arm_right, thetalist);
+    return eod_robot_JacobianBody(Blist_arm_left, thetalist);
 }
 
 bool get_arm_left_ParamSpace(MatrixXd& Slist_arm_left, Matrix4d& M_arm_left, Matrix4d& T_base_left_arm)
