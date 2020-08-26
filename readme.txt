@@ -1,5 +1,8 @@
-作者：陈禹含 ... 
+作者：陈禹含 ... ... 
 邮箱：3120185244@bit.edu.cn
+
+先运行(安装依赖项)
+rosdep install --from-paths src --ignore-src --rosdistro=melodic -y
 
 2020.07.13
 eod_robot_description: 
