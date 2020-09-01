@@ -107,6 +107,7 @@ catkin_package(
   geometry_msgs 
   tf 
   sensor_msgs
+  eod_robot_library
 )
 
 ###########
