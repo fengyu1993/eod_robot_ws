@@ -231,7 +231,7 @@
     name="Arm_L6_joint_add"
     type="fixed">
     <origin xyz="0 0 0" rpy="0 -2.1991 0" />
-    <parent link="Arm_L6_link" />
+    <parent link="6=[" />
     <child link="Arm_L6_link_add" />
     <axis xyz="0 1 0" />
   </joint>
