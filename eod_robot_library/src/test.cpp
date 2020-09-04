@@ -7,55 +7,16 @@ using namespace std;
 
 int main(int argc, char** argv)
 { 
-    VectorXd thetalist(6,1); thetalist << 1.25, 2.1, 0.5, 0.2, 1.2, 0.9;
+    Eigen::Matrix3d R;
+    R << 1, 0, 0, 0, 0, 1, 0, -1, 0;
+
+    // Eigen::Vector3d rpy = RotationMatrix2euler(R);
     
-    MatrixXd L_Slist_T(6,6);
-    L_Slist_T <<  0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, -0.0703, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, -0.0703, 0.0000, 0.2459, 0.0000, 1.0000, 0.0000, -0.0703, 0.0000, 0.5013, 0.0000, 0.0000, -1.0000, -0.0786, 0.5013, 0.0000, 0.0000, 1.0000, 0.0000, 0.0398, 0.0000, 0.5013;
-    MatrixXd L_Slist = L_Slist_T.transpose();
+    // Eigen::Matrix3d R2 = euler2RotationMatrix(rpy[0], rpy[1], rpy[2]);
 
-    Matrix4d L_M(4,4);
-    L_M << -1.0000, 0.0000, 0.0000, 0.5013, 0.0000, 0.0000, 1.0000, 0.2510, 0.0000, 1.0000, 0.0000, -0.0398, 0.0000, 0.0000, 0.0000, 1.0000;
-
-    Matrix4d T_base_L(4,4);
-    T_base_L << -1.0000, 0.0000, 0.0000, 0.0500, 0.0000, -0.4229, 0.9062, 0.1373, 0.0000, 0.9062, 0.4229, -0.0906, 0.0000, 0.0000, 0.0000, 1.0000;
-
-
-    MatrixXd L_Blist(6,6);
-    for (int i = 0; i < 6; i++){
-        L_Blist.col(i) = Adjoint(TransInv(L_M)) * L_Slist.col(i);
-    }
-
-    Matrix4d L_T_Space = eod_robot_FKinSpace(L_M, L_Slist, thetalist, T_base_L);
-    Matrix4d L_T_Body = eod_robot_FKinBody(L_M, L_Blist, thetalist, T_base_L);
-
-    cout << "L_T_Space:" << endl << L_T_Space << endl;
-    cout << "L_T_Body:" << endl << L_T_Body << endl;
-    cout << "L_Slist':"  << endl << L_Slist.transpose() << endl ;
-    cout << "L_Blist':"  << endl << L_Blist.transpose() << endl ; 
-
-    // MatrixXd R_Slist_T(6,6);
-    // R_Slist_T << 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, -0.0805, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, -0.0805, 0.0000, 0.4247, 0.0000, 1.0000, 0.0000, -0.0805, 0.0000, 0.8091, 0.0000, 0.0000, -1.0000, -0.1110, 0.8091, 0.0000, 0.0000, 1.0000, 0.0000, 0.0296, 0.0000, 0.8091;
-    // MatrixXd R_Slist = R_Slist_T.transpose();
-
-    // Matrix4d R_M(4,4);
-    // R_M << -1.0000, 0, 0, 0.8091, 0, 0, 1.0000, 0.3790, 0, 1.0000, 0, -0.0296, 0, 0, 0, 1.0000;
-
-    // Matrix4d T_base_R(4,4);
-    // T_base_R <<  1.0000, 0,  0, -0.0500, 0, 0.4229, -0.9062, -0.1373, 0, 0.9062, 0.4229, -0.0906, 0, 0, 0, 1.0000;
-
-    // MatrixXd R_Blist(6,6);
-    // for (int i = 0; i < 6; i++){
-    //     R_Blist.col(i) = Adjoint(TransInv(R_M)) * R_Slist.col(i);
-    // }
-
-    // Matrix4d R_T_Space = eod_robot_FKinSpace(R_M, R_Slist,thetalist, T_base_R);
-    // Matrix4d R_T_Body = eod_robot_FKinBody(R_M, R_Blist,thetalist, T_base_R);
-
-    // cout << "R_T_Space:" << endl << R_T_Space << endl;
-    // cout << "R_T_Body:" << endl << R_T_Body << endl;
-    // cout << "R_Slist':"  << endl << R_Slist.transpose() << endl ;
-    // cout << "R_Blist':"  << endl << R_Blist.transpose() << endl ;
-
+    // cout << "R: " << R << endl;
+    // cout << "Euler: " << rpy << endl;
+    // cout << "R2: " << R2 << endl;
 }
 
     /* left arm*/
@@ -159,3 +120,52 @@ int main(int argc, char** argv)
 
     // Eigen::Matrix3d R3 = euler2RotationMatrix(rpy2[2], rpy2[1], rpy2[0]);
     // cout << "R 3: " << R3 << endl;
+
+        // VectorXd thetalist(6,1); thetalist << 1.25, 2.1, 0.5, 0.2, 1.2, 0.9;
+    
+    // MatrixXd L_Slist_T(6,6);
+    // L_Slist_T <<  0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, -0.0703, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, -0.0703, 0.0000, 0.2459, 0.0000, 1.0000, 0.0000, -0.0703, 0.0000, 0.5013, 0.0000, 0.0000, -1.0000, -0.0786, 0.5013, 0.0000, 0.0000, 1.0000, 0.0000, 0.0398, 0.0000, 0.5013;
+    // MatrixXd L_Slist = L_Slist_T.transpose();
+
+    // Matrix4d L_M(4,4);
+    // L_M << -1.0000, 0.0000, 0.0000, 0.5013, 0.0000, 0.0000, 1.0000, 0.2510, 0.0000, 1.0000, 0.0000, -0.0398, 0.0000, 0.0000, 0.0000, 1.0000;
+
+    // Matrix4d T_base_L(4,4);
+    // T_base_L << -1.0000, 0.0000, 0.0000, 0.0500, 0.0000, -0.4229, 0.9062, 0.1373, 0.0000, 0.9062, 0.4229, -0.0906, 0.0000, 0.0000, 0.0000, 1.0000;
+
+
+    // MatrixXd L_Blist(6,6);
+    // for (int i = 0; i < 6; i++){
+    //     L_Blist.col(i) = Adjoint(TransInv(L_M)) * L_Slist.col(i);
+    // }
+
+    // Matrix4d L_T_Space = eod_robot_FKinSpace(L_M, L_Slist, thetalist, T_base_L);
+    // Matrix4d L_T_Body = eod_robot_FKinBody(L_M, L_Blist, thetalist, T_base_L);
+
+    // cout << "L_T_Space:" << endl << L_T_Space << endl;
+    // cout << "L_T_Body:" << endl << L_T_Body << endl;
+    // cout << "L_Slist':"  << endl << L_Slist.transpose() << endl ;
+    // cout << "L_Blist':"  << endl << L_Blist.transpose() << endl ; 
+
+    // MatrixXd R_Slist_T(6,6);
+    // R_Slist_T << 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, -0.0805, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, -0.0805, 0.0000, 0.4247, 0.0000, 1.0000, 0.0000, -0.0805, 0.0000, 0.8091, 0.0000, 0.0000, -1.0000, -0.1110, 0.8091, 0.0000, 0.0000, 1.0000, 0.0000, 0.0296, 0.0000, 0.8091;
+    // MatrixXd R_Slist = R_Slist_T.transpose();
+
+    // Matrix4d R_M(4,4);
+    // R_M << -1.0000, 0, 0, 0.8091, 0, 0, 1.0000, 0.3790, 0, 1.0000, 0, -0.0296, 0, 0, 0, 1.0000;
+
+    // Matrix4d T_base_R(4,4);
+    // T_base_R <<  1.0000, 0,  0, -0.0500, 0, 0.4229, -0.9062, -0.1373, 0, 0.9062, 0.4229, -0.0906, 0, 0, 0, 1.0000;
+
+    // MatrixXd R_Blist(6,6);
+    // for (int i = 0; i < 6; i++){
+    //     R_Blist.col(i) = Adjoint(TransInv(R_M)) * R_Slist.col(i);
+    // }
+
+    // Matrix4d R_T_Space = eod_robot_FKinSpace(R_M, R_Slist,thetalist, T_base_R);
+    // Matrix4d R_T_Body = eod_robot_FKinBody(R_M, R_Blist,thetalist, T_base_R);
+
+    // cout << "R_T_Space:" << endl << R_T_Space << endl;
+    // cout << "R_T_Body:" << endl << R_T_Body << endl;
+    // cout << "R_Slist':"  << endl << R_Slist.transpose() << endl ;
+    // cout << "R_Blist':"  << endl << R_Blist.transpose() << endl ;

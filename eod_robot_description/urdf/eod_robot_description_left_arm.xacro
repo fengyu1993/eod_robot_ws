@@ -227,13 +227,19 @@
     </collision>
   </link>
 
- <joint
-    name="Arm_L6_joint_add"
-    type="fixed">
+ <joint name="Arm_L6_joint_add" type="fixed">
     <origin xyz="0 0 0" rpy="0 -2.1991 0" />
-    <parent link="6=[" />
+    <parent link="Arm_L6_link" />
     <child link="Arm_L6_link_add" />
     <axis xyz="0 1 0" />
+  </joint>
+
+<link name="Arm_L_end_effector" />
+
+ <joint name="Arm_L_end_effector_joint" type="fixed">
+    <origin xyz="0.001 0.17232 -0.00343" rpy="1.5360 0.4083 3.1307" />
+    <parent link="Arm_L6_link" />
+    <child link="Arm_L_end_effector" />
   </joint>
 
 

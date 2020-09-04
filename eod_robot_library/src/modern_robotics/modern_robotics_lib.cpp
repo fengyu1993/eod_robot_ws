@@ -16,7 +16,7 @@ bool NearZear(double z){
     cout << NearZear(1e-8) << endl;
 */
 
-Vector3d  Normalize(Vector3d  V){
+Vector3d  Normalize(Vector3d  V){ 
     return V / V.norm();
 }
 /*

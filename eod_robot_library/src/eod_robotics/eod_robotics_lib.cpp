@@ -7,7 +7,7 @@ Matrix4d eod_robot_FKinSpace(Matrix4d M, MatrixXd Slist, VectorXd thetalist, Mat
 
 Matrix4d eod_robot_right_arm_FKinSpace(VectorXd thetalist)
 {
-    MatrixXd Slist_arm_right(6,6); Matrix4d M_arm_right; Matrix4d T_base_right_arm;
+    MatrixXd Slist_arm_right(6,6);  Matrix4d M_arm_right; Matrix4d T_base_right_arm;
 
     get_arm_right_ParamSpace(Slist_arm_right, M_arm_right, T_base_right_arm);
 
