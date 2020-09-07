@@ -237,8 +237,8 @@
 <link name="Arm_L_end_effector" />
 
  <joint name="Arm_L_end_effector_joint" type="fixed">
-    <origin xyz="0.001 0.17232 -0.00343" rpy="1.5360 0.4083 3.1307" />
-    <parent link="Arm_L6_link" />
+    <origin xyz="0.0 0.17232 0.0" rpy="1.57079 1.37879 3.14159" />
+    <parent link="Arm_L6_link_add" />
     <child link="Arm_L_end_effector" />
   </joint>
 

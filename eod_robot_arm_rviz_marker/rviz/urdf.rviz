@@ -10,7 +10,6 @@ Panels:
         - /InteractiveMarkers1
         - /RobotModel1
         - /RobotModel1/Links1
-        - /TF1
         - /TF1/Frames1
       Splitter Ratio: 0.4588235318660736
     Tree Height: 581
@@ -60,7 +59,7 @@ Visualization Manager:
       Reference Frame: <Fixed Frame>
       Value: true
     - Class: rviz/InteractiveMarkers
-      Enable Transparency: true
+      Enable Transparency: false
       Enabled: true
       Name: InteractiveMarkers
       Show Axes: false
@@ -275,91 +274,91 @@ Visualization Manager:
       Enabled: true
       Frame Timeout: 15
       Frames:
-        All Enabled: false
+        All Enabled: true
         Arm_L1_link:
-          Value: false
+          Value: true
         Arm_L2_link:
-          Value: false
+          Value: true
         Arm_L3_link:
-          Value: false
+          Value: true
         Arm_L4_link:
-          Value: false
+          Value: true
         Arm_L5_link:
-          Value: false
+          Value: true
         Arm_L6_link:
-          Value: false
+          Value: true
         Arm_L6_link_add:
-          Value: false
+          Value: true
         Arm_L_end_effector:
           Value: true
         Arm_R1_link:
-          Value: false
+          Value: true
         Arm_R2_link:
-          Value: false
+          Value: true
         Arm_R3_link:
-          Value: false
+          Value: true
         Arm_R4_link:
-          Value: false
+          Value: true
         Arm_R5_link:
-          Value: false
+          Value: true
         Arm_R6_link:
-          Value: false
+          Value: true
         Arm_R_end_effector:
           Value: true
         base_link:
-          Value: false
+          Value: true
         caster_wheel_link:
-          Value: false
+          Value: true
         left_back_wheel:
-          Value: false
+          Value: true
         left_camera_depth_frame:
-          Value: false
+          Value: true
         left_camera_depth_optical_frame:
-          Value: false
+          Value: true
         left_camera_link:
-          Value: false
+          Value: true
         left_inner_finger:
-          Value: false
+          Value: true
         left_inner_finger_pad:
-          Value: false
+          Value: true
         left_inner_knuckle:
-          Value: false
+          Value: true
         left_outer_finger:
-          Value: false
+          Value: true
         left_outer_knuckle:
-          Value: false
+          Value: true
         odom:
-          Value: false
+          Value: true
         right_back_wheel:
-          Value: false
+          Value: true
         right_camera_depth_frame:
-          Value: false
+          Value: true
         right_camera_depth_optical_frame:
-          Value: false
+          Value: true
         right_camera_link:
-          Value: false
+          Value: true
         right_inner_finger:
-          Value: false
+          Value: true
         right_inner_finger_pad:
-          Value: false
+          Value: true
         right_inner_knuckle:
-          Value: false
+          Value: true
         right_outer_finger:
-          Value: false
+          Value: true
         right_outer_knuckle:
-          Value: false
+          Value: true
         robotiq_arg2f_base_link:
-          Value: false
+          Value: true
         vehicle_camera_depth_frame:
-          Value: false
+          Value: true
         vehicle_camera_depth_optical_frame:
-          Value: false
+          Value: true
         vehicle_camera_link:
-          Value: false
+          Value: true
       Marker Scale: 1
       Name: TF
       Show Arrows: false
-      Show Axes: true
+      Show Axes: false
       Show Names: false
       Tree:
         odom:
@@ -371,12 +370,12 @@ Visualization Manager:
                     Arm_L5_link:
                       Arm_L6_link:
                         Arm_L6_link_add:
+                          Arm_L_end_effector:
+                            {}
                           left_camera_link:
                             left_camera_depth_frame:
                               left_camera_depth_optical_frame:
                                 {}
-                        Arm_L_end_effector:
-                          {}
             Arm_R1_link:
               Arm_R2_link:
                 Arm_R3_link:
@@ -444,25 +443,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 3.6795592308044434
+      Distance: 4.347684383392334
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.4096665680408478
-        Y: -0.11394637078046799
-        Z: 0.6097760200500488
+        X: -0.3498108685016632
+        Y: -0.3682268261909485
+        Z: 0.7399126291275024
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.2647972106933594
+      Pitch: 0.305202454328537
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 0.0187156293541193
+      Yaw: 0.1943778544664383
     Saved: ~
 Window Geometry:
   Displays:

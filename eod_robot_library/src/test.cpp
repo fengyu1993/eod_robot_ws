@@ -7,8 +7,29 @@ using namespace std;
 
 int main(int argc, char** argv)
 { 
-    Eigen::Matrix3d R;
-    R << 1, 0, 0, 0, 0, 1, 0, -1, 0;
+    double y1 = 0, p1 = 0.192, r1 = 0;
+
+    Eigen::Matrix3d R1 = euler2RotationMatrix(r1, p1, y1);
+
+    double y2 = 0, p2 = 1.5708, r2 = 0;
+
+    Eigen::Matrix3d R2 = euler2RotationMatrix(r2, p2, y2);
+
+    Eigen::Matrix3d R = R2 * R1;
+
+    Eigen::Vector3d  rpy = RotationMatrix2euler(R);
+
+    double y3 = -1.5708, p3 = 0.00, r3 = 0.0;
+
+    Eigen::Matrix3d R3 = euler2RotationMatrix(r3, p3, y3);
+
+    R = R3 * R;
+
+    rpy = RotationMatrix2euler(R);
+
+    cout << "r = " << rpy[2]<< " p = " << rpy[1] << " y = " << rpy[0] << endl;
+
+    cout << rpy[0] << " " << rpy[1] << " " << rpy[2] << endl;
 
     // Eigen::Vector3d rpy = RotationMatrix2euler(R);
     
