@@ -71,70 +71,70 @@ void processFeedback( const visualization_msgs::InteractiveMarkerFeedbackConstPt
       break;
 
     case visualization_msgs::InteractiveMarkerFeedback::POSE_UPDATE:
-      ROS_INFO_STREAM( s.str() << ": pose changed"
-          << "\nposition = "
-          << feedback->pose.position.x
-          << ", " << feedback->pose.position.y
-          << ", " << feedback->pose.position.z
-          << "\norientation = "
-          << feedback->pose.orientation.w
-          << ", " << feedback->pose.orientation.x
-          << ", " << feedback->pose.orientation.y
-          << ", " << feedback->pose.orientation.z
-          << "\nframe: " << feedback->header.frame_id
-          << " time: " << feedback->header.stamp.sec << "sec, "
-          << feedback->header.stamp.nsec << " nsec" );
+    {
+        ROS_INFO_STREAM( s.str() << ": pose changed"
+            << "\nposition = "
+            << feedback->pose.position.x
+            << ", " << feedback->pose.position.y
+            << ", " << feedback->pose.position.z
+            << "\norientation = "
+            << feedback->pose.orientation.w
+            << ", " << feedback->pose.orientation.x
+            << ", " << feedback->pose.orientation.y
+            << ", " << feedback->pose.orientation.z
+            << "\nframe: " << feedback->header.frame_id
+            << " time: " << feedback->header.stamp.sec << "sec, "
+            << feedback->header.stamp.nsec << " nsec" );
 
-      break;
+        MatrixXd Slist(6,6); Matrix4d M; Matrix4d T_base_arm;
+        VectorXd angle_arm_left(6); VectorXd angle_arm_right(6); VectorXd thetalist0(6); 
+        bool suc;
+
+        p << feedback->pose.position.x, feedback->pose.position.y, feedback->pose.position.z; 
+        R = Quaternion2RotationMatrix(feedback->pose.orientation.x,feedback->pose.orientation.y,feedback->pose.orientation.z,feedback->pose.orientation.w);
+        RpToTrans(R, p, T); 
+
+        if (feedback->marker_name == "arm left marker"){
+
+            get_arm_left_joint_angle(thetalist0); 
+
+            suc = eod_robot_left_arm_IKinSpace(T, thetalist0, 0.01, 0.001, angle_arm_left);
+
+            if(suc){
+                set_arm_left_joint_angle(angle_arm_left);
+                ROS_INFO("arm left IKinSpace success");
+            }
+            else{
+                ROS_INFO("arm left IKinSpace fail");
+            }         
+
+        }
+        else if (feedback->marker_name == "arm right marker"){
+
+            get_arm_right_joint_angle(thetalist0);
+
+            suc = eod_robot_right_arm_IKinSpace(T, thetalist0, 0.01, 0.001, angle_arm_right);
+
+            if(suc){
+                set_arm_right_joint_angle(angle_arm_right);
+                std::cout << "T: " << T << std::endl;
+                ROS_INFO("arm right IKinSpace success");
+            }
+            else{
+                ROS_INFO("arm right IKinSpace fail");
+            }
+
+        }
+
+        break;
+    }
 
     case visualization_msgs::InteractiveMarkerFeedback::MOUSE_DOWN:
       ROS_INFO_STREAM( s.str() << ": mouse down" << mouse_point_ss.str() << "." );
       break;
 
     case visualization_msgs::InteractiveMarkerFeedback::MOUSE_UP:
-      ROS_INFO_STREAM( s.str() << ": mouse up" << mouse_point_ss.str() << "." );
-
-      
-      MatrixXd Slist(6,6); Matrix4d M; Matrix4d T_base_arm;
-      VectorXd angle_arm_left(6); VectorXd angle_arm_right(6); VectorXd thetalist0(6); 
-      bool suc;
-
-     p << feedback->pose.position.x, feedback->pose.position.y, feedback->pose.position.z; 
-     R = Quaternion2RotationMatrix(feedback->pose.orientation.x,feedback->pose.orientation.y,feedback->pose.orientation.z,feedback->pose.orientation.w);
-     RpToTrans(R, p, T); 
-
-      if (feedback->marker_name == "arm left marker"){
-
-        get_arm_left_joint_angle(thetalist0); 
-
-        suc = eod_robot_left_arm_IKinSpace(T, thetalist0, 0.01, 0.001, angle_arm_left);
-
-        if(suc){
-            set_arm_left_joint_angle(angle_arm_left);
-            ROS_INFO("arm left IKinSpace success");
-        }
-        else{
-            ROS_INFO("arm left IKinSpace fail");
-        }         
-
-      }
-      else if (feedback->marker_name == "arm right marker"){
-
-        get_arm_right_joint_angle(thetalist0);
-
-        suc = eod_robot_right_arm_IKinSpace(T, thetalist0, 0.01, 0.001, angle_arm_right);
-
-        if(suc){
-            set_arm_right_joint_angle(angle_arm_right);
-            std::cout << "T: " << T << std::endl;
-            ROS_INFO("arm right IKinSpace success");
-        }
-        else{
-            ROS_INFO("arm right IKinSpace fail");
-        }
-
-      }
-      
+      ROS_INFO_STREAM( s.str() << ": mouse up" << mouse_point_ss.str() << "." );      
       break;
   }
 
