@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: eod_robot_description
+    relative_path: urdf/eod_robot_description.xacro
+    xacro_args: ""
+  SRDF:
+    relative_path: config/eod_robot_description.srdf
+  CONFIG:
+    author_name: Yuhan Chen
+    author_email: 3120185244@bit.edu.cn
+    generated_timestamp: 1600685735

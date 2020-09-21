@@ -1,0 +1,22 @@
+controller_list:
+  - name: fake_right_arm_controller
+    joints:
+      - Arm_R1_joint
+      - Arm_R2_joint
+      - Arm_R3_joint
+      - Arm_R4_joint
+      - Arm_R5_joint
+      - Arm_R6_joint
+  - name: fake_left_arm_controller
+    joints:
+      - Arm_L1_joint
+      - Arm_L2_joint
+      - Arm_L3_joint
+      - Arm_L4_joint
+      - Arm_L5_joint
+      - Arm_L6_joint
+initial:  # Define initial robot poses.
+  - group: right_arm
+    pose: work
+  - group: left_arm
+    pose: work
