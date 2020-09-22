@@ -66,6 +66,9 @@ rosdep install --from-paths src --ignore-src --rosdistro=melodic -y
 			right_camera_show:	右臂相机显示彩色和深度图像
 			vehicle_camera_show:	车体相机显示彩色和深度图像
 
+# 2020.09.21 eod_robot_moveit_config:
+	eod_robot的moveit配置文件
+
 
 
 

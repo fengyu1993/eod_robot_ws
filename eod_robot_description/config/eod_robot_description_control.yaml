@@ -68,7 +68,6 @@ eod_robot_description:
   Gripper_finger1_joint_position_controller:
     type: position_controllers/JointTrajectoryController
     joints:
-      # - gripper_finger1_joint
       - finger_joint
     constraints:
         goal_time: 0.6
