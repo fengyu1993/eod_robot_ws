@@ -9,7 +9,6 @@ generic_hw_control_loop:
 # Settings for ros_control hardware interface
 hardware_interface:
   joints:
-    - eod_robot_base_planar
     - Arm_L1_joint
     - Arm_L2_joint
     - Arm_L3_joint
