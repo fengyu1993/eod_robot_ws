@@ -32,6 +32,16 @@ joint_state_controller:
   publish_rate: 50
 controller_list:
   []
+gripper_position_controller:
+  type: position_controllers/JointTrajectoryController
+  joints:
+    finger_joint
+  gains:
+    finger_joint:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
 arm_position_controller:
   type: position_controllers/JointPositionController
   joints:
@@ -104,16 +114,6 @@ arm_position_controller:
       i: 1
       i_clamp: 1
     Arm_L6_joint:
-      p: 100
-      d: 1
-      i: 1
-      i_clamp: 1
-gripper_position_controller:
-  type: position_controllers/JointTrajectoryController
-  joints:
-    finger_joint
-  gains:
-    finger_joint:
       p: 100
       d: 1
       i: 1

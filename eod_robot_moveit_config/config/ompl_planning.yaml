@@ -203,7 +203,7 @@ gripper:
     - SPARS
     - SPARStwo
 tool:
-  default_planner_config: None
+  default_planner_config: ""
   planner_configs:
     - SBL
     - EST
