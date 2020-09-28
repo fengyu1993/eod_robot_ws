@@ -7,9 +7,27 @@ project(eod_robot_moveit_learn)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS roscpp)
+find_package(catkin REQUIRED 
+COMPONENTS 
+    roscpp 
+    interactive_markers
+    moveit_core
+    moveit_visual_tools
+    moveit_ros_planning
+    moveit_ros_planning_interface
+    moveit_ros_perception
+    pluginlib
+    geometric_shapes
+    pcl_ros
+    pcl_conversions
+    rosbag
+    tf2_ros
+    tf2_eigen
+    tf2_geometry_msgs)
 
 find_package(Eigen3 REQUIRED)
+
+find_package(Boost REQUIRED system filesystem date_time thread)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -36,9 +54,6 @@ find_package(Eigen3 REQUIRED)
 ##     * add a exec_depend tag for "message_runtime"
 ## * In this file (CMakeLists.txt):
 ##   * add "message_generation" and every package in MSG_DEP_SET to
-find_package(catkin REQUIRED COMPONENTS
-  roscpp
-)
 ##   * add "message_runtime" and every package in MSG_DEP_SET to
 ##     catkin_package(CATKIN_DEPENDS ...)
 ##   * uncomment the add_*_files sections below as needed
@@ -102,12 +117,18 @@ find_package(catkin REQUIRED COMPONENTS
 ## LIBRARIES: libraries you create in this project that dependent projects also need
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
-catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES eod_robot_moveit_learn
-#  CATKIN_DEPENDS other_catkin_pkg
-#  DEPENDS system_lib
-)
+# catkin_package(
+#   LIBRARIES
+#   INCLUDE_DIRS
+#   CATKIN_DEPENDS
+#     moveit_core
+#     moveit_visual_tools
+#     moveit_ros_planning_interface
+#     interactive_markers
+#     tf2_geometry_msgs
+#   DEPENDS
+#     EIGEN3
+# )
 
 ###########
 ## Build ##
@@ -118,6 +139,7 @@ catkin_package(
 include_directories(
   include ${catkin_INCLUDE_DIRS}
   include ${EIGEN3_INCLUDE_DIR}
+  include ${Boost_INCLUDE_DIR} 
 )
 
 ## Declare a C++ library
@@ -213,4 +235,5 @@ add_dependencies(move_group_interface_tutorial ${${PROJECT_NAME}_EXPORTED_TARGET
 target_link_libraries(move_group_interface_tutorial
   ${catkin_LIBRARIES}
   ${EIGEN3_LIBRARIES} 
+  ${Boost_LIBRARIES} 
 )
