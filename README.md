@@ -69,6 +69,9 @@ rosdep install --from-paths src --ignore-src --rosdistro=melodic -y
 # 2020.09.21 eod_robot_moveit_config:
 	eod_robot的moveit配置文件
 
+# 2020.09.28 eod_robot_moveit_learn:
+	eod_robot实现moveit教程：http://docs.ros.org/melodic/api/moveit_tutorials/html/doc/getting_started/getting_started.html
+
 
 
 
