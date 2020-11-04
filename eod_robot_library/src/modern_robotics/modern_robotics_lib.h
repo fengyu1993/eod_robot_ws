@@ -65,6 +65,8 @@ bool IKinBody(MatrixXd Blist, Matrix4d M, Matrix4d T, VectorXd thetalist0, doubl
 
 bool IKinSpace(MatrixXd Slist, Matrix4d M, Matrix4d T, VectorXd thetalist0, double eomg, double ev, VectorXd& thetalist);
 
+bool IKinSpace_POE(MatrixXd Slist, Matrix4d M, Matrix4d T_eef, VectorXd thetalist0, VectorXd& thetalist);
+
 MatrixXd ad(VectorXd V);
 
 VectorXd InverseDynamics(VectorXd thetalist, VectorXd dthetalist, VectorXd ddthetalist, Vector3d g, VectorXd Ftip, MatrixXd Mlist[], MatrixXd Glist[], MatrixXd Slist);

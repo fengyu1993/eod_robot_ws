@@ -1,43 +1,39 @@
 #include <iostream>
 #include "modern_robotics_lib.h"
 #include "eod_robotics_lib.h"
+#include "math.h"
 
 
 using namespace std; 
 
 int main(int argc, char** argv)
 { 
-    double y1 = 0, p1 = 0.192, r1 = 0;
+    MatrixXd R_Slist_T(6,6);
+    R_Slist_T << 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, -0.0805, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, -0.0805, 0.0000, 0.4247, 0.0000, 1.0000, 0.0000, -0.0805, 0.0000, 0.8091, 0.0000, 0.0000, -1.0000, -0.1110, 0.8091, 0.0000, 0.0000, 1.0000, 0.0000, 0.0296, 0.0000, 0.8091;
+    MatrixXd R_Slist = R_Slist_T.transpose();
 
-    Eigen::Matrix3d R1 = euler2RotationMatrix(r1, p1, y1);
+    Matrix4d R_M(4,4);
+    R_M << -1.0000, 0, 0, 0.8091, 0, 0, 1.0000, 0.3790, 0, 1.0000, 0, -0.0296, 0, 0, 0, 1.0000;
 
-    double y2 = 0, p2 = 1.5708, r2 = 0;
+    VectorXd thetalist(6), thetalist0(6), thetalist_result(6);
 
-    Eigen::Matrix3d R2 = euler2RotationMatrix(r2, p2, y2);
+    // thetalist << M_PI/6, -M_PI/2-M_PI/15, -M_PI/3, -M_PI/2-M_PI/5, -M_PI/6, 0;
+    thetalist  = 2*M_PI*MatrixXd::Random(6,1) - MatrixXd::Ones(6,1) * M_PI;
 
-    Eigen::Matrix3d R = R2 * R1;
+    Matrix4d T_eef = FKinSpace(R_M, R_Slist, thetalist);
+    // T_eef(0,3) = 2;
 
-    Eigen::Vector3d  rpy = RotationMatrix2euler(R);
+    bool flag = IKinSpace_POE(R_Slist, R_M, T_eef, thetalist, thetalist_result);
 
-    double y3 = -1.5708, p3 = 0.00, r3 = 0.0;
+    Matrix4d T_result = FKinSpace(R_M, R_Slist, thetalist_result);
 
-    Eigen::Matrix3d R3 = euler2RotationMatrix(r3, p3, y3);
+    cout << "flag = " << endl << flag << endl;
 
-    R = R3 * R;
+    cout << "thetalist = " << endl << thetalist << endl;
 
-    rpy = RotationMatrix2euler(R);
+    cout << "thetalist_result = " << endl << thetalist_result << endl;
 
-    cout << "r = " << rpy[2]<< " p = " << rpy[1] << " y = " << rpy[0] << endl;
-
-    cout << rpy[0] << " " << rpy[1] << " " << rpy[2] << endl;
-
-    // Eigen::Vector3d rpy = RotationMatrix2euler(R);
-    
-    // Eigen::Matrix3d R2 = euler2RotationMatrix(rpy[0], rpy[1], rpy[2]);
-
-    // cout << "R: " << R << endl;
-    // cout << "Euler: " << rpy << endl;
-    // cout << "R2: " << R2 << endl;
+    cout << "T_err = " << endl << T_result - T_eef << endl;
 }
 
     /* left arm*/
@@ -190,3 +186,35 @@ int main(int argc, char** argv)
     // cout << "R_T_Body:" << endl << R_T_Body << endl;
     // cout << "R_Slist':"  << endl << R_Slist.transpose() << endl ;
     // cout << "R_Blist':"  << endl << R_Blist.transpose() << endl ;
+
+        // double y1 = 0, p1 = 0.192, r1 = 0;
+
+    // Eigen::Matrix3d R1 = euler2RotationMatrix(r1, p1, y1);
+
+    // double y2 = 0, p2 = 1.5708, r2 = 0;
+
+    // Eigen::Matrix3d R2 = euler2RotationMatrix(r2, p2, y2);
+
+    // Eigen::Matrix3d R = R2 * R1;
+
+    // Eigen::Vector3d  rpy = RotationMatrix2euler(R);
+
+    // double y3 = -1.5708, p3 = 0.00, r3 = 0.0;
+
+    // Eigen::Matrix3d R3 = euler2RotationMatrix(r3, p3, y3);
+
+    // R = R3 * R;
+
+    // rpy = RotationMatrix2euler(R);
+
+    // cout << "r = " << rpy[2]<< " p = " << rpy[1] << " y = " << rpy[0] << endl;
+
+    // cout << rpy[0] << " " << rpy[1] << " " << rpy[2] << endl;
+
+    // Eigen::Vector3d rpy = RotationMatrix2euler(R);
+    
+    // Eigen::Matrix3d R2 = euler2RotationMatrix(rpy[0], rpy[1], rpy[2]);
+
+    // cout << "R: " << R << endl;
+    // cout << "Euler: " << rpy << endl;
+    // cout << "R2: " << R2 << endl;

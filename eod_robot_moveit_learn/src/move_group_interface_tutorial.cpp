@@ -83,8 +83,10 @@ int main(int argc, char** argv)
     visual_tools.trigger();
     visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");   
     
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
     moveit_msgs::OrientationConstraint ocm;
-    ocm.link_name = "Arm_R_end_effector_joint";
+    ocm.link_name = "Arm_R_end_effector";
     ocm.header.frame_id = "base_link";
     ocm.orientation.w = 1.0;
     ocm.absolute_x_axis_tolerance = 0.1;

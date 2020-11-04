@@ -783,6 +783,237 @@ Code:
     cout << thetalist << endl;
  */
 
+bool IKinSpace_POE(MatrixXd Slist, Matrix4d M, Matrix4d T_eef, VectorXd thetalist0, VectorXd& thetalist)
+{
+    VectorXd theta_flag(8); 
+    theta_flag << 1, 1, 1, 1, 1, 1, 1, 1;
+
+    double H1, W1, L1, L2, L1_add_L2, W1_add_W2, H1_minus_H2;
+    H1 = -Slist(3,2);   W1 = -Slist(3,4);   L1 = Slist(5,2);    
+    L1_add_L2 = M(0,3);     L2 =  L1_add_L2 - L1;
+    W1_add_W2 = M(1,3);         H1_minus_H2 = M(2,3);
+
+    /******** 求解 theta_1 ************/
+    Vector2d theta_1;
+    Vector4d q_5;
+    q_5 << L1_add_L2, W1, H1_minus_H2, 1;
+    Matrix4d T_a = T_eef * TransInv(M);
+    Vector4d q_5_temp = T_a * q_5;
+    Vector3d u_p_1, u_p_2, v_p;
+    u_p_1 << sqrt( pow(q_5_temp(0),2) + pow(q_5_temp(1),2) - pow(W1,2) ), W1, 0;
+    u_p_2 << -u_p_1(0), W1, 0;
+    v_p <<  q_5_temp(0), q_5_temp(1), 0;
+    theta_1(0) = atan2( Slist.block<3,1>(0,0).dot( u_p_1.cross( v_p ) ),  u_p_1.dot( v_p ) );
+    theta_1(1) = atan2( Slist.block<3,1>(0,0).dot( u_p_2.cross( v_p ) ),  u_p_2.dot( v_p ) );
+
+    /******** 求解 theta_5 ************/
+    Vector2d theta_5_1, theta_5_2;
+    Matrix4d T_b_1 = MatrixExp6( VecTose3( Slist.col(0) * (-theta_1(0)) ) ) * T_a;
+    Matrix4d T_b_2 = MatrixExp6( VecTose3( Slist.col(0) * (-theta_1(1)) ) ) * T_a;
+    theta_5_1(0) = acos(T_b_1(1,1));    
+    theta_5_1(1) = -acos(T_b_1(1,1));
+    theta_5_2(0) = acos(T_b_2(1,1));   
+    theta_5_2(1) = -acos(T_b_2(1,1));        
+
+    /******** 求解 theta_6 ************/
+    Vector2d theta_6_1, theta_6_2;
+    theta_6_1(0) = atan2(T_b_1(1,2) / (-sin(theta_5_1(0))), T_b_1(1,0) / (-sin(theta_5_1(0))));
+    theta_6_1(1) = atan2(T_b_1(1,2) / (-sin(theta_5_1(1))), T_b_1(1,0) / (-sin(theta_5_1(1))));
+    theta_6_2(0) = atan2(T_b_2(1,2) / (-sin(theta_5_2(0))), T_b_2(1,0) / (-sin(theta_5_2(0))));
+    theta_6_2(1) = atan2(T_b_2(1,2) / (-sin(theta_5_2(1))), T_b_2(1,0) / (-sin(theta_5_2(1))));
+
+    /******** 求解 theta_234 ************/
+    Vector4d theta_234;
+    theta_234(0) = atan2(T_b_1(0,2) * cos(theta_6_1(0)) - T_b_1(0,0) * sin(theta_6_1(0)) , T_b_1(2,2) * cos(theta_6_1(0)) - T_b_1(2,0) * sin(theta_6_1(0)));
+    theta_234(1) = atan2(T_b_1(0,2) * cos(theta_6_1(1)) - T_b_1(0,0) * sin(theta_6_1(1)) , T_b_1(2,2) * cos(theta_6_1(1)) - T_b_1(2,0) * sin(theta_6_1(1)));
+    theta_234(2) = atan2(T_b_2(0,2) * cos(theta_6_2(0)) - T_b_2(0,0) * sin(theta_6_2(0)) , T_b_2(2,2) * cos(theta_6_2(0)) - T_b_2(2,0) * sin(theta_6_2(0)));
+    theta_234(3) = atan2(T_b_2(0,2) * cos(theta_6_2(1)) - T_b_2(0,0) * sin(theta_6_2(1)) , T_b_2(2,2) * cos(theta_6_2(1)) - T_b_2(2,0) * sin(theta_6_2(1)));
+
+    /** 求解 theta_3 theta_2 theta_4 **/
+    Vector2d theta_2_1, theta_2_2, theta_2_3, theta_2_4;
+    Vector2d theta_3_1, theta_3_2, theta_3_3, theta_3_4;
+    Vector2d theta_4_1, theta_4_2, theta_4_3, theta_4_4;
+
+    Matrix4d T_c_1 = T_b_1 * MatrixExp6( VecTose3(Slist.col(5) * (-theta_6_1(0))) ) * MatrixExp6( VecTose3(Slist.col(4) * (-theta_5_1(0))) );
+    Matrix4d T_c_2 = T_b_1 * MatrixExp6( VecTose3(Slist.col(5) * (-theta_6_1(1))) ) * MatrixExp6( VecTose3(Slist.col(4) * (-theta_5_1(1))) );
+    Matrix4d T_c_3 = T_b_2 * MatrixExp6( VecTose3(Slist.col(5) * (-theta_6_2(0))) ) * MatrixExp6( VecTose3(Slist.col(4) * (-theta_5_2(0))) );
+    Matrix4d T_c_4 = T_b_2 * MatrixExp6( VecTose3(Slist.col(5) * (-theta_6_2(1))) ) * MatrixExp6( VecTose3(Slist.col(4) * (-theta_5_2(1))) );
+
+    Vector3d O3, O2, q4, u_p, O32, O23;
+    Vector4d q_4;
+    O3 << L1, W1, H1;           
+    O2 << 0, W1, H1;
+    q4 << L1_add_L2, W1, H1;    
+    q_4 << L1_add_L2, W1, H1, 1;
+    u_p = q4 - O3;  
+    O32 = O2 - O3;              
+    O23 = O3 - O2;
+
+    Vector3d v_p_1, v_p_2, v_p_3, v_p_4;
+    Vector4d v_p_1_temp = T_c_1 * q_4;      v_p_1 = v_p_1_temp.block<3,1>(0,0) - O2;
+    Vector4d v_p_2_temp = T_c_2 * q_4;      v_p_2 = v_p_2_temp.block<3,1>(0,0) - O2;
+    Vector4d v_p_3_temp = T_c_3 * q_4;      v_p_3 = v_p_3_temp.block<3,1>(0,0) - O2;
+    Vector4d v_p_4_temp = T_c_4 * q_4;      v_p_4 = v_p_4_temp.block<3,1>(0,0) - O2;
+    
+    Vector3d w3, w2;
+    w3 = Slist.block<3,1>(0,2);
+    w2 = Slist.block<3,1>(0,1);
+    double theta03 = atan2( w3.dot( u_p.cross(O32) ),  u_p.dot(O32) );
+    double theta02_1 = atan2( w2.dot( O23.cross(v_p_1) ),  O23.dot(v_p_1) );
+    double theta02_2 = atan2( w2.dot( O23.cross(v_p_2) ),  O23.dot(v_p_2) );
+    double theta02_3 = atan2( w2.dot( O23.cross(v_p_3) ),  O23.dot(v_p_3) );
+    double theta02_4 = atan2( w2.dot( O23.cross(v_p_4) ),  O23.dot(v_p_4) );
+
+    if (abs(L2 - L1) <= v_p_1.norm() && abs(v_p_1.norm() - L1) <= L2)
+    {
+        double alpha_1 = acos( ( pow(L2,2) + pow(L1,2) - pow(v_p_1.norm(),2) ) / (2 * L2 * L1) );
+        double beta_1 = acos( ( pow(v_p_1.norm(),2) + pow(L1,2) - pow(L2,2) ) / (2 * v_p_1.norm() * L1) );
+        theta_3_1(0) = theta03 - alpha_1;
+        theta_3_1(1) = theta03 + alpha_1;
+        theta_2_1(0) = theta02_1 - beta_1;
+        theta_2_1(1) = theta02_1 + beta_1;
+        theta_4_1(0) = theta_234(0) - theta_3_1(0) - theta_2_1(0);
+        theta_4_1(1) = theta_234(0) - theta_3_1(1) - theta_2_1(1);
+    }
+    else{
+        theta_flag(0) = 0;  
+        theta_flag(1) = 0; 
+    }
+
+    if (abs(L2 - L1) <= v_p_2.norm() && abs(v_p_2.norm() - L1) <= L2)
+    {
+        double alpha_2 = acos( ( pow(L2,2) + pow(L1,2) - pow(v_p_2.norm(),2) ) / (2 * L2 * L1) );
+        double beta_2 = acos( ( pow(v_p_2.norm(),2) + pow(L1,2) - pow(L2,2) ) / (2 * v_p_2.norm() * L1) );
+        theta_3_2(0) = theta03 - alpha_2;
+        theta_3_2(1) = theta03 + alpha_2;
+        theta_2_2(0) = theta02_2 - beta_2;
+        theta_2_2(1) = theta02_2 + beta_2;
+        theta_4_2(0) = theta_234(1) - theta_3_2(0) - theta_2_2(0);
+        theta_4_2(1) = theta_234(1) - theta_3_2(1) - theta_2_2(1);
+    }
+    else{
+        theta_flag(2) = 0;  
+        theta_flag(3) = 0; 
+    }        
+
+    if (abs(L2 - L1) <= v_p_3.norm() && abs(v_p_3.norm() - L1) <= L2)
+    {
+        double alpha_3 = acos( ( pow(L2,2) + pow(L1,2) - pow(v_p_3.norm(),2) ) / (2 * L2 * L1) );
+        double beta_3 = acos( ( pow(v_p_3.norm(),2) + pow(L1,2) - pow(L2,2) ) / (2 * v_p_3.norm() * L1) );
+        theta_3_3(0) = theta03 - alpha_3;
+        theta_3_3(1) = theta03 + alpha_3;
+        theta_2_3(0) = theta02_3 - beta_3;
+        theta_2_3(1) = theta02_3 + beta_3;
+        theta_4_3(0) = theta_234(2) - theta_3_3(0) - theta_2_3(0);
+        theta_4_3(1) = theta_234(2) - theta_3_3(1) - theta_2_3(1);
+    }
+    else{
+        theta_flag(4) = 0;  
+        theta_flag(5) = 0; 
+    }  
+
+    if (abs(L2 - L1) <= v_p_4.norm() && abs(v_p_4.norm() - L1) <= L2)
+    {
+        double alpha_4 = acos( ( pow(L2,2) + pow(L1,2) - pow(v_p_4.norm(),2) ) / (2 * L2 * L1) );
+        double beta_4 = acos( ( pow(v_p_4.norm(),2) + pow(L1,2) - pow(L2,2) ) / (2 * v_p_4.norm() * L1) );
+        theta_3_4(0) = theta03 - alpha_4;
+        theta_3_4(1) = theta03 + alpha_4;
+        theta_2_4(0) = theta02_4 - beta_4;
+        theta_2_4(1) = theta02_4 + beta_4;
+        theta_4_4(0) = theta_234(3) - theta_3_4(0) - theta_2_4(0);
+        theta_4_4(1) = theta_234(3) - theta_3_4(1) - theta_2_4(1);
+    }
+    else{
+        theta_flag(6) = 0;  
+        theta_flag(7) = 0; 
+    }  
+
+    /************ 逆解整理 ************/
+    MatrixXd theta_result_temp(8,6);
+
+    theta_result_temp.block<4,1>(0,0) = MatrixXd::Ones(4,1) *  theta_1(0);
+    theta_result_temp.block<4,1>(4,0) = MatrixXd::Ones(4,1) *  theta_1(1);
+
+    theta_result_temp.block<2,1>(0,4) = MatrixXd::Ones(2,1) *  theta_5_1(0);
+    theta_result_temp.block<2,1>(2,4) = MatrixXd::Ones(2,1) *  theta_5_1(1);
+    theta_result_temp.block<2,1>(4,4) = MatrixXd::Ones(2,1) *  theta_5_2(0);
+    theta_result_temp.block<2,1>(6,4) = MatrixXd::Ones(2,1) *  theta_5_2(1);
+
+    theta_result_temp.block<2,1>(0,5) = MatrixXd::Ones(2,1) *  theta_6_1(0);
+    theta_result_temp.block<2,1>(2,5) = MatrixXd::Ones(2,1) *  theta_6_1(1);
+    theta_result_temp.block<2,1>(4,5) = MatrixXd::Ones(2,1) *  theta_6_2(0);
+    theta_result_temp.block<2,1>(6,5) = MatrixXd::Ones(2,1) *  theta_6_2(1);
+
+    theta_result_temp(0,2) = theta_3_1(0);  theta_result_temp(1,2) = theta_3_1(1);
+    theta_result_temp(2,2) = theta_3_2(0);  theta_result_temp(3,2) = theta_3_2(1);
+    theta_result_temp(4,2) = theta_3_3(0);  theta_result_temp(5,2) = theta_3_3(1);
+    theta_result_temp(6,2) = theta_3_4(0);  theta_result_temp(7,2) = theta_3_4(1);
+
+    theta_result_temp(0,1) = theta_2_1(0);  theta_result_temp(1,1) = theta_2_1(1);
+    theta_result_temp(2,1) = theta_2_2(0);  theta_result_temp(3,1) = theta_2_2(1);
+    theta_result_temp(4,1) = theta_2_3(0);  theta_result_temp(5,1) = theta_2_3(1);
+    theta_result_temp(6,1) = theta_2_4(0);  theta_result_temp(7,1) = theta_2_4(1);
+
+    theta_result_temp(0,3) = theta_4_1(0);  theta_result_temp(1,3) = theta_4_1(1);
+    theta_result_temp(2,3) = theta_4_2(0);  theta_result_temp(3,3) = theta_4_2(1);
+    theta_result_temp(4,3) = theta_4_3(0);  theta_result_temp(5,3) = theta_4_3(1);
+    theta_result_temp(6,3) = theta_4_4(0);  theta_result_temp(7,3) = theta_4_4(1);  
+
+    /************ 提取有限逆解 theta_result ************/ 
+    int N = theta_flag.sum();
+
+    if (N == 0)
+        return false;
+
+    MatrixXd theta_result(N,6); 
+    int cnt = 0;
+    for (int i = 0; i < 8; i++)
+    {
+        if(NearZear(theta_flag(i) - 1))
+        {
+            theta_result.row(cnt) =  theta_result_temp.row(i);
+            for (int j = 0; j < 6; j++){
+                if(theta_result(cnt, j) > M_PI){
+                    theta_result(cnt, j) -= 2*M_PI;
+                } 
+                else if (theta_result(cnt, j) < -M_PI){
+                    theta_result(cnt, j) += 2*M_PI;
+                }
+            }
+            cnt++;
+        }           
+    }
+
+    /************ 计算转动角度最小的一组可行解 ************/ 
+    double thetalist_error_min = 100.0;
+    for (int i = 0; i < N; i++)
+    {
+        VectorXd thetalist_error = theta_result.row(i).transpose() - thetalist0;
+        double error = thetalist_error.transpose() * thetalist_error;
+        if (error < thetalist_error_min)
+        {
+            thetalist_error_min = error;
+            thetalist = theta_result.row(i);
+        }
+    }
+
+    return true;   
+}
+/*
+Takes Slist: The joint screw axes in the space frame when the manipulator
+             is at the home position,
+      M: The home configuration of the end-effector,
+      T_eef: The desired end-effector configuration Tsd,
+      thetalist0: An initial guess of joint angles that are close to
+                  satisfying Tsd
+Returns thetalist: Joint angles that achieve T within the specified
+                   tolerances,
+        success: A logical value where TRUE means that the function found
+                 a solution and FALSE means found no solution
+用解析的POE逆运动学求解方法求解UR机械臂逆运动学
+Code:
+
+*/
 MatrixXd ad(VectorXd V){
     MatrixXd adV = MatrixXd::Zero(6,6);
     Matrix3d omgmat = VecToso3(V.block<3,1>(0,0));

@@ -45,7 +45,11 @@ Matrix4d eod_robot_right_arm_FKinBody(VectorXd thetalist);
 Matrix4d eod_robot_left_arm_FKinBody(VectorXd thetalist);
 
 /*机器人Base坐标系逆运动学：牛顿-辛普森方法*/
-bool eod_robot_IKinSpace(MatrixXd Slist, Matrix4d M, Matrix4d T, VectorXd thetalist0, double eomg, double ev, VectorXd& thetalist, Matrix4d T_base_arm);
+bool eod_robot_IKinSpace_NR(MatrixXd Slist, Matrix4d M, Matrix4d T, VectorXd thetalist0, double eomg, double ev, VectorXd& thetalist, Matrix4d T_base_arm);
+
+/*机器人Base坐标系逆运动学：POE解析方法*/
+//bool eod_robot_IKinSpace_NR(MatrixXd Slist, Matrix4d M, Matrix4d T, VectorXd thetalist0, double eomg, double ev, VectorXd& thetalist, Matrix4d T_base_arm);
+/**********************************/
 
 /*机器人右臂Base坐标系逆运动学：牛顿-辛普森方法*/
 bool eod_robot_right_arm_IKinSpace(Matrix4d T, VectorXd thetalist0, double eomg, double ev, VectorXd& thetalist);
@@ -54,7 +58,7 @@ bool eod_robot_right_arm_IKinSpace(Matrix4d T, VectorXd thetalist0, double eomg,
 bool eod_robot_left_arm_IKinSpace(Matrix4d T, VectorXd thetalist0, double eomg, double ev, VectorXd& thetalist);
 
 /*机器人Body坐标系逆运动学：牛顿-辛普森方法*/
-bool eod_robot_IKinBody(MatrixXd Blist, Matrix4d M, Matrix4d T, VectorXd thetalist0, double eomg, double ev, VectorXd& thetalist, Matrix4d T_base_arm);
+bool eod_robot_IKinBody_NR(MatrixXd Blist, Matrix4d M, Matrix4d T, VectorXd thetalist0, double eomg, double ev, VectorXd& thetalist, Matrix4d T_base_arm);
 
 /*机器人右臂Body坐标系逆运动学：牛顿-辛普森方法*/
 bool eod_robot_right_arm_IKinBody(Matrix4d T, VectorXd thetalist0, double eomg, double ev, VectorXd& thetalist);
@@ -187,5 +191,8 @@ void tf_rotation2Matrix_R(geometry_msgs::TransformStamped trans, Matrix3d& R);
 
 /*tf的位置向量转Eigen的位置向量*/
 void tf_translation2Matrix_p(geometry_msgs::TransformStamped trans, Vector3d& p);
+
+
+
 
 #endif //EOD_ROBOTICS_LIB_H

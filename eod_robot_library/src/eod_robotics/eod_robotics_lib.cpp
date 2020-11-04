@@ -46,7 +46,7 @@ Matrix4d eod_robot_left_arm_FKinBody(VectorXd thetalist)
     return eod_robot_FKinSpace(M_arm_left, Blist_arm_left, thetalist, T_base_left_arm);
 }
 
-bool eod_robot_IKinSpace(MatrixXd Slist, Matrix4d M, Matrix4d T, VectorXd thetalist0, double eomg, double ev, VectorXd& thetalist, Matrix4d T_base_arm)
+bool eod_robot_IKinSpace_NR(MatrixXd Slist, Matrix4d M, Matrix4d T, VectorXd thetalist0, double eomg, double ev, VectorXd& thetalist, Matrix4d T_base_arm)
 {
     Matrix4d T_temp;
 
@@ -61,7 +61,7 @@ bool eod_robot_right_arm_IKinSpace(Matrix4d T, VectorXd thetalist0, double eomg,
 
     get_arm_right_ParamSpace(Slist_arm_right, M_arm_right, T_base_right_arm);    
 
-    return eod_robot_IKinSpace(Slist_arm_right, M_arm_right, T, thetalist0, eomg, ev, thetalist, T_base_right_arm);
+    return eod_robot_IKinSpace_NR(Slist_arm_right, M_arm_right, T, thetalist0, eomg, ev, thetalist, T_base_right_arm);
 
 }
 
@@ -71,11 +71,11 @@ bool eod_robot_left_arm_IKinSpace(Matrix4d T, VectorXd thetalist0, double eomg, 
 
     get_arm_left_ParamSpace(Slist_arm_left, M_arm_left, T_base_left_arm);  
 
-    return eod_robot_IKinSpace(Slist_arm_left, M_arm_left, T, thetalist0, eomg, ev, thetalist, T_base_left_arm);  
+    return eod_robot_IKinSpace_NR(Slist_arm_left, M_arm_left, T, thetalist0, eomg, ev, thetalist, T_base_left_arm);  
 }
 
 
-bool eod_robot_IKinBody(MatrixXd Blist, Matrix4d M, Matrix4d T, VectorXd thetalist0, double eomg, double ev, VectorXd& thetalist, Matrix4d T_base_arm)
+bool eod_robot_IKinBody_NR(MatrixXd Blist, Matrix4d M, Matrix4d T, VectorXd thetalist0, double eomg, double ev, VectorXd& thetalist, Matrix4d T_base_arm)
 {
     Matrix4d T_temp;
 
@@ -91,7 +91,7 @@ bool eod_robot_right_arm_IKinBody(Matrix4d T, VectorXd thetalist0, double eomg, 
 
     get_arm_right_ParamBody(Blist_arm_right, M_arm_right, T_base_right_arm);    
 
-    return eod_robot_IKinBody(Blist_arm_right, M_arm_right, T, thetalist0, eomg, ev, thetalist, T_base_right_arm);
+    return eod_robot_IKinBody_NR(Blist_arm_right, M_arm_right, T, thetalist0, eomg, ev, thetalist, T_base_right_arm);
 }
 
 bool eod_robot_left_arm_IKinBody(Matrix4d T, VectorXd thetalist0, double eomg, double ev, VectorXd& thetalist)
@@ -100,7 +100,7 @@ bool eod_robot_left_arm_IKinBody(Matrix4d T, VectorXd thetalist0, double eomg, d
 
     get_arm_left_ParamBody(Blist_arm_left, M_arm_left, T_base_left_arm);  
 
-    return eod_robot_IKinBody(Blist_arm_left, M_arm_left, T, thetalist0, eomg, ev, thetalist, T_base_left_arm); 
+    return eod_robot_IKinBody_NR(Blist_arm_left, M_arm_left, T, thetalist0, eomg, ev, thetalist, T_base_left_arm); 
 }
 
 
@@ -731,3 +731,4 @@ void tf_translation2Matrix_p(geometry_msgs::TransformStamped trans, Vector3d& p)
         p[1] = trans.transform.translation.y;
         p[2] = trans.transform.translation.z;
 }
+
