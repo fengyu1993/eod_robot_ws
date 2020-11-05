@@ -1,9 +1,5 @@
 #include "modern_robotics_lib.h"
 
-
-bool NearZear(double z){
-    return abs(z) < 1e-6;
-}
 /*
     Takes a scalar.
     Checks if the scalar is small enough to be neglected.
@@ -15,10 +11,10 @@ bool NearZear(double z){
     cout << NearZear(0.2) << endl;
     cout << NearZear(1e-8) << endl;
 */
-
-Vector3d  Normalize(Vector3d  V){ 
-    return V / V.norm();
+bool NearZear(double z){
+    return abs(z) < 1e-6;
 }
+
 /*
     Takes a vector.
     Scales it to a unit vector.
@@ -31,10 +27,10 @@ Vector3d  Normalize(Vector3d  V){
     Vector3d norm_v = Normalize(V);
     cout << norm_v << endl;
 */
-
-Matrix3d RotInv(Matrix3d R){
-    return R.transpose();
+Vector3d  Normalize(Vector3d  V){ 
+    return V / V.norm();
 }
+
 /*
     Takes a 3x3 rotation matrix.
     Returns the inverse (transpose).
@@ -53,14 +49,10 @@ Matrix3d RotInv(Matrix3d R){
     Matrix3d R_T = RotInv(R);
     cout << R_T << endl;
  */
-
-Matrix3d VecToso3(Vector3d omg){
-    Matrix3d so3 = Matrix3d::Zero(3, 3);
-    so3(0,1) = -omg(2);   so3(0,2) = omg(1);
-    so3(1,0) = omg(2);    so3(1,2) = -omg(0);
-    so3(2,0) = -omg(1);   so3(2,1) = omg(0);
-    return so3;
+Matrix3d RotInv(Matrix3d R){
+    return R.transpose();
 }
+
 /*
     Takes a 3-vector (angular velocity).
     Returns the skew symmetric matrix in so3.
@@ -75,11 +67,14 @@ Matrix3d VecToso3(Vector3d omg){
     MatrixXd so3 = VecToso3(omg);
     cout << so3 << endl;
 */
-
-Vector3d so3ToVec(Matrix3d  omg){
-    Vector3d v(omg(2,1), omg(0,2), omg(1,0));
-    return v;
+Matrix3d VecToso3(Vector3d omg){
+    Matrix3d so3 = Matrix3d::Zero(3, 3);
+    so3(0,1) = -omg(2);   so3(0,2) = omg(1);
+    so3(1,0) = omg(2);    so3(1,2) = -omg(0);
+    so3(2,0) = -omg(1);   so3(2,1) = omg(0);
+    return so3;
 }
+
 /*
     Takes a 3x3 skew-symmetric matrix (an element of so(3)).
     Returns the corresponding vector (angular velocity).
@@ -93,11 +88,11 @@ Vector3d so3ToVec(Matrix3d  omg){
     Vector3d v = so3ToVec(so3);
     cout << v << endl;
  */
-
-void AxisAng3(Vector3d expc3, Vector3d& unitV, double& theta){
-    unitV = Normalize(expc3);
-    theta = expc3.norm();
+Vector3d so3ToVec(Matrix3d  omg){
+    Vector3d v(omg(2,1), omg(0,2), omg(1,0));
+    return v;
 }
+
 /*
     Takes A 3-vector of exponential coordinates for rotation.
     Returns unit rotation axis omghat and the corresponding rotation angle
@@ -115,17 +110,11 @@ void AxisAng3(Vector3d expc3, Vector3d& unitV, double& theta){
     cout << unitV << endl;
     cout << theta << endl;
  */
-
-Matrix3d MatrixExp3(Matrix3d so3mat){
-    Vector3d omgtheta = so3ToVec(so3mat);
-    if (NearZear(omgtheta.norm()))
-        return Matrix3d::Identity();
-    else{
-        double theta = omgtheta.norm();
-        Matrix3d omgmat = so3mat / theta;
-        return  Matrix3d::Identity() + sin(theta)*omgmat + (1 - cos(theta))*omgmat*omgmat;
-    }
+void AxisAng3(Vector3d expc3, Vector3d& unitV, double& theta){
+    unitV = Normalize(expc3);
+    theta = expc3.norm();
 }
+
 /*
     Takes a so(3) representation of exponential coordinates.
     Returns R in SO(3) that is achieved by rotating about omghat by theta from
@@ -145,7 +134,33 @@ Matrix3d MatrixExp3(Matrix3d so3mat){
     so3mat = Matrix3d::Zero();
     cout << MatrixExp3(so3mat) << endl;
  */
+Matrix3d MatrixExp3(Matrix3d so3mat){
+    Vector3d omgtheta = so3ToVec(so3mat);
+    if (NearZear(omgtheta.norm()))
+        return Matrix3d::Identity();
+    else{
+        double theta = omgtheta.norm();
+        Matrix3d omgmat = so3mat / theta;
+        return  Matrix3d::Identity() + sin(theta)*omgmat + (1 - cos(theta))*omgmat*omgmat;
+    }
+}
 
+/*
+    Takes R (rotation matrix).
+    Returns the corresponding so(3) representation of exponential coordinates.
+    Example Input:
+    R = [[0, 0, 1],
+         [1, 0, 0],
+         [0, 1, 0]]
+    Output:
+    [[          0, -1.20919958,  1.20919958],
+     [ 1.20919958,           0, -1.20919958],
+     [-1.20919958,  1.20919958,           0]]
+     Code:
+    MatrixXd R(3,3);
+    R << 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0;
+    cout << MatrixLog3(R) << endl;
+ */
 Matrix3d MatrixLog3(Matrix3d R){
     Vector3d omg;
     if (NearZear((R - Matrix3d::Identity()).maxCoeff()))
@@ -178,28 +193,7 @@ Matrix3d MatrixLog3(Matrix3d R){
             return theta * (1 / (2.0 * sin(theta)))* (R - R.transpose());
     }
 }
-/*
-    Takes R (rotation matrix).
-    Returns the corresponding so(3) representation of exponential coordinates.
-    Example Input:
-    R = [[0, 0, 1],
-         [1, 0, 0],
-         [0, 1, 0]]
-    Output:
-    [[          0, -1.20919958,  1.20919958],
-     [ 1.20919958,           0, -1.20919958],
-     [-1.20919958,  1.20919958,           0]]
-     Code:
-    MatrixXd R(3,3);
-    R << 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0;
-    cout << MatrixLog3(R) << endl;
- */
 
-void RpToTrans(Matrix3d R, Vector3d p, Matrix4d& T){
-    T = Matrix4d::Identity();
-    T.block<3,3>(0,0) << R;
-    T.block<3,1>(0,3) << p;
-}
 /*
 Takes rotation matrix R and position p.
 Returns corresponding homogeneous transformation matrix T in SE(3).
@@ -221,11 +215,12 @@ Output:
     RpToTrans(R, p, T);
     cout << T << endl;
  */
-
-void TransToRp(Matrix4d T, Matrix3d& R, Vector3d& p){
-    R << T.block<3,3>(0,0);
-    p << T.block<3,1>(0,3);
+void RpToTrans(Matrix3d R, Vector3d p, Matrix4d& T){
+    T = Matrix4d::Identity();
+    T.block<3,3>(0,0) << R;
+    T.block<3,1>(0,3) << p;
 }
+
 /*
 Takes transformation matrix T in SE(3).
 Returns R: The corresponding rotation matrix,
@@ -245,16 +240,11 @@ Output:
     cout << R << endl;
     cout << p << endl;
  */
-
-Matrix4d TransInv(Matrix4d T){
-    Matrix3d R; Vector3d p;
-    TransToRp(T, R, p);
-    Matrix3d Rt = R.transpose();
-    Matrix4d Tinv = MatrixXd::Identity(4,4);
-    Tinv.block<3,3>(0,0) = Rt;
-    Tinv.block<3,1>(0,3) = -Rt * p;
-    return Tinv;
+void TransToRp(Matrix4d T, Matrix3d& R, Vector3d& p){
+    R << T.block<3,3>(0,0);
+    p << T.block<3,1>(0,3);
 }
+
 /*
 Takes a transformation matrix T.
 Returns its inverse.
@@ -276,13 +266,16 @@ Output:
     Matrix4d Tinv = TransInv(T);
     cout << Tinv << endl;
  */
-
-Matrix4d VecTose3(VectorXd V){
-    Matrix4d se3 = MatrixXd::Zero(4,4);
-    Matrix3d so3 = VecToso3(V.block<3,1>(0,0));
-    se3.block<3,4>(0,0) << so3, V.block<3,1>(3,0);
-    return se3;
+Matrix4d TransInv(Matrix4d T){
+    Matrix3d R; Vector3d p;
+    TransToRp(T, R, p);
+    Matrix3d Rt = R.transpose();
+    Matrix4d Tinv = MatrixXd::Identity(4,4);
+    Tinv.block<3,3>(0,0) = Rt;
+    Tinv.block<3,1>(0,3) = -Rt * p;
+    return Tinv;
 }
+
 /*
 Takes a 6-vector (representing a spatial velocity).
 Returns the corresponding 4x4 se(3) matrix.
@@ -299,12 +292,13 @@ Output:
     Matrix4d se3 = VecTose3(V);
     cout << se3 << endl;
  */
-
-VectorXd se3ToVec(Matrix4d se3){
-    VectorXd V(6);
-    V << se3(2,1), se3(0,2),se3(1,0),se3(0,3),se3(1,3),se3(2,3);
-    return V;
+Matrix4d VecTose3(VectorXd V){
+    Matrix4d se3 = MatrixXd::Zero(4,4);
+    Matrix3d so3 = VecToso3(V.block<3,1>(0,0));
+    se3.block<3,4>(0,0) << so3, V.block<3,1>(3,0);
+    return se3;
 }
+
 /*
 Takes se3mat a 4x4 se(3) matrix.
 Returns the corresponding 6-vector (representing spatial velocity).
@@ -318,17 +312,12 @@ Output:
  Code:
      cout << se3ToVec(se3) << endl;
  */
-
-MatrixXd Adjoint(Matrix4d T){
-    MatrixXd Ad(6,6);
-    Ad = MatrixXd::Zero(6,6);
-    Matrix3d R; Vector3d p;
-    TransToRp(T, R, p);
-    Ad.block<3,3>(0,0) = R;
-    Ad.block<3,3>(3,0) = VecToso3(p) * R;
-    Ad.block<3,3>(3,3) = R;
-    return Ad;
+VectorXd se3ToVec(Matrix4d se3){
+    VectorXd V(6);
+    V << se3(2,1), se3(0,2),se3(1,0),se3(0,3),se3(1,3),se3(2,3);
+    return V;
 }
+
 /*
 Takes T a transformation matrix SE(3).
 Returns the corresponding 6x6 adjoint representation [AdT].
@@ -350,13 +339,17 @@ Output:
         cout << T << endl;
         cout << Adjoint(T) << endl;
  */
-
-VectorXd ScrewToAxis(Vector3d q, Vector3d s, double h){
-    VectorXd screw(6);
-    screw.block<3,1>(0,0) << s;
-    screw.block<3,1>(3,0) << q.cross(s) + h * s ;
-    return  screw;
+MatrixXd Adjoint(Matrix4d T){
+    MatrixXd Ad(6,6);
+    Ad = MatrixXd::Zero(6,6);
+    Matrix3d R; Vector3d p;
+    TransToRp(T, R, p);
+    Ad.block<3,3>(0,0) = R;
+    Ad.block<3,3>(3,0) = VecToso3(p) * R;
+    Ad.block<3,3>(3,3) = R;
+    return Ad;
 }
+
 /*
 Takes q: A point lying on the screw axis,
       s: A unit vector in the direction of the screw axis,
@@ -373,13 +366,13 @@ Output:
     double h = 2;
     cout << ScrewToAxis(q, s, h) << endl;
  */
-
-void AxisAng6(VectorXd expc6, VectorXd& S, double& theta){
-    theta = expc6.block<3,1>(0,0).norm();
-    if (NearZear(theta))
-        theta = expc6.block<3,1>(3,0).norm();
-    S = expc6 / theta;
+VectorXd ScrewToAxis(Vector3d q, Vector3d s, double h){
+    VectorXd screw(6);
+    screw.block<3,1>(0,0) << s;
+    screw.block<3,1>(3,0) << q.cross(s) + h * s ;
+    return  screw;
 }
+
 /*
 Takes a 6-vector of exponential coordinates for rigid-body motion S*theta.
 Returns S: The corresponding normalized screw axis,
@@ -396,22 +389,13 @@ Output:
     cout << S << endl;
     cout << theta << endl;
  */
-
-Matrix4d MatrixExp6(Matrix4d se3mat){
-    Matrix4d T = MatrixXd::Identity(4,4);
-    Matrix3d  so3mat = se3mat.block<3,3>(0,0);
-    Vector3d omgtheta = so3ToVec(so3mat);
-    if (NearZear(omgtheta.norm()))
-        T.block<3,1>(0,3) = se3mat.block<3,1>(0,3);
-    else{
-        Vector3d omghat; double theta;
-        AxisAng3(omgtheta, omghat, theta);
-        Matrix3d omgmat = so3mat / theta;
-        T.block<3,3>(0,0) << MatrixExp3(so3mat);
-        T.block<3,1>(0,3) << (MatrixXd::Identity(3,3) * theta + (1 - cos(theta)) * omgmat + (theta - sin(theta)) * omgmat * omgmat) * se3mat.block<3,1>(0,3) / theta;
-    }
-    return T;
+void AxisAng6(VectorXd expc6, VectorXd& S, double& theta){
+    theta = expc6.block<3,1>(0,0).norm();
+    if (NearZear(theta))
+        theta = expc6.block<3,1>(3,0).norm();
+    S = expc6 / theta;
 }
+
 /*
 Takes a se(3) representation of exponential coordinates.
 Returns a T matrix SE(3) that is achieved by traveling along/about the
@@ -433,7 +417,36 @@ Output:
     cout << se3mat << endl;
     cout << T << endl;
  */
+Matrix4d MatrixExp6(Matrix4d se3mat){
+    Matrix4d T = MatrixXd::Identity(4,4);
+    Matrix3d  so3mat = se3mat.block<3,3>(0,0);
+    Vector3d omgtheta = so3ToVec(so3mat);
+    if (NearZear(omgtheta.norm()))
+        T.block<3,1>(0,3) = se3mat.block<3,1>(0,3);
+    else{
+        Vector3d omghat; double theta;
+        AxisAng3(omgtheta, omghat, theta);
+        Matrix3d omgmat = so3mat / theta;
+        T.block<3,3>(0,0) << MatrixExp3(so3mat);
+        T.block<3,1>(0,3) << (MatrixXd::Identity(3,3) * theta + (1 - cos(theta)) * omgmat + (theta - sin(theta)) * omgmat * omgmat) * se3mat.block<3,1>(0,3) / theta;
+    }
+    return T;
+}
 
+/*
+Takes a transformation matrix T in SE(3).
+Returns the corresponding se(3) representation of exponential coordinates.
+Example Input:
+T = [[1,0,0,0], [0,0,-1,0], [0,1,0,3], [0,0,0,1]]
+Output:
+[[0,                 0,                  0,                 0],
+[0,                 0, -1.570796326794897, 2.356194490192345],
+[0, 1.570796326794897,                  0, 2.356194490192345],
+[0,                 0,                  0,                 0]]
+Code:
+    se3mat = MatrixLog6(T);
+    cout << se3mat << endl;
+ */
 MatrixXd MatrixLog6(Matrix4d T){
     MatrixXd se3 = MatrixXd::Zero(4,4);
     Matrix3d R; Vector3d p;
@@ -456,27 +469,7 @@ MatrixXd MatrixLog6(Matrix4d T){
     }
     return se3;
 }
-/*
-Takes a transformation matrix T in SE(3).
-Returns the corresponding se(3) representation of exponential coordinates.
-Example Input:
-T = [[1,0,0,0], [0,0,-1,0], [0,1,0,3], [0,0,0,1]]
-Output:
-[[0,                 0,                  0,                 0],
-[0,                 0, -1.570796326794897, 2.356194490192345],
-[0, 1.570796326794897,                  0, 2.356194490192345],
-[0,                 0,                  0,                 0]]
-Code:
-    se3mat = MatrixLog6(T);
-    cout << se3mat << endl;
- */
 
-Matrix4d FKinBody(Matrix4d M, MatrixXd Blist, VectorXd thetalist){
-    Matrix4d T = M;
-    for (int i = 0; i < thetalist.size(); i++)
-        T *= MatrixExp6(VecTose3(Blist.col(i) * thetalist(i)));
-    return T;
-}
 /*
 Takes M: The home configuration (position and orientation) of the
          end-effector,
@@ -509,13 +502,13 @@ Output:
     Matrix4d T = FKinBody(M, Blist, thetalist);
     cout << T << endl;
  */
-
-Matrix4d FKinSpace(Matrix4d M, MatrixXd Slist, VectorXd thetalist){
+Matrix4d FKinBody(Matrix4d M, MatrixXd Blist, VectorXd thetalist){
     Matrix4d T = M;
-    for (int i = thetalist.size()-1; i >= 0 ; i--)
-        T = MatrixExp6(VecTose3(Slist.col(i) * thetalist(i))) * T;
+    for (int i = 0; i < thetalist.size(); i++)
+        T *= MatrixExp6(VecTose3(Blist.col(i) * thetalist(i)));
     return T;
 }
+
 /*
 Takes M: the home configuration (position and orientation) of the
          end-effector,
@@ -548,16 +541,13 @@ Code:
     Matrix4d T = FKinSpace(M, Slist, thetalist);
     cout << T << endl;
  */
-
-MatrixXd JacobianBody(MatrixXd Blist,VectorXd thetalist){
-    int num = thetalist.size();
-    MatrixXd Jb = Blist; Matrix4d T = MatrixXd::Identity(4,4);
-    for (int i = num - 2; i >= 0; i--){
-        T *= MatrixExp6(VecTose3(Blist.col(i+1) * (-thetalist(i+1))));
-        Jb.col(i) = Adjoint(T) * Blist.col(i);
-    }
-    return Jb;
+Matrix4d FKinSpace(Matrix4d M, MatrixXd Slist, VectorXd thetalist){
+    Matrix4d T = M;
+    for (int i = thetalist.size()-1; i >= 0 ; i--)
+        T = MatrixExp6(VecTose3(Slist.col(i) * thetalist(i))) * T;
+    return T;
 }
+
 /*
 Takes Blist: The joint screw axes in the end-effector frame when the
              manipulator is at the home position,
@@ -586,16 +576,16 @@ Output:
     MatrixXd Jb = JacobianBody(Blist,thetalist);
     cout << Jb << endl;
  */
-
-MatrixXd JacobianSpace(MatrixXd Slist,VectorXd thetalist){
+MatrixXd JacobianBody(MatrixXd Blist,VectorXd thetalist){
     int num = thetalist.size();
-    MatrixXd Js = Slist; Matrix4d T = MatrixXd::Identity(4,4);
-    for (int i = 1; i < thetalist.size(); i++){
-        T *= MatrixExp6(VecTose3(Slist.col(i-1) * thetalist(i-1)));
-        Js.col(i) = Adjoint(T) * Slist.col(i);
+    MatrixXd Jb = Blist; Matrix4d T = MatrixXd::Identity(4,4);
+    for (int i = num - 2; i >= 0; i--){
+        T *= MatrixExp6(VecTose3(Blist.col(i+1) * (-thetalist(i+1))));
+        Jb.col(i) = Adjoint(T) * Blist.col(i);
     }
-    return Js;
+    return Jb;
 }
+
 /*
 Takes Slist: The joint screw axes in the space frame when the manipulator
              is at the home position,
@@ -624,7 +614,19 @@ Output:
     MatrixXd Js = JacobianSpace(Slist,thetalist);
     cout << Js << endl;
  */
+MatrixXd JacobianSpace(MatrixXd Slist,VectorXd thetalist){
+    int num = thetalist.size();
+    MatrixXd Js = Slist; Matrix4d T = MatrixXd::Identity(4,4);
+    for (int i = 1; i < thetalist.size(); i++){
+        T *= MatrixExp6(VecTose3(Slist.col(i-1) * thetalist(i-1)));
+        Js.col(i) = Adjoint(T) * Slist.col(i);
+    }
+    return Js;
+}
 
+/*
+计算矩阵的伪逆
+*/
 MatrixXd pseudoInverse(MatrixXd & origin) {
     double er = 0;
     // 进行svd分解
@@ -649,19 +651,6 @@ MatrixXd pseudoInverse(MatrixXd & origin) {
     return V * S * U.transpose();
 }
 
-bool IKinBody(MatrixXd Blist, Matrix4d M, Matrix4d T, VectorXd thetalist0, double eomg, double ev, VectorXd& thetalist){
-    thetalist = thetalist0;
-    int i = 0, maxiterations = 50;
-    MatrixXd Vb = se3ToVec(MatrixLog6(TransInv(FKinBody(M, Blist, thetalist)) * T));
-    bool err = Vb.block<3,1>(0,0).norm() > eomg ||  Vb.block<3,1>(3,0).norm() > ev;
-    while (err && i < maxiterations){
-        thetalist += JacobianBody(Blist, thetalist).jacobiSvd(ComputeThinU | ComputeThinV).solve(Vb);
-        i++;
-        Vb = se3ToVec(MatrixLog6(TransInv(FKinBody(M, Blist, thetalist)) * T));
-        err = Vb.block<3,1>(0,0).norm() > eomg ||  Vb.block<3,1>(3,0).norm() > ev;
-    }
-    return (! err);
-}
 /*
 Takes Blist: The joint screw axes in the end-effector frame when the
              manipulator is at the home position,
@@ -714,22 +703,20 @@ Code:
     cout << sus << endl;
     cout << thetalist << endl;
  */
-
-bool IKinSpace(MatrixXd Slist, Matrix4d M, Matrix4d T, VectorXd thetalist0, double eomg, double ev, VectorXd& thetalist){
+bool IKinBody(MatrixXd Blist, Matrix4d M, Matrix4d T, VectorXd thetalist0, double eomg, double ev, VectorXd& thetalist){
     thetalist = thetalist0;
     int i = 0, maxiterations = 50;
-    Matrix4d Tsb = FKinSpace(M, Slist, thetalist);
-    MatrixXd Vs = Adjoint(Tsb) * se3ToVec(MatrixLog6(TransInv(Tsb) * T));
-    bool err = Vs.block<3,1>(0,0).norm() > eomg ||  Vs.block<3,1>(3,0).norm() > ev;
+    MatrixXd Vb = se3ToVec(MatrixLog6(TransInv(FKinBody(M, Blist, thetalist)) * T));
+    bool err = Vb.block<3,1>(0,0).norm() > eomg ||  Vb.block<3,1>(3,0).norm() > ev;
     while (err && i < maxiterations){
-        thetalist += JacobianSpace(Slist, thetalist).jacobiSvd(ComputeThinU | ComputeThinV).solve(Vs);
+        thetalist += JacobianBody(Blist, thetalist).jacobiSvd(ComputeThinU | ComputeThinV).solve(Vb);
         i++;
-        Tsb = FKinSpace(M, Slist, thetalist);
-        Vs = Adjoint(Tsb) * se3ToVec(MatrixLog6(TransInv(Tsb) * T));
-        err = Vs.block<3,1>(0,0).norm() > eomg ||  Vs.block<3,1>(3,0).norm() > ev;
+        Vb = se3ToVec(MatrixLog6(TransInv(FKinBody(M, Blist, thetalist)) * T));
+        err = Vb.block<3,1>(0,0).norm() > eomg ||  Vb.block<3,1>(3,0).norm() > ev;
     }
     return (! err);
 }
+
 /*
 Takes Slist: The joint screw axes in the space frame when the manipulator
              is at the home position,
@@ -782,8 +769,41 @@ Code:
     cout << sus << endl;
     cout << thetalist << endl;
  */
+bool IKinSpace(MatrixXd Slist, Matrix4d M, Matrix4d T, VectorXd thetalist0, double eomg, double ev, VectorXd& thetalist){
+    thetalist = thetalist0;
+    int i = 0, maxiterations = 50;
+    Matrix4d Tsb = FKinSpace(M, Slist, thetalist);
+    MatrixXd Vs = Adjoint(Tsb) * se3ToVec(MatrixLog6(TransInv(Tsb) * T));
+    bool err = Vs.block<3,1>(0,0).norm() > eomg ||  Vs.block<3,1>(3,0).norm() > ev;
+    while (err && i < maxiterations){
+        thetalist += JacobianSpace(Slist, thetalist).jacobiSvd(ComputeThinU | ComputeThinV).solve(Vs);
+        i++;
+        Tsb = FKinSpace(M, Slist, thetalist);
+        Vs = Adjoint(Tsb) * se3ToVec(MatrixLog6(TransInv(Tsb) * T));
+        err = Vs.block<3,1>(0,0).norm() > eomg ||  Vs.block<3,1>(3,0).norm() > ev;
+    }
+    return (! err);
+}
 
-bool IKinSpace_POE(MatrixXd Slist, Matrix4d M, Matrix4d T_eef, VectorXd thetalist0, VectorXd& thetalist)
+/*
+Takes Slist: The joint screw axes in the space frame when the manipulator
+             is at the home position,
+      M: The home configuration of the end-effector,
+      T_eef: The desired end-effector configuration Tsd,
+      thetalist0: An initial guess of joint angles that are close to
+                  satisfying Tsd
+      method : 从可行的逆解中选解方法
+                1--与thetalist0距离最小
+                2--运动趋势最好
+Returns thetalist: Joint angles that achieve T within the specified
+                   tolerances,
+        success: A logical value where TRUE means that the function found
+                 a solution and FALSE means found no solution
+用解析的POE逆运动学求解方法求解UR机械臂逆运动学
+Code:
+
+*/
+bool IKinSpace_POE(MatrixXd Slist, Matrix4d M, Matrix4d T_eef, VectorXd thetalist0, int method, VectorXd& thetalist)
 {
     VectorXd theta_flag(8); 
     theta_flag << 1, 1, 1, 1, 1, 1, 1, 1;
@@ -984,44 +1004,55 @@ bool IKinSpace_POE(MatrixXd Slist, Matrix4d M, Matrix4d T_eef, VectorXd thetalis
         }           
     }
 
-    /************ 计算转动角度最小的一组可行解 ************/ 
-    double thetalist_error_min = 100.0;
-    for (int i = 0; i < N; i++)
-    {
-        VectorXd thetalist_error = theta_result.row(i).transpose() - thetalist0;
-        double error = thetalist_error.transpose() * thetalist_error;
-        if (error < thetalist_error_min)
-        {
-            thetalist_error_min = error;
-            thetalist = theta_result.row(i);
+    /************ 选一组可行解 ************/ 
+    switch(method){
+        case 1  :{ //计算转动角度最小的一组可行解
+            double thetalist_error_min = 100.0;
+            for (int i = 0; i < N; i++)
+            {
+                VectorXd thetalist_error = theta_result.row(i).transpose() - thetalist0;
+                double error = thetalist_error.transpose() * thetalist_error;
+                if (error < thetalist_error_min)
+                {
+                    thetalist_error_min = error;
+                    thetalist = theta_result.row(i);
+                }
+            }
+            break;
+        } 
+        case 2  :{ //计算运动趋势最好的可行解
+            double det_max = 0;
+            for (int i = 0; i < N; i++)
+            {
+                MatrixXd J = JacobianSpace(Slist, theta_result.row(i).transpose());
+                MatrixXd A = J * J.transpose();
+                double det = A.determinant();
+                if(det > det_max){
+                    det_max = det;
+                    thetalist = theta_result.row(i);
+                }
+            }
+            break; 
+        }
+        default : {//计算转动角度最小的一组可行解
+            double thetalist_error_min = 100.0;
+            for (int i = 0; i < N; i++)
+            {
+                VectorXd thetalist_error = theta_result.row(i).transpose() - thetalist0;
+                double error = thetalist_error.transpose() * thetalist_error;
+                if (error < thetalist_error_min)
+                {
+                    thetalist_error_min = error;
+                    thetalist = theta_result.row(i);
+                }
+            }
+            break;
         }
     }
 
     return true;   
 }
-/*
-Takes Slist: The joint screw axes in the space frame when the manipulator
-             is at the home position,
-      M: The home configuration of the end-effector,
-      T_eef: The desired end-effector configuration Tsd,
-      thetalist0: An initial guess of joint angles that are close to
-                  satisfying Tsd
-Returns thetalist: Joint angles that achieve T within the specified
-                   tolerances,
-        success: A logical value where TRUE means that the function found
-                 a solution and FALSE means found no solution
-用解析的POE逆运动学求解方法求解UR机械臂逆运动学
-Code:
 
-*/
-MatrixXd ad(VectorXd V){
-    MatrixXd adV = MatrixXd::Zero(6,6);
-    Matrix3d omgmat = VecToso3(V.block<3,1>(0,0));
-    adV.block<3,3>(0,0) = omgmat;
-    adV.block<3,3>(3,0) = VecToso3(V.block<3,1>(3,0));
-    adV.block<3,3>(3,3) = omgmat;
-    return adV;
-}
 /*
 Takes 6-vector spatial velocity.
 Returns the corresponding 6x6 matrix [adV].
@@ -1040,32 +1071,15 @@ Code:
     V << 1, 2, 3, 4, 5, 6;
     cout << ad(V) << endl;
  */
-
-VectorXd InverseDynamics(VectorXd thetalist, VectorXd dthetalist, VectorXd ddthetalist, Vector3d g, VectorXd Ftip, MatrixXd Mlist[], MatrixXd Glist[], MatrixXd Slist){
-    int n = thetalist.size();
-    Matrix4d Mi = MatrixXd::Identity(4,4);
-    MatrixXd Ai = MatrixXd::Zero(6,n);
-    MatrixXd AdTi[n+1];
-    MatrixXd Vi = MatrixXd::Zero(6, n+1);
-    MatrixXd Vdi = MatrixXd::Zero(6, n+1);
-    Vdi.col(0) << MatrixXd::Zero(3,1), -g;
-    AdTi[n] = Adjoint(TransInv(Mlist[n]));
-    VectorXd Fi = Ftip;
-    MatrixXd taulist(n,1);
-    for (int i = 0; i < n; i++){
-        Mi = Mi * Mlist[i];
-        Ai.col(i) = Adjoint(TransInv(Mi)) * Slist.col(i);
-        AdTi[i] = Adjoint(MatrixExp6(VecTose3(Ai.col(i) * (-thetalist(i)))) * TransInv(Mlist[i]));
-        Vi.col(i+1) = AdTi[i] * Vi.col(i) + Ai.col(i) * dthetalist(i);
-        Vdi.col(i+1) = AdTi[i] * Vdi.col(i) + Ai.col(i) * ddthetalist(i) + ad(Vi.col(i+1)) * Ai.col(i) * dthetalist(i);
-    }
-    for (int i = n-1; i >= 0; i--) {
-        Fi = AdTi[i + 1].transpose() * Fi + Glist[i] * Vdi.col(i + 1) - ad(Vi.col(i + 1)).transpose() * (Glist[i] * Vi.col(i + 1));
-        MatrixXd temp = Fi.transpose() * Ai.col(i);
-        taulist(i,0) = temp(0,0);
-    }
-    return taulist;
+MatrixXd ad(VectorXd V){
+    MatrixXd adV = MatrixXd::Zero(6,6);
+    Matrix3d omgmat = VecToso3(V.block<3,1>(0,0));
+    adV.block<3,3>(0,0) = omgmat;
+    adV.block<3,3>(3,0) = VecToso3(V.block<3,1>(3,0));
+    adV.block<3,3>(3,3) = omgmat;
+    return adV;
 }
+
 /*
 Takes thetalist: n-vector of joint variables,
       dthetalist: n-vector of joint rates,
@@ -1126,17 +1140,32 @@ Code:
     Slist = temp.transpose();
     cout << InverseDynamics(thetalist, dthetalist, ddthetalist, g, Ftip, Mlist, Glist, Slist) << endl;
  */
-
-MatrixXd MassMatrix(VectorXd thetalist, MatrixXd Mlist[], MatrixXd Glist[], MatrixXd Slist){
+VectorXd InverseDynamics(VectorXd thetalist, VectorXd dthetalist, VectorXd ddthetalist, Vector3d g, VectorXd Ftip, MatrixXd Mlist[], MatrixXd Glist[], MatrixXd Slist){
     int n = thetalist.size();
-    MatrixXd M = MatrixXd::Zero(n,n);
+    Matrix4d Mi = MatrixXd::Identity(4,4);
+    MatrixXd Ai = MatrixXd::Zero(6,n);
+    MatrixXd AdTi[n+1];
+    MatrixXd Vi = MatrixXd::Zero(6, n+1);
+    MatrixXd Vdi = MatrixXd::Zero(6, n+1);
+    Vdi.col(0) << MatrixXd::Zero(3,1), -g;
+    AdTi[n] = Adjoint(TransInv(Mlist[n]));
+    VectorXd Fi = Ftip;
+    MatrixXd taulist(n,1);
     for (int i = 0; i < n; i++){
-        VectorXd ddthetalist = VectorXd::Zero(n);
-        ddthetalist(i,0) = 1;
-        M.col(i) = InverseDynamics(thetalist, VectorXd::Zero(n), ddthetalist, Vector3d::Zero(), VectorXd::Zero(6), Mlist, Glist, Slist);
+        Mi = Mi * Mlist[i];
+        Ai.col(i) = Adjoint(TransInv(Mi)) * Slist.col(i);
+        AdTi[i] = Adjoint(MatrixExp6(VecTose3(Ai.col(i) * (-thetalist(i)))) * TransInv(Mlist[i]));
+        Vi.col(i+1) = AdTi[i] * Vi.col(i) + Ai.col(i) * dthetalist(i);
+        Vdi.col(i+1) = AdTi[i] * Vdi.col(i) + Ai.col(i) * ddthetalist(i) + ad(Vi.col(i+1)) * Ai.col(i) * dthetalist(i);
     }
-    return M;
+    for (int i = n-1; i >= 0; i--) {
+        Fi = AdTi[i + 1].transpose() * Fi + Glist[i] * Vdi.col(i + 1) - ad(Vi.col(i + 1)).transpose() * (Glist[i] * Vi.col(i + 1));
+        MatrixXd temp = Fi.transpose() * Ai.col(i);
+        taulist(i,0) = temp(0,0);
+    }
+    return taulist;
 }
+
 /*
 Takes thetalist: A list of joint variables,
       Mlist: List of link frames i relative to i-1 at the home position,
@@ -1191,11 +1220,17 @@ Code:
     Slist = temp.transpose();
     cout << MassMatrix(thetalist, Mlist, Glist, Slist) << endl;
  */
-
-VectorXd VelQuadraticForces(VectorXd thetalist, VectorXd dthetalist, MatrixXd Mlist[], MatrixXd Glist[], MatrixXd Slist){
+MatrixXd MassMatrix(VectorXd thetalist, MatrixXd Mlist[], MatrixXd Glist[], MatrixXd Slist){
     int n = thetalist.size();
-    return InverseDynamics(thetalist, dthetalist, VectorXd::Zero(n), Vector3d::Zero(), VectorXd::Zero(6,1), Mlist, Glist, Slist);
+    MatrixXd M = MatrixXd::Zero(n,n);
+    for (int i = 0; i < n; i++){
+        VectorXd ddthetalist = VectorXd::Zero(n);
+        ddthetalist(i,0) = 1;
+        M.col(i) = InverseDynamics(thetalist, VectorXd::Zero(n), ddthetalist, Vector3d::Zero(), VectorXd::Zero(6), Mlist, Glist, Slist);
+    }
+    return M;
 }
+
 /*
 Takes thetalist: A list of joint variables,
       dthetalist: A list of joint rates,
@@ -1247,11 +1282,11 @@ Code:
     Slist = temp.transpose();
     cout << VelQuadraticForces(thetalist, dthetalist, Mlist, Glist, Slist) << endl;
  */
-
-VectorXd GravityForces(VectorXd thetalist, Vector3d g, MatrixXd Mlist[], MatrixXd Glist[], MatrixXd Slist){
+VectorXd VelQuadraticForces(VectorXd thetalist, VectorXd dthetalist, MatrixXd Mlist[], MatrixXd Glist[], MatrixXd Slist){
     int n = thetalist.size();
-    return InverseDynamics(thetalist, VectorXd::Zero(n,1), VectorXd::Zero(n,1), g, VectorXd::Zero(6,1), Mlist, Glist, Slist);
+    return InverseDynamics(thetalist, dthetalist, VectorXd::Zero(n), Vector3d::Zero(), VectorXd::Zero(6,1), Mlist, Glist, Slist);
 }
+
 /*
 Takes thetalist: A list of joint variables,
       g: 3-vector for gravitational acceleration,
@@ -1303,11 +1338,11 @@ Code:
     Slist = temp.transpose();
     cout << GravityForces(thetalist, g, Mlist, Glist, Slist) << endl;
  */
-
-VectorXd EndEffectorForces(VectorXd thetalist,VectorXd Ftip, MatrixXd Mlist[], MatrixXd Glist[], MatrixXd Slist){
+VectorXd GravityForces(VectorXd thetalist, Vector3d g, MatrixXd Mlist[], MatrixXd Glist[], MatrixXd Slist){
     int n = thetalist.size();
-    return InverseDynamics(thetalist, VectorXd::Zero(n,1), MatrixXd::Zero(n,1), Vector3d::Zero(), Ftip, Mlist, Glist, Slist);
+    return InverseDynamics(thetalist, VectorXd::Zero(n,1), VectorXd::Zero(n,1), g, VectorXd::Zero(6,1), Mlist, Glist, Slist);
 }
+
 /*
 Takes thetalist: A list of joint variables,
       Ftip: Spatial force applied by the end-effector expressed in frame
@@ -1360,13 +1395,11 @@ Code:
     Slist = temp.transpose();
     cout << EndEffectorForces(thetalist,Ftip, Mlist, Glist,Slist) << endl;
  */
-
-VectorXd ForwardDynamics(VectorXd thetalist, VectorXd dthetalist, VectorXd taulist, Vector3d g, VectorXd Ftip, MatrixXd Mlist[], MatrixXd Glist[], MatrixXd Slist){
-    return MassMatrix(thetalist,Mlist,Glist,Slist).inverse() *
-                (taulist - VelQuadraticForces(thetalist,dthetalist, Mlist,Glist,Slist)
-                         - GravityForces(thetalist,g,Mlist,Glist,Slist)
-                         - EndEffectorForces(thetalist,Ftip,Mlist,Glist,Slist));
+VectorXd EndEffectorForces(VectorXd thetalist,VectorXd Ftip, MatrixXd Mlist[], MatrixXd Glist[], MatrixXd Slist){
+    int n = thetalist.size();
+    return InverseDynamics(thetalist, VectorXd::Zero(n,1), MatrixXd::Zero(n,1), Vector3d::Zero(), Ftip, Mlist, Glist, Slist);
 }
+
 /*
 Takes thetalist: A list of joint variables,
       dthetalist: A list of joint rates,
@@ -1426,11 +1459,13 @@ Code:
     cout << ForwardDynamics(thetalist,dthetalist,taulist,g,Ftip,Mlist,Glist,Slist) << endl;
 
  */
-
-void EulerStep(VectorXd thetalist, VectorXd dthetalist, VectorXd ddthetalist, double dt, VectorXd& thetalistNext, VectorXd& dthetalistNext){
-    thetalistNext = thetalist + dt * dthetalist;
-    dthetalistNext = dthetalist + dt * ddthetalist;
+VectorXd ForwardDynamics(VectorXd thetalist, VectorXd dthetalist, VectorXd taulist, Vector3d g, VectorXd Ftip, MatrixXd Mlist[], MatrixXd Glist[], MatrixXd Slist){
+    return MassMatrix(thetalist,Mlist,Glist,Slist).inverse() *
+                (taulist - VelQuadraticForces(thetalist,dthetalist, Mlist,Glist,Slist)
+                         - GravityForces(thetalist,g,Mlist,Glist,Slist)
+                         - EndEffectorForces(thetalist,Ftip,Mlist,Glist,Slist));
 }
+
 /*
 Takes thetalist: n-vector of joint variables,
       dthetalist: n-vector of joint rates,
@@ -1460,18 +1495,11 @@ dthetalistNext:
     cout << thetalistNext << endl;
     cout << dthetalistNext << endl;
  */
-
-MatrixXd InverseDynamicsTrajectory(MatrixXd thetamat, MatrixXd dthetamat, MatrixXd ddthetamat, Vector3d g, MatrixXd Ftipmat, MatrixXd Mlist[], MatrixXd Glist[], MatrixXd Slist) {
-    MatrixXd thetamat_0 = thetamat.transpose();
-    MatrixXd dthetamat_0 = dthetamat.transpose();
-    MatrixXd ddthetamat_0 = ddthetamat.transpose();
-    MatrixXd Ftipmat_0 = Ftipmat.transpose();
-    MatrixXd taumat = thetamat_0;
-    for (int i = 0; i < thetamat_0.cols(); i++) {
-        taumat.col(i) = InverseDynamics(thetamat_0.col(i), dthetamat_0.col(i), ddthetamat_0.col(i), g, Ftipmat_0.col(i), Mlist, Glist, Slist);
-    }
-    return taumat.transpose();
+void EulerStep(VectorXd thetalist, VectorXd dthetalist, VectorXd ddthetalist, double dt, VectorXd& thetalistNext, VectorXd& dthetalistNext){
+    thetalistNext = thetalist + dt * dthetalist;
+    dthetalistNext = dthetalist + dt * ddthetalist;
 }
+
 /*
 Takes thetamat: An N x n matrix of robot joint variables,
       dthetamat: An N x n matrix of robot joint velocities,
@@ -1566,26 +1594,18 @@ Code:
     MatrixXd taumat = InverseDynamicsTrajectory(thetamat,dthetamat,ddthetamat,g,Ftipmat,Mlist,Glist,Slist);
     cout << taumat << endl;
  */
-
-void ForwardDynamicsTrajectory(VectorXd thetalist, VectorXd dthetalist, MatrixXd taumat, Vector3d g, MatrixXd Ftipmat, MatrixXd Mlist[], MatrixXd Glist[], MatrixXd Slist, double dt, int intRes, MatrixXd& thetamat, MatrixXd& dthetamat){
-    MatrixXd taumat_0 = taumat.transpose();
+MatrixXd InverseDynamicsTrajectory(MatrixXd thetamat, MatrixXd dthetamat, MatrixXd ddthetamat, Vector3d g, MatrixXd Ftipmat, MatrixXd Mlist[], MatrixXd Glist[], MatrixXd Slist) {
+    MatrixXd thetamat_0 = thetamat.transpose();
+    MatrixXd dthetamat_0 = dthetamat.transpose();
+    MatrixXd ddthetamat_0 = ddthetamat.transpose();
     MatrixXd Ftipmat_0 = Ftipmat.transpose();
-    MatrixXd thetamat_0 = taumat_0;
-    thetamat_0.col(0) = thetalist;
-    MatrixXd dthetamat_0 = taumat_0;
-    dthetamat_0.col(0) = dthetalist;
-
-    for (int i = 0; i < taumat_0.cols() - 1; i++){
-        for (int j = 0; j < intRes; j++){
-            VectorXd ddthetalist = ForwardDynamics(thetalist,dthetalist,taumat_0.col(i),g,Ftipmat_0.col(i),Mlist,Glist,Slist);
-            EulerStep(thetalist,dthetalist,ddthetalist,dt / intRes, thetalist,dthetalist);
-        }
-        thetamat_0.col(i+1) = thetalist;
-        dthetamat_0.col(i+1) = dthetalist;
+    MatrixXd taumat = thetamat_0;
+    for (int i = 0; i < thetamat_0.cols(); i++) {
+        taumat.col(i) = InverseDynamics(thetamat_0.col(i), dthetamat_0.col(i), ddthetamat_0.col(i), g, Ftipmat_0.col(i), Mlist, Glist, Slist);
     }
-    thetamat = thetamat_0.transpose();
-    dthetamat = dthetamat_0.transpose();
+    return taumat.transpose();
 }
+
 /*
 #Takes thetalist: n-vector of initial joint variables,
 #      dthetalist: n-vector of initial joint rates,
@@ -1700,11 +1720,26 @@ Code:
     cout << thetamat << endl;
     cout << dthetamat << endl;
  */
+void ForwardDynamicsTrajectory(VectorXd thetalist, VectorXd dthetalist, MatrixXd taumat, Vector3d g, MatrixXd Ftipmat, MatrixXd Mlist[], MatrixXd Glist[], MatrixXd Slist, double dt, int intRes, MatrixXd& thetamat, MatrixXd& dthetamat){
+    MatrixXd taumat_0 = taumat.transpose();
+    MatrixXd Ftipmat_0 = Ftipmat.transpose();
+    MatrixXd thetamat_0 = taumat_0;
+    thetamat_0.col(0) = thetalist;
+    MatrixXd dthetamat_0 = taumat_0;
+    dthetamat_0.col(0) = dthetalist;
 
-
-double CubicTimeScaling(double Tf, double t){
-    return 3 * pow((t / Tf), 2) - 2 * pow((t / Tf), 3);
+    for (int i = 0; i < taumat_0.cols() - 1; i++){
+        for (int j = 0; j < intRes; j++){
+            VectorXd ddthetalist = ForwardDynamics(thetalist,dthetalist,taumat_0.col(i),g,Ftipmat_0.col(i),Mlist,Glist,Slist);
+            EulerStep(thetalist,dthetalist,ddthetalist,dt / intRes, thetalist,dthetalist);
+        }
+        thetamat_0.col(i+1) = thetalist;
+        dthetamat_0.col(i+1) = dthetalist;
+    }
+    thetamat = thetamat_0.transpose();
+    dthetamat = dthetamat_0.transpose();
 }
+
 /*
 Takes Tf: Total time of the motion in seconds from rest to rest,
       t: The current time t satisfying 0 < t < Tf.
@@ -1720,10 +1755,10 @@ Code:
     double t = 0.6;
     cout << CubicTimeScaling(Tf, t) << endl;
  */
-
-double QuinticTimeScaling(double Tf, double t){
-    return 10 * pow((t / Tf),3) - 15 * pow((t / Tf), 4) + 6 * pow((t / Tf), 5);
+double CubicTimeScaling(double Tf, double t){
+    return 3 * pow((t / Tf), 2) - 2 * pow((t / Tf), 3);
 }
+
 /*
 Takes Tf: Total time of the motion in seconds from rest to rest,
       t: The current time t satisfying 0 < t < Tf.
@@ -1740,19 +1775,10 @@ Code:
     double t = 0.6;
     cout << QuinticTimeScaling(Tf, t) << endl;
  */
-
-MatrixXd JointTrajectory(VectorXd thetastart,VectorXd thetaend,double Tf,int N,int method){
-    double timegap = Tf / (N - 1.0), s;
-    MatrixXd traj = MatrixXd::Zero(thetastart.size(), N);
-    for (int i = 0; i < N; i++){
-        if (method == 3)
-            s = CubicTimeScaling(Tf, timegap * i);
-        else
-            s = QuinticTimeScaling(Tf, timegap * i);
-        traj.col(i) = s * thetaend + (1 - s) * thetastart;
-    }
-    return traj.transpose();
+double QuinticTimeScaling(double Tf, double t){
+    return 10 * pow((t / Tf),3) - 15 * pow((t / Tf), 4) + 6 * pow((t / Tf), 5);
 }
+
 /*
 Takes thetastart: The initial joint variables,
       thetaend: The final joint variables,
@@ -1789,17 +1815,19 @@ Output:
     cout << JointTrajectory(thetastart,thetaend,Tf,N,method) << endl;
 
  */
-
-void ScrewTrajectory(Matrix4d Xstart, Matrix4d Xend, double Tf, int N, int method, Matrix4d X[]){
+MatrixXd JointTrajectory(VectorXd thetastart,VectorXd thetaend,double Tf,int N,int method){
     double timegap = Tf / (N - 1.0), s;
+    MatrixXd traj = MatrixXd::Zero(thetastart.size(), N);
     for (int i = 0; i < N; i++){
         if (method == 3)
             s = CubicTimeScaling(Tf, timegap * i);
         else
             s = QuinticTimeScaling(Tf, timegap * i);
-        X[i] = Xstart * MatrixExp6(MatrixLog6(TransInv(Xstart) * Xend) * s);
+        traj.col(i) = s * thetaend + (1 - s) * thetastart;
     }
+    return traj.transpose();
 }
+
 /*
 Takes Xstart: The initial end-effector configuration,
       Xend: The final end-effector configuration,
@@ -1848,24 +1876,17 @@ Code:
     for (int i = 0; i < N; i++)
         cout << X[i] << endl;
  */
-
-void CartesianTrajectory(Matrix4d Xstart, Matrix4d Xend, double Tf, int N, int method, Matrix4d X[]){
+void ScrewTrajectory(Matrix4d Xstart, Matrix4d Xend, double Tf, int N, int method, Matrix4d X[]){
     double timegap = Tf / (N - 1.0), s;
-    Matrix4d traj[N];
-    Matrix3d Rstart, Rend, R;
-    Vector3d pstart, pend, p;
-    TransToRp(Xstart, Rstart, pstart);
-    TransToRp(Xend, Rend, pend);
     for (int i = 0; i < N; i++){
         if (method == 3)
             s = CubicTimeScaling(Tf, timegap * i);
         else
             s = QuinticTimeScaling(Tf, timegap * i);
-        R = Rstart * MatrixExp3(MatrixLog3(Rstart.transpose() * Rend) * s);
-        p = s * pend + (1 - s) * pstart;
-        RpToTrans(R, p, X[i]);
+        X[i] = Xstart * MatrixExp6(MatrixLog6(TransInv(Xstart) * Xend) * s);
     }
 }
+
 /*
 Takes Xstart: The initial end-effector configuration,
       Xend: The final end-effector configuration,
@@ -1915,13 +1936,24 @@ Code:
     for (int i = 0; i < N; i++)
         cout << X[i] << endl;
  */
-
-VectorXd ComputedTorque(VectorXd thetalist, VectorXd dthetalist, VectorXd eint, Vector3d g, MatrixXd Mlist[], MatrixXd Glist[], MatrixXd Slist,
-                        VectorXd thetalistd, VectorXd dthetalistd, VectorXd ddthetalistd, double Kp, double Ki, double Kd){
-    MatrixXd e = thetalistd - thetalist;
-    return MassMatrix(thetalist,Mlist,Glist,Slist) * (Kp * e + Ki * (eint + e) + Kd * (dthetalistd - dthetalist))
-            + InverseDynamics(thetalist,dthetalist,ddthetalistd,g,MatrixXd::Zero(6,1),Mlist,Glist,Slist);
+void CartesianTrajectory(Matrix4d Xstart, Matrix4d Xend, double Tf, int N, int method, Matrix4d X[]){
+    double timegap = Tf / (N - 1.0), s;
+    Matrix4d traj[N];
+    Matrix3d Rstart, Rend, R;
+    Vector3d pstart, pend, p;
+    TransToRp(Xstart, Rstart, pstart);
+    TransToRp(Xend, Rend, pend);
+    for (int i = 0; i < N; i++){
+        if (method == 3)
+            s = CubicTimeScaling(Tf, timegap * i);
+        else
+            s = QuinticTimeScaling(Tf, timegap * i);
+        R = Rstart * MatrixExp3(MatrixLog3(Rstart.transpose() * Rend) * s);
+        p = s * pend + (1 - s) * pstart;
+        RpToTrans(R, p, X[i]);
+    }
 }
+
 /*
 Takes thetalist: n-vector of joint variables,
       dthetalist: n-vector of joint rates,
@@ -1991,3 +2023,10 @@ Output:
     double Kp = 1.3, Ki = 1.2, Kd = 1.1;
     cout << ComputedTorque(thetalist,dthetalist,eint,g,Mlist,Glist,Slist,thetalistd,dthetalistd,ddthetalistd,Kp,Ki,Kd) << endl;
  */
+
+VectorXd ComputedTorque(VectorXd thetalist, VectorXd dthetalist, VectorXd eint, Vector3d g, MatrixXd Mlist[], MatrixXd Glist[], MatrixXd Slist,
+                        VectorXd thetalistd, VectorXd dthetalistd, VectorXd ddthetalistd, double Kp, double Ki, double Kd){
+    MatrixXd e = thetalistd - thetalist;
+    return MassMatrix(thetalist,Mlist,Glist,Slist) * (Kp * e + Ki * (eint + e) + Kd * (dthetalistd - dthetalist))
+            + InverseDynamics(thetalist,dthetalist,ddthetalistd,g,MatrixXd::Zero(6,1),Mlist,Glist,Slist);
+}

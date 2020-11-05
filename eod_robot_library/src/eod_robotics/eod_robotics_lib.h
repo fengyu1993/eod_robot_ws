@@ -48,23 +48,28 @@ Matrix4d eod_robot_left_arm_FKinBody(VectorXd thetalist);
 bool eod_robot_IKinSpace_NR(MatrixXd Slist, Matrix4d M, Matrix4d T, VectorXd thetalist0, double eomg, double ev, VectorXd& thetalist, Matrix4d T_base_arm);
 
 /*机器人Base坐标系逆运动学：POE解析方法*/
-//bool eod_robot_IKinSpace_NR(MatrixXd Slist, Matrix4d M, Matrix4d T, VectorXd thetalist0, double eomg, double ev, VectorXd& thetalist, Matrix4d T_base_arm);
-/**********************************/
+bool eod_robot_IKinSpace_POE(MatrixXd Slist, Matrix4d M, Matrix4d T, VectorXd thetalist0, int method, VectorXd& thetalist, Matrix4d T_base_arm);
 
 /*机器人右臂Base坐标系逆运动学：牛顿-辛普森方法*/
-bool eod_robot_right_arm_IKinSpace(Matrix4d T, VectorXd thetalist0, double eomg, double ev, VectorXd& thetalist);
+bool eod_robot_right_arm_IKinSpace_NR(Matrix4d T, VectorXd thetalist0, double eomg, double ev, VectorXd& thetalist);
+
+/*机器人右臂Base坐标系逆运动学：POE解析方法*/
+bool eod_robot_right_arm_IKinSpace_POE(Matrix4d T, VectorXd thetalist0, int method, VectorXd& thetalist);
 
 /*机器人左臂Base坐标系逆运动学：牛顿-辛普森方法*/
-bool eod_robot_left_arm_IKinSpace(Matrix4d T, VectorXd thetalist0, double eomg, double ev, VectorXd& thetalist);
+bool eod_robot_left_arm_IKinSpace_NR(Matrix4d T, VectorXd thetalist0, double eomg, double ev, VectorXd& thetalist);
+
+/*机器人左臂Base坐标系逆运动学：POE解析方法*/
+bool eod_robot_left_arm_IKinSpace_POE(Matrix4d T, VectorXd thetalist0, int method, VectorXd& thetalist);
 
 /*机器人Body坐标系逆运动学：牛顿-辛普森方法*/
 bool eod_robot_IKinBody_NR(MatrixXd Blist, Matrix4d M, Matrix4d T, VectorXd thetalist0, double eomg, double ev, VectorXd& thetalist, Matrix4d T_base_arm);
 
 /*机器人右臂Body坐标系逆运动学：牛顿-辛普森方法*/
-bool eod_robot_right_arm_IKinBody(Matrix4d T, VectorXd thetalist0, double eomg, double ev, VectorXd& thetalist);
+bool eod_robot_right_arm_IKinBody_NR(Matrix4d T, VectorXd thetalist0, double eomg, double ev, VectorXd& thetalist);
 
 /*机器人左臂Body坐标系逆运动学：牛顿-辛普森方法*/
-bool eod_robot_left_arm_IKinBody(Matrix4d T, VectorXd thetalist0, double eomg, double ev, VectorXd& thetalist);
+bool eod_robot_left_arm_IKinBody_NR(Matrix4d T, VectorXd thetalist0, double eomg, double ev, VectorXd& thetalist);
 
 /*机器人Base坐标系正运动学：相对于世界坐标系*/
 Matrix4d eod_robot_FKinSpace_world(Matrix4d M, MatrixXd Slist, VectorXd thetalist, Matrix4d T_base_arm, Matrix4d vecihle_odom);

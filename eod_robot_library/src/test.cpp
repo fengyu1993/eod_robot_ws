@@ -8,24 +8,26 @@ using namespace std;
 
 int main(int argc, char** argv)
 { 
-    MatrixXd R_Slist_T(6,6);
-    R_Slist_T << 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, -0.0805, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, -0.0805, 0.0000, 0.4247, 0.0000, 1.0000, 0.0000, -0.0805, 0.0000, 0.8091, 0.0000, 0.0000, -1.0000, -0.1110, 0.8091, 0.0000, 0.0000, 1.0000, 0.0000, 0.0296, 0.0000, 0.8091;
-    MatrixXd R_Slist = R_Slist_T.transpose();
+    MatrixXd L_Slist_T(6,6);
+    L_Slist_T <<  0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, -0.0703, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, -0.0703, 0.0000, 0.2459, 0.0000, 1.0000, 0.0000, -0.0703, 0.0000, 0.5013, 0.0000, 0.0000, -1.0000, -0.0786, 0.5013, 0.0000, 0.0000, 1.0000, 0.0000, 0.0398, 0.0000, 0.5013;
+    MatrixXd L_Slist = L_Slist_T.transpose();
 
-    Matrix4d R_M(4,4);
-    R_M << -1.0000, 0, 0, 0.8091, 0, 0, 1.0000, 0.3790, 0, 1.0000, 0, -0.0296, 0, 0, 0, 1.0000;
+    Matrix4d L_M(4,4);
+    L_M << -1.0000, 0.0000, 0.0000, 0.5013, 0.0000, 0.0000, 1.0000, 0.2510, 0.0000, 1.0000, 0.0000, -0.0398, 0.0000, 0.0000, 0.0000, 1.0000;
+
 
     VectorXd thetalist(6), thetalist0(6), thetalist_result(6);
 
-    // thetalist << M_PI/6, -M_PI/2-M_PI/15, -M_PI/3, -M_PI/2-M_PI/5, -M_PI/6, 0;
-    thetalist  = 2*M_PI*MatrixXd::Random(6,1) - MatrixXd::Ones(6,1) * M_PI;
+    thetalist << M_PI/6, -M_PI/2-M_PI/15, -M_PI/3, -M_PI/2-M_PI/5, -M_PI/6, 0;
+    // thetalist  = 2*M_PI*MatrixXd::Random(6,1) - MatrixXd::Ones(6,1) * M_PI;
 
-    Matrix4d T_eef = FKinSpace(R_M, R_Slist, thetalist);
-    // T_eef(0,3) = 2;
+    Matrix4d T_eef = FKinSpace(L_M, L_Slist, thetalist);
 
-    bool flag = IKinSpace_POE(R_Slist, R_M, T_eef, thetalist, thetalist_result);
+    int method = 1;
 
-    Matrix4d T_result = FKinSpace(R_M, R_Slist, thetalist_result);
+    bool flag = IKinSpace_POE(L_Slist, L_M, T_eef, thetalist, method, thetalist_result);
+
+    Matrix4d T_result = FKinSpace(L_M, L_Slist, thetalist_result);
 
     cout << "flag = " << endl << flag << endl;
 
@@ -218,3 +220,32 @@ int main(int argc, char** argv)
     // cout << "R: " << R << endl;
     // cout << "Euler: " << rpy << endl;
     // cout << "R2: " << R2 << endl;
+
+    //     MatrixXd R_Slist_T(6,6);
+    // R_Slist_T << 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, -0.0805, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, -0.0805, 0.0000, 0.4247, 0.0000, 1.0000, 0.0000, -0.0805, 0.0000, 0.8091, 0.0000, 0.0000, -1.0000, -0.1110, 0.8091, 0.0000, 0.0000, 1.0000, 0.0000, 0.0296, 0.0000, 0.8091;
+    // MatrixXd R_Slist = R_Slist_T.transpose();
+
+    // Matrix4d R_M(4,4);
+    // R_M << -1.0000, 0, 0, 0.8091, 0, 0, 1.0000, 0.3790, 0, 1.0000, 0, -0.0296, 0, 0, 0, 1.0000;
+
+    // VectorXd thetalist(6), thetalist0(6), thetalist_result(6);
+
+    // thetalist << M_PI/6, -M_PI/2-M_PI/15, -M_PI/3, -M_PI/2-M_PI/5, -M_PI/6, 0;
+    // // thetalist  = 2*M_PI*MatrixXd::Random(6,1) - MatrixXd::Ones(6,1) * M_PI;
+
+    // Matrix4d T_eef = FKinSpace(R_M, R_Slist, thetalist);
+    // // T_eef(0,3) = 2;
+
+    // int method = 2;
+
+    // bool flag = IKinSpace_POE(R_Slist, R_M, T_eef, thetalist, method, thetalist_result);
+
+    // Matrix4d T_result = FKinSpace(R_M, R_Slist, thetalist_result);
+
+    // cout << "flag = " << endl << flag << endl;
+
+    // cout << "thetalist = " << endl << thetalist << endl;
+
+    // cout << "thetalist_result = " << endl << thetalist_result << endl;
+
+    // cout << "T_err = " << endl << T_result - T_eef << endl;
