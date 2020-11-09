@@ -53,3 +53,4 @@ include_directories(
 )
 
 add_subdirectory(doc/moveit_group_interface)
+add_subdirectory(doc/robot_model_and_robot_state)

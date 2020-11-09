@@ -15,10 +15,11 @@ int main(int argc, char** argv)
     Matrix4d R_M(4,4);
     R_M << -1.0000, 0, 0, 0.8091, 0, 0, 1.0000, 0.3790, 0, 1.0000, 0, -0.0296, 0, 0, 0, 1.0000;
 
+    MatrixXd R_Blist = SlistToBlist(R_Slist, R_M);
+
     VectorXd thetalist(6), thetalist0(6), thetalist_result(6);
 
-    thetalist << 0, -0.4363, 0.7854, -1.5708, -2.7053, 0;
-    // thetalist << 0, 0, 0, 0, 0, 0;
+    thetalist << 4.778741,  0.001709, 3.867487, -1.588801, -5.517637, 1.247915;
 
     Matrix4d T_base_right_arm(4,4);
     T_base_right_arm << 1.0000, 0.0000, 0.0000, -0.0500, 0.0000, 0.4229, -0.9062, -0.1373, \
@@ -26,15 +27,29 @@ int main(int argc, char** argv)
 
     Matrix4d T_eef = T_base_right_arm * FKinSpace(R_M, R_Slist, thetalist);
 
+    R_M << -1.0000, 0, 0, 0.8091, 0, 0, 1.0000, 0.3790, 0, 1.0000, 0, -0.0296, 0, 0, 0, 1.0000;
+    bool suc = eod_robot_IKinSpace_POE(R_Slist, R_M, T_eef, thetalist, 0, thetalist_result, T_base_right_arm);
+
+    std::cout << "thetalist = "<< std::endl << thetalist << std::endl;
+
+    std::cout << "thetalist_error = "<< std::endl << thetalist_result - thetalist<< std::endl;
+
     Matrix3d R;  Vector3d p;
 
     TransToRp(T_eef, R, p);
 
     Quaterniond q = rotationMatrix2Quaterniond(R);
     
-    std::cout << "T_eef = " << T_eef << std::endl;
+    std::cout << "T_eef = "<< std::endl << T_eef << std::endl;
 
-    std::cout << "q = " << q.w() << ", " << q.x() << ", " << q.y() << ", " << q.z() << std::endl;
+    // MatrixXd jacobian_space = eod_robot_JacobianSpace(R_Slist, thetalist, T_base_right_arm);
+    MatrixXd jacobian_space = Adjoint(T_base_right_arm) *  JacobianSpace(R_Slist, thetalist);
+
+    std::cout << "jacobian_space = "<< std::endl << jacobian_space << std::endl;
+
+    // MatrixXd jacobian_body = eod_robot_JacobianBody(R_Blist, thetalist);
+
+    // std::cout << "jacobian_body = "<< std::endl << jacobian_body << std::endl;
 }
 
     /* left arm*/

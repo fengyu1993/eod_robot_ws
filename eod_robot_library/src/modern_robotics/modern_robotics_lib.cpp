@@ -471,6 +471,82 @@ MatrixXd MatrixLog6(Matrix4d T){
 }
 
 /*
+Takes Slist: The joint screw axes in the space frame when the manipulator
+             is at the home position
+      M: The home configuration (position and orientation) of the
+         end-effector,
+Returns 
+    Blist: The joint screw axes in the end-effector frame when the
+             manipulator is at the home position,
+Example Input:
+Code:
+    MatrixXd R_Slist_T(6,6);
+    R_Slist_T << 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, -0.0805, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, -0.0805, 0.0000, 0.4247, 0.0000, 1.0000, 0.0000, -0.0805, 0.0000, 0.8091, 0.0000, 0.0000, -1.0000, -0.1110, 0.8091, 0.0000, 0.0000, 1.0000, 0.0000, 0.0296, 0.0000, 0.8091;
+    MatrixXd R_Slist = R_Slist_T.transpose();
+
+    Matrix4d R_M(4,4);
+    R_M << -1.0000, 0, 0, 0.8091, 0, 0, 1.0000, 0.3790, 0, 1.0000, 0, -0.0296, 0, 0, 0, 1.0000;
+
+    MatrixXd R_Blist = SlistToBlist(R_Slist, R_M);
+
+    std::cout << "R_Slist = "<< std::endl << R_Slist << std::endl;
+
+    std::cout << "R_Blist = "<< std::endl << R_Blist << std::endl;
+ */
+MatrixXd SlistToBlist(MatrixXd Slist, Matrix4d M)
+{
+    int N = Slist.cols();
+    MatrixXd Blist(6,N);
+    MatrixXd Ad_M_inv = Adjoint(TransInv(M));
+    for (int i=0; i<N; i++)
+    {
+        Blist.col(i) = Ad_M_inv * Slist.col(i);
+    }
+    return Blist;
+}
+
+/*
+Takes Blist: The joint screw axes in the end-effector frame when the
+             manipulator is at the home position,
+      M: The home configuration (position and orientation) of the
+         end-effector,
+Returns 
+      Slist: The joint screw axes in the space frame when the manipulator
+             is at the home position
+Example Input:
+Code:
+    MatrixXd R_Slist_T(6,6);
+    R_Slist_T << 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, -0.0805, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, -0.0805, 0.0000, 0.4247, 0.0000, 1.0000, 0.0000, -0.0805, 0.0000, 0.8091, 0.0000, 0.0000, -1.0000, -0.1110, 0.8091, 0.0000, 0.0000, 1.0000, 0.0000, 0.0296, 0.0000, 0.8091;
+    MatrixXd R_Slist = R_Slist_T.transpose();
+
+    Matrix4d R_M(4,4);
+    R_M << -1.0000, 0, 0, 0.8091, 0, 0, 1.0000, 0.3790, 0, 1.0000, 0, -0.0296, 0, 0, 0, 1.0000;
+
+    MatrixXd R_Blist = SlistToBlist(R_Slist, R_M);
+
+    MatrixXd R_Slist_temp = BlistToSlist(R_Blist, R_M);
+
+    std::cout << "R_Slist = "<< std::endl << R_Slist << std::endl;
+
+    std::cout << "R_Blist = "<< std::endl << R_Blist << std::endl;
+
+    std::cout << "R_Slist_temp_error = "<< std::endl << R_Slist - R_Slist_temp << std::endl;
+ */
+MatrixXd BlistToSlist(MatrixXd Blist, Matrix4d M)
+{
+    int N = Blist.cols();
+    MatrixXd Slist(6,N);
+    MatrixXd Ad_M = Adjoint(M);
+    for (int i=0; i<N; i++)
+    {
+        Slist.col(i) = Ad_M * Blist.col(i);
+    }
+    return Slist;
+}
+
+
+
+/*
 Takes M: The home configuration (position and orientation) of the
          end-effector,
       Blist: The joint screw axes in the end-effector frame when the
@@ -1005,6 +1081,14 @@ bool IKinSpace_POE(MatrixXd Slist, Matrix4d M, Matrix4d T_eef, VectorXd thetalis
     }
 
     /************ 选一组可行解 ************/ 
+    for (int i=0; i<6; i++)
+    {
+        if(thetalist0[i] > M_PI)
+            thetalist0[i] -= 2*M_PI;
+        else if (thetalist0[i] < -M_PI)
+            thetalist0[i] += 2*M_PI;
+    }
+
     switch(method){
         case 1  :{ //计算转动角度最小的一组可行解
             double thetalist_error_min = 100.0;

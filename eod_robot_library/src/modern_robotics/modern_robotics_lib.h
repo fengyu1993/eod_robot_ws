@@ -51,6 +51,10 @@ Matrix4d MatrixExp6(Matrix4d se3mat);
 
 MatrixXd MatrixLog6(Matrix4d T);
 
+MatrixXd SlistToBlist(MatrixXd Slist, Matrix4d M);
+
+MatrixXd BlistToSlist(MatrixXd Blist, Matrix4d M);
+
 Matrix4d FKinBody(Matrix4d M, MatrixXd Blist, VectorXd thetalist);
 
 Matrix4d FKinSpace(Matrix4d M, MatrixXd Slist, VectorXd thetalist);

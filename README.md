@@ -30,8 +30,9 @@ rosdep install --from-paths src --ignore-src --rosdistro=melodic -y
 	在modern robotics库基础上撰写eod_robotics_lib，适用于开发的排爆机器人
 	modern_robotics_lib:
 		POE机器人学
+		机器人逆运动学解析解法
 	eod_robotics_lib:
-		eod_robot机器人学
+		eod_robot机器人学：正运动学，逆运动学数值与解析解法
 		读取和设置eod_robot参数
 		旋转矩阵、rpy欧拉角、四元数转换
 
@@ -70,7 +71,15 @@ rosdep install --from-paths src --ignore-src --rosdistro=melodic -y
 	eod_robot的moveit配置文件
 
 # 2020.09.28 eod_robot_moveit_learn:
-	eod_robot实现moveit教程：http://docs.ros.org/melodic/api/moveit_tutorials/html/doc/getting_started/getting_started.html
+	eod_robot实现moveit教程: http://docs.ros.org/melodic/api/moveit_tutorials/html/doc/getting_started/getting_started.html
+	robot_model_and_robot_state: 
+			1. 读取关节角度
+			2. 测试关节限制
+			3. 计算正运动学
+			4. 求解逆运动学
+			5. 计算雅克比矩阵 (前3行是线速度分量，后3行是角速度分量) ---- 这个存在疑问，与本人计算的结果线速度分量不符
+
+	
 
 
 
