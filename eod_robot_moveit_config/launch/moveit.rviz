@@ -6,8 +6,6 @@ Panels:
       Expanded:
         - /Global Options1
         - /MotionPlanning1
-        - /MotionPlanning1/Planning Request1
-        - /MotionPlanning1/Planned Path1
       Splitter Ratio: 0.7425600290298462
     Tree Height: 201
   - Class: rviz/Help
@@ -277,7 +275,7 @@ Visualization Manager:
         Show Trail: false
         State Display Time: 0.05 s
         Trail Step Size: 1
-        Trajectory Topic: move_group/display_planned_path
+        Trajectory Topic: /move_group/display_planned_path
       Planning Metrics:
         Payload: 1
         Show Joint Torques: false
@@ -291,7 +289,7 @@ Visualization Manager:
         Goal State Color: 250; 128; 0
         Interactive Marker Size: 0
         Joint Violation Color: 255; 0; 255
-        Planning Group: left_arm
+        Planning Group: right_arm
         Query Goal State: true
         Query Start State: true
         Show Workspace: false

@@ -98,7 +98,8 @@ void processFeedback( const visualization_msgs::InteractiveMarkerFeedbackConstPt
 
             get_arm_left_joint_angle(thetalist0); 
 
-            suc = eod_robot_left_arm_IKinSpace_NR(T, thetalist0, 0.01, 0.001, angle_arm_left);
+            // suc = eod_robot_left_arm_IKinSpace_NR(T, thetalist0, 0.01, 0.001, angle_arm_left);
+            suc = eod_robot_left_arm_IKinSpace_POE(T, thetalist0, 1, angle_arm_left);
 
             if(suc){
                 set_arm_left_joint_angle(angle_arm_left);
@@ -113,7 +114,8 @@ void processFeedback( const visualization_msgs::InteractiveMarkerFeedbackConstPt
 
             get_arm_right_joint_angle(thetalist0);
 
-            suc = eod_robot_right_arm_IKinSpace_NR(T, thetalist0, 0.01, 0.001, angle_arm_right);
+            // suc = eod_robot_right_arm_IKinSpace_NR(T, thetalist0, 0.01, 0.001, angle_arm_right);  // 数值解
+            suc = eod_robot_right_arm_IKinSpace_POE(T, thetalist0, 1, angle_arm_right); // 解析解
 
             if(suc){
                 set_arm_right_joint_angle(angle_arm_right);

@@ -9,6 +9,10 @@
 
 #include <moveit_visual_tools/moveit_visual_tools.h>
 
+#include <Eigen/Dense>
+#include "modern_robotics_lib.h"
+#include "eod_robotics_lib.h"
+
 int main(int argc, char** argv)
 {
     ros::init(argc, argv, "move_group_interface_tutorial");
@@ -16,13 +20,13 @@ int main(int argc, char** argv)
     ros::AsyncSpinner spinner(1);
     spinner.start();
     
-    static const std::string PLANNING_GROUP = "right_arm";
+    static const std::string PLANNING_GROUP_RIGHT = "right_arm";
 
-    moveit::planning_interface::MoveGroupInterface move_group(PLANNING_GROUP);
+    moveit::planning_interface::MoveGroupInterface move_group(PLANNING_GROUP_RIGHT);
 
-    moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
+    moveit::planning_interface::PlanningSceneInterface planning_scene_interface_right;
 
-    const robot_state::JointModelGroup* joint_model_group = move_group.getCurrentState()->getJointModelGroup(PLANNING_GROUP);
+    const robot_state::JointModelGroup* joint_model_group_right = move_group.getCurrentState()->getJointModelGroup(PLANNING_GROUP_RIGHT);
 
     namespace rvt = rviz_visual_tools;
     moveit_visual_tools::MoveItVisualTools visual_tools("base_link");
@@ -46,11 +50,38 @@ int main(int argc, char** argv)
     
     visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to start the demo");
 
+    moveit::core::RobotStatePtr current_state = move_group.getCurrentState();
+
+    std::vector<double> joint_group_positions;
+    current_state->copyJointGroupPositions(joint_model_group_right, joint_group_positions);
+
+    VectorXd angle_arm_right(6);
+    for (int i=0; i<6; i++)
+        angle_arm_right[i] = joint_group_positions[i];
+
+    Matrix4d T_effect = eod_robot_right_arm_FKinSpace(angle_arm_right);
+    
+    Matrix3d R;  Vector3d p;
+    TransToRp(T_effect, R, p);
+    Quaterniond q = rotationMatrix2Quaterniond(R);
+
     geometry_msgs::Pose target_pose1;
-    target_pose1.orientation.w = 1.0;
-    target_pose1.position.x = 0.28;
-    target_pose1.position.y = -0.2;
-    target_pose1.position.z = 0.5;
+
+    target_pose1.orientation.w = q.w();
+    target_pose1.orientation.x = q.x();
+    target_pose1.orientation.y = q.y();
+    target_pose1.orientation.z = q.z();
+
+    target_pose1.position.x = p(0)-0.2;
+    target_pose1.position.y = p(1);
+    target_pose1.position.z = p(2);
+
+    std::cout << "target_pose1.orientation: " << std::endl << "w = " << q.w()<< std::endl \
+                            << "x = " << q.x() << std::endl << "y = " << q.y() << std::endl << "z = " << q.z() ;
+
+    std::cout << "target_pose1.position: " << std::endl << "x = " << target_pose1.position.x << std::endl \
+                            << "y = " << target_pose1.position.y << std::endl << "z = " << target_pose1.position.z  << std::endl;
+
     move_group.setPoseTarget(target_pose1);
 
     moveit::planning_interface::MoveGroupInterface::Plan my_plan;
@@ -62,16 +93,17 @@ int main(int argc, char** argv)
     ROS_INFO_NAMED("tutorial", "Visualizing plan 1 as trajectory line");
     visual_tools.publishAxisLabeled(target_pose1, "pose1");
     visual_tools.publishText(text_pose, "Pose Goal", rvt::WHITE, rvt::XLARGE);
-    visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group);
+    visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group_right);
     visual_tools.trigger();
     visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
 
-    moveit::core::RobotStatePtr current_state = move_group.getCurrentState();
+    joint_group_positions[0] = -1.5708;
+    joint_group_positions[1] = -2.618;
+    joint_group_positions[2] = 0;
+    joint_group_positions[3] = -1.5708;
+    joint_group_positions[4] = -1.5708;
+    joint_group_positions[5] = 0;
 
-    std::vector<double> joint_group_positions;
-    current_state->copyJointGroupPositions(joint_model_group, joint_group_positions);
-
-    joint_group_positions[0] = -1.0;
     move_group.setJointValueTarget(joint_group_positions);
 
     success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
@@ -79,12 +111,10 @@ int main(int argc, char** argv)
 
     visual_tools.deleteAllMarkers();
     visual_tools.publishText(text_pose, "Joint Space Goal", rvt::WHITE, rvt::XLARGE);
-    visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group);
+    visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group_right);
     visual_tools.trigger();
     visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");   
     
-
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
     moveit_msgs::OrientationConstraint ocm;
     ocm.link_name = "Arm_R_end_effector";
     ocm.header.frame_id = "base_link";
@@ -100,11 +130,14 @@ int main(int argc, char** argv)
 
     robot_state::RobotState start_state(*move_group.getCurrentState());
     geometry_msgs::Pose start_pose2;
-    start_pose2.orientation.w = 1.0;
-    start_pose2.position.x = 0.55;
-    start_pose2.position.y = -0.05;
-    start_pose2.position.z = 0.8;  
-    start_state.setFromIK(joint_model_group, start_pose2);
+    start_pose2.orientation.w = 0.052;
+    start_pose2.orientation.x = 0.807;
+    start_pose2.orientation.y = -0.585;
+    start_pose2.orientation.z = -0.052;
+    start_pose2.position.x = 0.561;
+    start_pose2.position.y = -0.179;
+    start_pose2.position.z = -0.216;  
+    start_state.setFromIK(joint_model_group_right, start_pose2);
     move_group.setStartState(start_state);
 
     move_group.setPoseTarget(target_pose1);
@@ -118,7 +151,7 @@ int main(int argc, char** argv)
     visual_tools.publishAxisLabeled(start_pose2, "start");
     visual_tools.publishAxisLabeled(target_pose1, "goal");
     visual_tools.publishText(text_pose, "Constrained Goal", rvt::WHITE, rvt::XLARGE);
-    visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group);
+    visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group_right);
     visual_tools.trigger();
     visual_tools.prompt("next step");
 
@@ -172,7 +205,7 @@ int main(int argc, char** argv)
     box_pose.orientation.w = 1.0;
     box_pose.position.x = 0.4;
     box_pose.position.y = -0.2;
-    box_pose.position.z = 1.0;
+    box_pose.position.z = 0.6;
 
     collision_object.primitives.push_back(primitive);
     collision_object.primitive_poses.push_back(box_pose);
@@ -182,7 +215,7 @@ int main(int argc, char** argv)
     collision_objects.push_back(collision_object);
 
     ROS_INFO_NAMED("tutorial", "Add an object into the world");
-    planning_scene_interface.addCollisionObjects(collision_objects);
+    planning_scene_interface_right.addCollisionObjects(collision_objects);
 
     visual_tools.publishText(text_pose, "Add object", rvt::WHITE, rvt::XLARGE);
     visual_tools.trigger();
@@ -194,7 +227,7 @@ int main(int argc, char** argv)
     another_pose.orientation.w = 1.0;
     another_pose.position.x = 0.4;
     another_pose.position.y = -0.4;
-    another_pose.position.z = 0.9;
+    another_pose.position.z = 0.4;
     move_group.setPoseTarget(another_pose);
 
     success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
@@ -202,7 +235,7 @@ int main(int argc, char** argv)
 
     visual_tools.deleteAllMarkers();
     visual_tools.publishText(text_pose, "Obstacle Goal", rvt::WHITE, rvt::XLARGE);
-    visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group);
+    visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group_right);
     visual_tools.trigger();
     visual_tools.prompt("next step");    
 
@@ -225,7 +258,7 @@ int main(int argc, char** argv)
     ROS_INFO_NAMED("tutorial", "Remove the object from the world");
     std::vector<std::string> object_ids;
     object_ids.push_back(collision_object.id);
-    planning_scene_interface.removeCollisionObjects(object_ids);
+    planning_scene_interface_right.removeCollisionObjects(object_ids);
 
     visual_tools.publishText(text_pose, "Object removed", rvt::WHITE, rvt::XLARGE);
     visual_tools.trigger();

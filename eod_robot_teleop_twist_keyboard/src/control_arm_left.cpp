@@ -63,7 +63,7 @@ int main(int argc, char** argv)
             }
             else if(arm_left_joint_or_task.data == false){ // task space
                 if(!NearZear(sum_twist(arm_left_twist))){
-                    Matrix4d T_effect = eod_robot_right_arm_FKinSpace(angle_arm_left);
+                    Matrix4d T_effect = eod_robot_left_arm_FKinSpace(angle_arm_left);
                     T_effect.block<3,3>(0,0) = Matrix3d::Identity();
                     MatrixXd Jacobian_arm_left = Adjoint(TransInv(T_effect)) * eod_robot_left_arm_JacobianSpace(angle_arm_left);
                 
