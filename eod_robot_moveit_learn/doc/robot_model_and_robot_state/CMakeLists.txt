@@ -1,3 +1,7 @@
+# 运行：
+# roslaunch eod_robot_moveit_config demo.launch
+# roslaunch eod_robot_moveit_learn robot_model_and_robot_state_tutorial.launch
+
 add_executable(robot_model_and_robot_state_tutorial
   src/robot_model_and_robot_state_tutorial.cpp
 )

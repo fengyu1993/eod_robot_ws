@@ -12,44 +12,60 @@ int main(int argc, char** argv)
     R_Slist_T << 0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, -0.0805, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, -0.0805, 0.0000, 0.4247, 0.0000, 1.0000, 0.0000, -0.0805, 0.0000, 0.8091, 0.0000, 0.0000, -1.0000, -0.1110, 0.8091, 0.0000, 0.0000, 1.0000, 0.0000, 0.0296, 0.0000, 0.8091;
     MatrixXd R_Slist = R_Slist_T.transpose();
 
+    MatrixXd L_Slist_T(6,6);
+    L_Slist_T <<  0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, -0.0703, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, -0.0703, 0.0000, 0.2459, 0.0000, 1.0000, 0.0000, -0.0703, 0.0000, 0.5013, 0.0000, 0.0000, -1.0000, -0.0786, 0.5013, 0.0000, 0.0000, 1.0000, 0.0000, 0.0398, 0.0000, 0.5013;
+    MatrixXd L_Slist = L_Slist_T.transpose();
+
     Matrix4d R_M(4,4);
     R_M << -1.0000, 0, 0, 0.8091, 0, 0, 1.0000, 0.3790, 0, 1.0000, 0, -0.0296, 0, 0, 0, 1.0000;
 
-    MatrixXd R_Blist = SlistToBlist(R_Slist, R_M);
-
-    VectorXd thetalist(6), thetalist0(6), thetalist_result(6);
-
-    thetalist << 4.778741,  0.001709, 3.867487, -1.588801, -5.517637, 1.247915;
+    Matrix4d L_M(4,4);
+    L_M << -1.0000, 0.0000, 0.0000, 0.5013, 0.0000, 0.0000, 1.0000, 0.2510, 0.0000, 1.0000, 0.0000, -0.0398, 0.0000, 0.0000, 0.0000, 1.0000;
 
     Matrix4d T_base_right_arm(4,4);
     T_base_right_arm << 1.0000, 0.0000, 0.0000, -0.0500, 0.0000, 0.4229, -0.9062, -0.1373, \
                         0.0000, 0.9062, 0.4229, -0.0906, 0.0000, 0.0000, 0.0000, 1.0000;
 
-    Matrix4d T_eef = T_base_right_arm * FKinSpace(R_M, R_Slist, thetalist);
+    Matrix4d T_base_left_arm(4,4);
+    T_base_left_arm << -1.0000, 0.0000, 0.0000, 0.0500, 0.0000, -0.4229, 0.9062, 0.1373, 0.0000, \
+                        0.9062, 0.4229, -0.0906, 0.0000, 0.0000, 0.0000, 1.0000;
 
-    R_M << -1.0000, 0, 0, 0.8091, 0, 0, 1.0000, 0.3790, 0, 1.0000, 0, -0.0296, 0, 0, 0, 1.0000;
-    bool suc = eod_robot_IKinSpace_POE(R_Slist, R_M, T_eef, thetalist, 0, thetalist_result, T_base_right_arm);
+    VectorXd thetalist_right_arm(6),  thetalist_result_right_arm(6), \
+                thetalist_left_arm(6),  thetalist_result_left_arm(6);
 
-    std::cout << "thetalist = "<< std::endl << thetalist << std::endl;
+    thetalist_right_arm << 4.778741,  0.001709, 3.867487, -1.588801, -5.517637, 1.247915;
+    thetalist_left_arm << 4.778741,  0.001709, 3.867487, -1.588801, -5.517637, 1.247915;
 
-    std::cout << "thetalist_error = "<< std::endl << thetalist_result - thetalist<< std::endl;
+    Matrix4d T_eef_right_arm = T_base_right_arm * FKinSpace(R_M, R_Slist, thetalist_right_arm);
+    Matrix4d T_eef_left_arm = T_base_left_arm * FKinSpace(L_M, L_Slist, thetalist_left_arm);
 
-    Matrix3d R;  Vector3d p;
+    std::cout << "T_eef_right_arm = "<< std::endl << T_eef_right_arm << std::endl;
+    std::cout << "T_eef_left_arm = "<< std::endl << T_eef_left_arm << std::endl;
 
-    TransToRp(T_eef, R, p);
+    Matrix3d R_right_arm;  Vector3d p_right_arm;
 
-    Quaterniond q = rotationMatrix2Quaterniond(R);
+    TransToRp(T_eef_right_arm, R_right_arm, p_right_arm);
+
+    Quaterniond q_right_arm = rotationMatrix2Quaterniond(R_right_arm);
     
-    std::cout << "T_eef = "<< std::endl << T_eef << std::endl;
+    std::cout << "q_right_arm = "<< std::endl\
+              << q_right_arm.w() << ", "<< q_right_arm.x() << ", "<< q_right_arm.y() << ", "<< q_right_arm.z() << std::endl;
 
-    // MatrixXd jacobian_space = eod_robot_JacobianSpace(R_Slist, thetalist, T_base_right_arm);
-    MatrixXd jacobian_space = Adjoint(T_base_right_arm) *  JacobianSpace(R_Slist, thetalist);
 
-    std::cout << "jacobian_space = "<< std::endl << jacobian_space << std::endl;
 
-    // MatrixXd jacobian_body = eod_robot_JacobianBody(R_Blist, thetalist);
+    bool suc_right_arm = eod_robot_IKinSpace_POE(R_Slist, R_M, T_eef_right_arm, thetalist_right_arm, 0, thetalist_result_right_arm, T_base_right_arm);
+    bool suc_left_arm = eod_robot_IKinSpace_POE(L_Slist, L_M, T_eef_left_arm, thetalist_left_arm, 0, thetalist_result_left_arm, T_base_left_arm);
 
-    // std::cout << "jacobian_body = "<< std::endl << jacobian_body << std::endl;
+    std::cout << "thetalist_right_arm = "<< std::endl << thetalist_right_arm << std::endl;
+    std::cout << "thetalist_right_arm_error = "<< std::endl << thetalist_result_right_arm - thetalist_right_arm<< std::endl;
+    std::cout << "thetalist_left_arm = "<< std::endl << thetalist_left_arm << std::endl;
+    std::cout << "thetalist_right_arm_error = "<< std::endl << thetalist_result_left_arm - thetalist_left_arm<< std::endl; 
+   
+    MatrixXd jacobian_space_right_arm = Adjoint(T_base_right_arm) *  JacobianSpace(R_Slist, thetalist_right_arm);
+    MatrixXd jacobian_space_left_arm = Adjoint(T_base_left_arm) *  JacobianSpace(L_Slist, thetalist_left_arm);
+
+    std::cout << "jacobian_space_right_arm = "<< std::endl << jacobian_space_right_arm << std::endl;
+    std::cout << "jacobian_space_left_arm = "<< std::endl << jacobian_space_left_arm << std::endl;
 }
 
     /* left arm*/
@@ -156,16 +172,7 @@ int main(int argc, char** argv)
 
         // VectorXd thetalist(6,1); thetalist << 1.25, 2.1, 0.5, 0.2, 1.2, 0.9;
     
-    // MatrixXd L_Slist_T(6,6);
-    // L_Slist_T <<  0.0000, 0.0000, 1.0000, 0.0000, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, -0.0703, 0.0000, 0.0000, 0.0000, 1.0000, 0.0000, -0.0703, 0.0000, 0.2459, 0.0000, 1.0000, 0.0000, -0.0703, 0.0000, 0.5013, 0.0000, 0.0000, -1.0000, -0.0786, 0.5013, 0.0000, 0.0000, 1.0000, 0.0000, 0.0398, 0.0000, 0.5013;
-    // MatrixXd L_Slist = L_Slist_T.transpose();
-
-    // Matrix4d L_M(4,4);
-    // L_M << -1.0000, 0.0000, 0.0000, 0.5013, 0.0000, 0.0000, 1.0000, 0.2510, 0.0000, 1.0000, 0.0000, -0.0398, 0.0000, 0.0000, 0.0000, 1.0000;
-
-    // Matrix4d T_base_L(4,4);
-    // T_base_L << -1.0000, 0.0000, 0.0000, 0.0500, 0.0000, -0.4229, 0.9062, 0.1373, 0.0000, 0.9062, 0.4229, -0.0906, 0.0000, 0.0000, 0.0000, 1.0000;
-
+    
 
     // MatrixXd L_Blist(6,6);
     // for (int i = 0; i < 6; i++){
@@ -293,3 +300,11 @@ int main(int argc, char** argv)
     // cout << "thetalist_result = " << endl << thetalist_result << endl;
 
     // cout << "T_err = " << endl << T_result - T_eef << endl;
+
+
+    // MatrixXd jacobian_body = eod_robot_JacobianBody(R_Blist, thetalist);
+
+    // std::cout << "jacobian_body = "<< std::endl << jacobian_body << std::endl;
+
+
+    // MatrixXd R_Blist = SlistToBlist(R_Slist, R_M);

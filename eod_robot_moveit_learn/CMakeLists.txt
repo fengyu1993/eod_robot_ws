@@ -52,5 +52,9 @@ include_directories(
   ../eod_robot_library/src/eod_robotics
 )
 
-add_subdirectory(doc/moveit_group_interface)
+add_subdirectory(doc/kinematics)
 add_subdirectory(doc/robot_model_and_robot_state)
+add_subdirectory(doc/planning_scene)
+
+
+add_subdirectory(doc/moveit_group_interface)
