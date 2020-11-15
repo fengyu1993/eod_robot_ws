@@ -1,6 +1,5 @@
 # 运行：
-# roslaunch eod_robot_moveit_config demo.launch
-# roslaunch 
+# roslaunch eod_robot_moveit_learn planning_scene_tutorial.launch
 
 add_executable(planning_scene_tutorial
   src/planning_scene_tutorial.cpp

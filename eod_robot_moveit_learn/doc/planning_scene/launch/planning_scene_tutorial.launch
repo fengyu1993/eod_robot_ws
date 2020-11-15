@@ -1,0 +1,13 @@
+<launch>
+
+  <arg name="model" default="$(find xacro)/xacro --inorder '$(find eod_robot_description)/urdf/eod_robot_description.xacro'" />
+  
+  <param name="robot_description" command="$(arg model)" />
+
+  <include file= "$(find eod_robot_moveit_config)/launch/planning_context.launch"/>
+
+  <node name= "planning_scene_tutorial" pkg= "eod_robot_moveit_learn" type= "planning_scene_tutorial" respawn= "false" output= "screen">
+    <rosparam command= "load" file= "$(find eod_robot_moveit_config)/config/kinematics.yaml"/>
+  </node>
+
+</launch>
