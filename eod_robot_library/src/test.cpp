@@ -42,16 +42,21 @@ int main(int argc, char** argv)
     std::cout << "T_eef_right_arm = "<< std::endl << T_eef_right_arm << std::endl;
     std::cout << "T_eef_left_arm = "<< std::endl << T_eef_left_arm << std::endl;
 
-    Matrix3d R_right_arm;  Vector3d p_right_arm;
+    Matrix3d R_right_arm, R_left_arm;  Vector3d p_right_arm, p_left_arm;
 
     TransToRp(T_eef_right_arm, R_right_arm, p_right_arm);
 
+    TransToRp(T_eef_left_arm, R_left_arm, p_left_arm);
+
     Quaterniond q_right_arm = rotationMatrix2Quaterniond(R_right_arm);
+
+    Quaterniond q_left_arm = rotationMatrix2Quaterniond(R_left_arm);
     
     std::cout << "q_right_arm = "<< std::endl\
               << q_right_arm.w() << ", "<< q_right_arm.x() << ", "<< q_right_arm.y() << ", "<< q_right_arm.z() << std::endl;
 
-
+    std::cout << "q_left_arm = "<< std::endl\
+              << q_left_arm.w() << ", "<< q_left_arm.x() << ", "<< q_left_arm.y() << ", "<< q_left_arm.z() << std::endl;
 
     bool suc_right_arm = eod_robot_IKinSpace_POE(R_Slist, R_M, T_eef_right_arm, thetalist_right_arm, 0, thetalist_result_right_arm, T_base_right_arm);
     bool suc_left_arm = eod_robot_IKinSpace_POE(L_Slist, L_M, T_eef_left_arm, thetalist_left_arm, 0, thetalist_result_left_arm, T_base_left_arm);
