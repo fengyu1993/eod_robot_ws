@@ -55,6 +55,7 @@ include_directories(
 add_subdirectory(doc/kinematics)
 add_subdirectory(doc/robot_model_and_robot_state)
 add_subdirectory(doc/planning_scene)
+add_subdirectory(doc/planning_scene_ros_api)
 
 
 add_subdirectory(doc/moveit_group_interface)

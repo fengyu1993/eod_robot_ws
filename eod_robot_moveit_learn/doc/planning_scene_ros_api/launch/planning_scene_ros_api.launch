@@ -1,0 +1,6 @@
+<launch>
+
+<node name= "planning_scene_ros_api_turtorial" pkg= "eod_robot_moveit_learn" type= "planning_scene_ros_api" respawn="false" output="screen">
+</node>
+
+</launch>
