@@ -82,6 +82,9 @@ rosdep install --from-paths src --ignore-src --rosdistro=melodic -y
 			1. 碰撞检测：检测各关节是否碰撞
 			2. 约束检测：检测关节约束、位置约束、方向约束和可视化约束
 			3. 可行性检测：通过回调函数，用户自定义的约束（例如：第一个关节角度大于0）
+	planning_scene_ros_api:
+			1. 在环境中添加或移除物体
+			2. 在机器人连杆上依附或去掉物体
 	
 
 

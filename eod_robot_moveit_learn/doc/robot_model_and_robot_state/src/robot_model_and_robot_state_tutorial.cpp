@@ -11,6 +11,7 @@ int main(int argc, char** argv)
     ros::AsyncSpinner spinner(1);
     spinner.start();
 
+/*Start*/
     robot_model_loader::RobotModelLoader robot_model_loader("robot_description");
     robot_model::RobotModelPtr kinematic_model = robot_model_loader.getModel();
     ROS_INFO("Model frame: %s", kinematic_model->getModelFrame().c_str());
@@ -24,6 +25,7 @@ int main(int argc, char** argv)
     const std::vector<std::string>& joint_names_right_arm = joint_model_group_right_arm->getVariableNames();
     const std::vector<std::string>& joint_names_left_arm = joint_model_group_left_arm->getVariableNames();
 
+/*Get Joint Values*/
     std::vector<double> joint_values_right_arm;
     std::vector<double> joint_values_left_arm;
 
@@ -40,7 +42,7 @@ int main(int argc, char** argv)
         ROS_INFO("Left Arm Joint %s: %f", joint_names_left_arm[i].c_str(), joint_values_left_arm[i]);
     }
 
-    
+/*Joint Limits*/   
     joint_values_right_arm[0] = 10;
     joint_values_left_arm[0] = 10;
     /*设置左右机械臂的关节角度*/
@@ -63,7 +65,8 @@ int main(int argc, char** argv)
     {
         ROS_INFO("Left Arm Joint %s: %f", joint_names_left_arm[i].c_str(), joint_values_left_arm[i]);
     }
-    
+
+/*Forward Kinematics*/ 
     // kinematic_state->setToRandomPositions(joint_model_group_right_arm);
     joint_values_right_arm[0] = 4.778741;
     joint_values_right_arm[1] = 0.001709; 
@@ -101,7 +104,7 @@ int main(int argc, char** argv)
         ROS_INFO("Left Arm Joint %s: %f", joint_names_left_arm[i].c_str(), joint_values_left_arm[i]);
     }
 
-
+/*Inverse Kinematics*/
     double timeout = 0.1;
     bool found_ik_right_arm = kinematic_state->setFromIK(joint_model_group_right_arm, end_effector_state_right_arm, timeout);
     bool found_ik_left_arm = kinematic_state->setFromIK(joint_model_group_left_arm, end_effector_state_left_arm, timeout);
@@ -134,6 +137,7 @@ int main(int argc, char** argv)
         ROS_INFO("Left Arm Did not find IK solution");
     }
 
+/*Get the Jacobian*/
     Eigen::Vector3d reference_point_position(0.0, 0.0, 0.0);
     Eigen::MatrixXd jacobian_right_arm;
     Eigen::MatrixXd jacobian_left_arm;
