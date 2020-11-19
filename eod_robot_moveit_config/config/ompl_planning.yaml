@@ -146,8 +146,8 @@ right_arm:
     - LazyPRMstar
     - SPARS
     - SPARStwo
-  projection_evaluator: joints(Arm_R1_joint,Arm_R2_joint)
-  longest_valid_segment_fraction: 0.005
+  # projection_evaluator: joints(Arm_R1_joint,Arm_R2_joint)
+  # longest_valid_segment_fraction: 0.005
 left_arm:
   # default_planner_config: RRTConnect
   planner_configs:
@@ -174,8 +174,8 @@ left_arm:
     - LazyPRMstar
     - SPARS
     - SPARStwo
-  projection_evaluator: joints(Arm_L1_joint,Arm_L2_joint)
-  longest_valid_segment_fraction: 0.005
+  # projection_evaluator: joints(Arm_L1_joint,Arm_L2_joint)
+  # longest_valid_segment_fraction: 0.005
 gripper:
   # default_planner_config: RRTConnect
   planner_configs:

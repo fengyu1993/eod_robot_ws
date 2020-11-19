@@ -33,7 +33,8 @@ int main(int argc, char** argv)
     VectorXd thetalist_right_arm(6),  thetalist_result_right_arm(6), \
                 thetalist_left_arm(6),  thetalist_result_left_arm(6);
 
-    thetalist_right_arm << 4.778741,  0.001709, 3.867487, -1.588801, -5.517637, 1.247915;
+    // thetalist_right_arm << 4.778741,  0.001709, 3.867487, -1.588801, -5.517637, 1.247915;
+    thetalist_right_arm << 0,  0, 0, 0, 0, 0;
     thetalist_left_arm << 4.778741,  0.001709, 3.867487, -1.588801, -5.517637, 1.247915;
 
     Matrix4d T_eef_right_arm = T_base_right_arm * FKinSpace(R_M, R_Slist, thetalist_right_arm);

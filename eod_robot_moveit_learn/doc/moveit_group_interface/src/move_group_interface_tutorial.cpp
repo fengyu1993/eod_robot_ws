@@ -74,7 +74,7 @@ int main(int argc, char** argv)
     target_pose1.orientation.z = q.z();
 
     target_pose1.position.x = p(0)-0.2;
-    target_pose1.position.y = p(1);
+    target_pose1.position.y = p(1)-0.1;
     target_pose1.position.z = p(2);
 
     std::cout << "target_pose1.orientation: " << std::endl << "w = " << q.w()<< std::endl \
