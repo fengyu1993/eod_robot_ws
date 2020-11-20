@@ -31,7 +31,7 @@ int main(int argc, char** argv)
     planning_scene::PlanningScenePtr planning_scene(new planning_scene::PlanningScene(robot_model));
 
     /*configure a valid robot state*/
-    planning_scene->getCurrentStateNonConst().setToDefaultValues(joint_model_group, "ready");
+    planning_scene->getCurrentStateNonConst().setToDefaultValues(joint_model_group, "zero"); // "zero" "work"
 
     /*construct a loader to load a planner*/
     boost::scoped_ptr<pluginlib::ClassLoader<planning_interface::PlannerManager>> planner_plugin_loader;
@@ -78,21 +78,21 @@ int main(int argc, char** argv)
     visual_tools.loadRemoteControl();
 
     Eigen::Isometry3d text_pose = Eigen::Isometry3d::Identity();
-    text_pose.translation().z() = 1.75;
+    text_pose.translation().z() = 1;
     visual_tools.publishText(text_pose, "Motion Planning API Demo",rvt::WHITE, rvt::XLARGE);
 
     visual_tools.trigger();
 
     visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to start the demo");
 
-/*******************Pose Goal*******************/
+/*******************Pose Goal 1*******************/
     visual_tools.publishRobotState(planning_scene->getCurrentStateNonConst(), rviz_visual_tools::GREEN);
     visual_tools.trigger();
     planning_interface::MotionPlanRequest req;
     planning_interface::MotionPlanResponse res;
     geometry_msgs::PoseStamped pose;
     pose.header.frame_id = "base_link";
-    pose.pose.position.x = 0.5591;
+    pose.pose.position.x = 0.6;
     pose.pose.position.y = 0.0498026;
     pose.pose.position.z = 0.240332;
     pose.pose.orientation.w = 0;    
@@ -119,7 +119,7 @@ int main(int argc, char** argv)
         return 0;
     }
 
-/*******************Visualize the result*******************/
+    /*Visualize the result*/
     ros::Publisher display_publisher = node_handle.advertise<moveit_msgs::DisplayTrajectory>
                                                         ("/move_group/display_planned_path", 1, true);
     moveit_msgs::DisplayTrajectory display_trajectory;
@@ -144,9 +144,10 @@ int main(int argc, char** argv)
 
     visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
 
+/*******************Joint Goal 2*******************/
     /*Joint Space Goals*/
     robot_state::RobotState goal_state(robot_model);
-    std::vector<double> joint_values = { 4.778741,  0.001709, 3.867487, -1.588801, -5.517637, 1.247915};
+    std::vector<double> joint_values = { -1.5708,  -2.618, 0, -1.5708, -1.5708, 0}; // front
     goal_state.setJointGroupPositions(joint_model_group, joint_values);
     moveit_msgs::Constraints joint_goal = kinematic_constraints::constructGoalConstraints(goal_state, joint_model_group);
     req.goal_constraints.clear();
@@ -178,6 +179,7 @@ int main(int argc, char** argv)
 
     visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
 
+    /* original pose goal */
     req.goal_constraints.clear();
     req.goal_constraints.push_back(pose_goal);
     context = planner_instance->getPlanningContext(planning_scene, req, res.error_code_);
@@ -199,9 +201,9 @@ int main(int argc, char** argv)
     visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
 
 /*******************Adding Path Constraints*******************/
-    pose.pose.position.x = 0.2591;
-    pose.pose.position.y = -0.0498026;
-    pose.pose.position.z = 0.540332;
+    pose.pose.position.x = 0.759;
+    pose.pose.position.y = 0.0498026;
+    pose.pose.position.z = 0.240332;
     pose.pose.orientation.w = 0;    
     pose.pose.orientation.x = 0; 
     pose.pose.orientation.y = 0.216589; 
@@ -212,15 +214,18 @@ int main(int argc, char** argv)
     req.goal_constraints.clear();
     req.goal_constraints.push_back(pose_goal_2);
 
-    geometry_msgs::QuaternionStamped quaternion;
-    quaternion.header.frame_id = "base_link";
-    quaternion.quaternion.w = 1.0;
-    req.path_constraints = kinematic_constraints::constructGoalConstraints("Arm_R_end_effector", quaternion);
+    // geometry_msgs::QuaternionStamped quaternion;
+    // quaternion.header.frame_id = "base_link";
+    // quaternion.quaternion.w = 1.0;  
+    // quaternion.quaternion.x = 0; 
+    // quaternion.quaternion.y = 0.216589; 
+    // quaternion.quaternion.z = 0.976263;   
+    // req.path_constraints = kinematic_constraints::constructGoalConstraints("Arm_R_end_effector", quaternion);
 
     req.workspace_parameters.min_corner.x = req.workspace_parameters.min_corner.y = 
         req.workspace_parameters.min_corner.z = -2.0;
     req.workspace_parameters.max_corner.x = req.workspace_parameters.max_corner.y = 
-        req.workspace_parameters.max_corner.z = -2.0;
+        req.workspace_parameters.max_corner.z = 2.0;
 
     /*Call the planner and visualize all the plans*/
     context = planner_instance->getPlanningContext(planning_scene, req, res.error_code_);
@@ -239,9 +244,6 @@ int main(int argc, char** argv)
     visual_tools.publishAxisLabeled(pose.pose, "goal_3");
     visual_tools.publishText(text_pose, "Orientation Constrained Motion Plan (3)", rvt::WHITE, rvt::XLARGE);
     visual_tools.trigger();
-
-
-
 
     ros::shutdown();
     return 0;
