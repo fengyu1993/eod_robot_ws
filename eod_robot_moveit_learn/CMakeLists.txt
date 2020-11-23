@@ -57,6 +57,7 @@ add_subdirectory(doc/robot_model_and_robot_state)
 add_subdirectory(doc/planning_scene)
 add_subdirectory(doc/planning_scene_ros_api)
 add_subdirectory(doc/motion_planning_api)
+add_subdirectory(doc/motion_planning_pipeline)
 
 
 

@@ -85,6 +85,9 @@ rosdep install --from-paths src --ignore-src --rosdistro=melodic -y
 	planning_scene_ros_api:
 			1. 在环境中添加或移除物体
 			2. 在机器人连杆上依附或去掉物体
+	motion_planning_api:----这个存在疑问，左臂规划不成功
+			1. 在任务空间进行规划，并在rviz中显示路径
+			2. 在关节空间进行规划
 	
 
 
