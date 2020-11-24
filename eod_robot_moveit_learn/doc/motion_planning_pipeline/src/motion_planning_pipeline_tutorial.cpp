@@ -80,7 +80,7 @@ int main(int argc, char** argv)
         return 0;
     }
 
- /*Visualize the result*/
+    /*Visualize the result*/
     ros::Publisher display_publisher = node_handle.advertise<moveit_msgs::DisplayTrajectory>
                                                         ("/move_group/display_planned_path", 1, true);
     moveit_msgs::DisplayTrajectory display_trajectory_right_arm;
@@ -102,4 +102,72 @@ int main(int argc, char** argv)
 
     visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
 
+/*******************Joint Space Goals*******************/
+    planning_scene->setCurrentState(response_right_arm.trajectory_start);
+    robot_state->setJointGroupPositions(joint_model_group_right_arm, response_right_arm.trajectory.joint_trajectory.points.back().positions);
+   
+    robot_state::RobotState goal_state(robot_model);
+    std::vector<double> joint_values = { -1.5708,  -2.618, 0, -1.5708, -1.5708, 0}; // front
+    goal_state.setJointGroupPositions(joint_model_group_right_arm, joint_values);
+    moveit_msgs::Constraints joint_goal = kinematic_constraints::constructGoalConstraints(goal_state, joint_model_group_right_arm);
+   
+    req_right_arm.goal_constraints.clear();
+    req_right_arm.goal_constraints.push_back(joint_goal);
+
+    /*Call the pipeline and visualize the trajectory*/
+    planning_pipeline->generatePlan(planning_scene, req_right_arm, res_right_arm);
+    if(res_right_arm.error_code_.val != res_right_arm.error_code_.SUCCESS)
+    {
+        ROS_ERROR("Right arm conld not compute plan successfully");
+        return 0;
+    }
+
+    /* Visualize the trajectory */
+    ROS_INFO("Visualizing the trajectory");
+    res_right_arm.getMessage(response_right_arm);
+    display_trajectory_right_arm.trajectory.push_back(response_right_arm.trajectory);
+
+    visual_tools.publishTrajectoryLine(display_trajectory_right_arm.trajectory.back(), joint_model_group_right_arm);
+    visual_tools.trigger();
+    display_publisher.publish(display_trajectory_right_arm);
+    
+    visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
+
+/*******************Using a Planning Request Adapter*******************/
+    planning_scene->setCurrentState(*robot_state.get());
+    planning_scene->setCurrentState(response_right_arm.trajectory_start);
+    robot_state->setJointGroupPositions(joint_model_group_right_arm, response_right_arm.trajectory.joint_trajectory.points.back().positions);
+
+    /*set one of the joints slightly outside its upper limit*/
+    const robot_model::JointModel* joint_model = joint_model_group_right_arm->getJointModel("Arm_R2_joint");
+    const robot_model::JointModel::Bounds& joint_bounds = joint_model->getVariableBounds();
+    std::vector<double> tmp_values(1.0, 0.0);
+    tmp_values[0] = joint_bounds[0].min_position_ - 0.01;
+    robot_state->setJointPositions(joint_model, tmp_values);
+    req_right_arm.goal_constraints.clear();
+    req_right_arm.goal_constraints.push_back(joint_goal);
+
+    /*Call the planner again and visualize the trajectories*/
+    planning_pipeline->generatePlan(planning_scene, req_right_arm, res_right_arm);
+    if(res_right_arm.error_code_.val != res_right_arm.error_code_.SUCCESS)
+    {
+        ROS_ERROR("Right arm conld not compute plan successfully");
+        return 0;
+    }
+
+    /* Visualize the trajectory */
+    ROS_INFO("Visualizing the trajectory");
+    res_right_arm.getMessage(response_right_arm);
+    display_trajectory_right_arm.trajectory_start = response_right_arm.trajectory_start;
+    display_trajectory_right_arm.trajectory.push_back(response_right_arm.trajectory);
+
+    visual_tools.publishTrajectoryLine(display_trajectory_right_arm.trajectory.back(), joint_model_group_right_arm);
+    visual_tools.trigger();
+    display_publisher.publish(display_trajectory_right_arm);
+    
+    visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
+
+    ROS_INFO("Done");
+    ros::shutdown();
+    return 0;
 }
