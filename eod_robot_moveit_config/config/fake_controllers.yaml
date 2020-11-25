@@ -23,6 +23,6 @@ controller_list:
       []
 initial:  # Define initial robot poses.
   - group: right_arm
-      pose: work
+    pose: work
   - group: left_arm
-      pose: work
+    pose: work

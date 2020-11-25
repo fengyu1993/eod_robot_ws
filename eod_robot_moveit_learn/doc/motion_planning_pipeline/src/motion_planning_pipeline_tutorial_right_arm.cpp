@@ -102,17 +102,17 @@ int main(int argc, char** argv)
 
     visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
 
-/*******************Joint Space Goals*******************/
+/*******************Joint Space Goals Right Arm*******************/
     planning_scene->setCurrentState(response_right_arm.trajectory_start);
     robot_state->setJointGroupPositions(joint_model_group_right_arm, response_right_arm.trajectory.joint_trajectory.points.back().positions);
    
-    robot_state::RobotState goal_state(robot_model);
-    std::vector<double> joint_values = { -1.5708,  -2.618, 0, -1.5708, -1.5708, 0}; // front
-    goal_state.setJointGroupPositions(joint_model_group_right_arm, joint_values);
-    moveit_msgs::Constraints joint_goal = kinematic_constraints::constructGoalConstraints(goal_state, joint_model_group_right_arm);
+    robot_state::RobotState goal_state_right_arm(robot_model);
+    std::vector<double> joint_values_right_arm = { -1.5708,  -2.618, 0, -1.5708, -1.5708, 0}; // front
+    goal_state_right_arm.setJointGroupPositions(joint_model_group_right_arm, joint_values_right_arm);
+    moveit_msgs::Constraints joint_goal_right_arm = kinematic_constraints::constructGoalConstraints(goal_state_right_arm, joint_model_group_right_arm);
    
     req_right_arm.goal_constraints.clear();
-    req_right_arm.goal_constraints.push_back(joint_goal);
+    req_right_arm.goal_constraints.push_back(joint_goal_right_arm);
 
     /*Call the pipeline and visualize the trajectory*/
     planning_pipeline->generatePlan(planning_scene, req_right_arm, res_right_arm);
@@ -145,7 +145,7 @@ int main(int argc, char** argv)
     tmp_values[0] = joint_bounds[0].min_position_ - 0.01;
     robot_state->setJointPositions(joint_model, tmp_values);
     req_right_arm.goal_constraints.clear();
-    req_right_arm.goal_constraints.push_back(joint_goal);
+    req_right_arm.goal_constraints.push_back(joint_goal_right_arm);
 
     /*Call the planner again and visualize the trajectories*/
     planning_pipeline->generatePlan(planning_scene, req_right_arm, res_right_arm);

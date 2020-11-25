@@ -24,7 +24,7 @@
         <arg name="debug" value="$(arg debug)"/>
     </include>
 
-    <node name="motion_planning_pipeline_tutorial" pkg="eod_robot_moveit_learn" type="motion_planning_pipeline_tutorial" respawn="false" launch-prefix="$(arg launch_prefix)" output="screen">
+    <node name="motion_planning_pipeline_tutorial_right_arm" pkg="eod_robot_moveit_learn" type="motion_planning_pipeline_tutorial_right_arm" respawn="false" launch-prefix="$(arg launch_prefix)" output="screen">
         <param name="planning_plugin" value="$(arg planning_plugin)" />
         <param name="request_adapters" value="$(arg planning_adapters)" />
         <param name="start_state_max_bounds_error" value="0.1" />
