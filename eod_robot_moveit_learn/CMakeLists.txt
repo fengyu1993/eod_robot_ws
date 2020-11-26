@@ -24,8 +24,11 @@ COMPONENTS
     eod_robot_library)
 
 find_package(Eigen3 REQUIRED)
-
 find_package(Boost REQUIRED system filesystem date_time thread)
+
+set(THIS_PACKAGE_INCLUDE_DIRS
+  doc/interactivity/include
+)
 
 catkin_package(
   LIBRARIES
@@ -48,6 +51,7 @@ include_directories(
   include ${catkin_INCLUDE_DIRS}
   include ${EIGEN3_INCLUDE_DIR}
   include ${Boost_INCLUDE_DIR} 
+  include ${THIS_PACKAGE_INCLUDE_DIRS}
   ../eod_robot_library/src/modern_robotics
   ../eod_robot_library/src/eod_robotics
 )
@@ -58,7 +62,7 @@ add_subdirectory(doc/planning_scene)
 add_subdirectory(doc/planning_scene_ros_api)
 add_subdirectory(doc/motion_planning_api)
 add_subdirectory(doc/motion_planning_pipeline)
-
-
+add_subdirectory(doc/visualizing_collisions)
+add_subdirectory(doc/interactivity)
 
 add_subdirectory(doc/moveit_group_interface)
