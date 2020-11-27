@@ -106,11 +106,11 @@ int main(int argc, char** argv)
     ros::NodeHandle nh;
 
     /*create a PlanningScene for collision checking*/
-    InteractiveRobot robot;
+    InteractiveRobot robot("right_arm");
     g_planning_scene = new planning_scene::PlanningScene(robot.robotModel());
 
     /*Adding geometry to the PlanningScene*/
-    Eigen::Isometry3d world_cube_pose;
+    Eigen::Isometry3d world_cube_pose;; 
     double world_cube_size;
     robot.getWorldGeometry(world_cube_pose, world_cube_size);
     g_world_cube_shape.reset(new shapes::Box(world_cube_size, world_cube_size, world_cube_size));

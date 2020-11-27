@@ -7,7 +7,6 @@ Panels:
         - /Global Options1
         - /Status1
         - /RobotState1
-        - /RobotState1/Status1
       Splitter Ratio: 0.5
     Tree Height: 577
   - Class: rviz/Selection
@@ -283,7 +282,7 @@ Visualization Manager:
       Name: RobotState
       Robot Alpha: 1
       Robot Description: robot_description
-      Robot State Topic: display_robot_state
+      Robot State Topic: /interactive_robot_state
       Show All Links: true
       Show Highlights: true
       Value: true

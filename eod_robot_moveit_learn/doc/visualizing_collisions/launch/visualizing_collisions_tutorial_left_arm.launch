@@ -18,7 +18,7 @@
   <node pkg="tf2_ros" type="static_transform_publisher" name="virtual_joint_broadcaster_0" args="0 0 0 0 0 1 /world /base_link 10 " />
 
   <!-- launch interactivity_tutorial -->
-  <node name="visualizing_collisions_tutorial" pkg="eod_robot_moveit_learn" type="visualizing_collisions_tutorial" respawn="false" output="screen">
+  <node name="visualizing_collisions_tutorial" pkg="eod_robot_moveit_learn" type="visualizing_collisions_tutorial_left_arm" respawn="false" output="screen">
     <rosparam command="load" file="$(find eod_robot_moveit_config)/config/kinematics.yaml"/>
   </node>
 

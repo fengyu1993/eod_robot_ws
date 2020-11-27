@@ -41,8 +41,8 @@
 #include <moveit/robot_state/conversions.h>
 
 // default world object position is just in front and left of eod robot.
-const Eigen::Isometry3d InteractiveRobot::DEFAULT_WORLD_OBJECT_POSE_(Eigen::Isometry3d(Eigen::Translation3d(1, 0.0498026,
-                                                                                                            0.240332)));
+const Eigen::Isometry3d InteractiveRobot::DEFAULT_WORLD_OBJECT_POSE_(Eigen::Isometry3d(Eigen::Translation3d(0.9, -0.0131359,
+                                                                                                            0)));
 
 // size of the world geometry cube
 const double InteractiveRobot::WORLD_BOX_SIZE_ = 0.15;
@@ -50,7 +50,8 @@ const double InteractiveRobot::WORLD_BOX_SIZE_ = 0.15;
 // minimum delay between calls to callback function
 const ros::Duration InteractiveRobot::min_delay_(0.01);
 
-InteractiveRobot::InteractiveRobot(const std::string& robot_description, const std::string& robot_topic,
+InteractiveRobot::InteractiveRobot(const std::string& group_name,
+                                   const std::string& robot_description, const std::string& robot_topic,
                                    const std::string& marker_topic, const std::string& imarker_topic)
   :  // this node handle is used to create the publishers
   nh_()
@@ -87,12 +88,13 @@ InteractiveRobot::InteractiveRobot(const std::string& robot_description, const s
   }
   robot_state_->setToDefaultValues();
 
-  // Prepare to move the "right_arm" group
-  group_ = robot_state_->getJointModelGroup("right_arm");
+  // Prepare to move the "right_arm" or "left_arm" group
+  group_ = robot_state_->getJointModelGroup(group_name);
+  robot_state_->setToDefaultValues(group_, "work");
   std::string end_link = group_->getLinkModelNames().back();
   desired_group_end_link_pose_ = robot_state_->getGlobalLinkTransform(end_link);
 
-  // Create a marker to control the "right_arm" group
+  // Create a marker to control the "right_arm" or "left_arm" group
   imarker_robot_ = new IMarker(interactive_marker_server_, "robot", desired_group_end_link_pose_, "/base_link",
                                boost::bind(movedRobotMarkerCallback, this, _1), IMarker::BOTH),
 

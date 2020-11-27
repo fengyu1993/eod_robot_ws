@@ -93,6 +93,10 @@ rosdep install --from-paths src --ignore-src --rosdistro=melodic -y
 			1. 在任务空间进行规划，并在rviz中显示路径
 			2. 在关节空间进行规划
 			3. 左右臂都可以规划成功 (左臂在zero位置是碰撞状态，所以规划时要现将初始规划位置设在不碰撞的姿态)
+	visualizing_collisions:
+			1. 用到了interactivity文件中InteractiveRobot类
+			2. 可以拖拽末端执行器的Marker,实现机械臂运动，并且可以检测碰撞
+			3. 可以拖拽创建的Marker,实现与机器人的碰撞检测
 
 	
 
