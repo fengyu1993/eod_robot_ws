@@ -119,12 +119,9 @@ catkin_package(
 ## Your package locations should be listed before other locations
 include_directories(
   include ${catkin_INCLUDE_DIRS}
-  include
   ${catkin_INCLUDE_DIRS}
   ${OpenCV_INCLUDE_DIRS}
   ${EIGEN3_INCLUDE_DIR}
-  ../../eod_robot_library/src/modern_robotics
-  ../../eod_robot_library/src/eod_robotics
 )
 
 ## Declare a C++ library
@@ -221,8 +218,6 @@ target_link_libraries(vehicle_camera_show
   ${catkin_LIBRARIES}
   ${OpenCV_LIBRARIES}
   ${EIGEN3_LIBRARIES}
-  modern_robotics_library
-  eod_robotics_library
 )
 
 add_executable(right_camera_show
@@ -233,8 +228,6 @@ target_link_libraries(right_camera_show
   ${catkin_LIBRARIES}
   ${OpenCV_LIBRARIES}
   ${EIGEN3_LIBRARIES}
-  modern_robotics_library
-  eod_robotics_library
 )
 
 add_executable(left_camera_show
@@ -245,6 +238,4 @@ target_link_libraries(left_camera_show
   ${catkin_LIBRARIES}
   ${OpenCV_LIBRARIES}
   ${EIGEN3_LIBRARIES}
-  modern_robotics_library
-  eod_robotics_library
 )

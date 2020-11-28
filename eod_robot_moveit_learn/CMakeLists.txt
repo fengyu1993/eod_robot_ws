@@ -52,8 +52,6 @@ include_directories(
   include ${EIGEN3_INCLUDE_DIR}
   include ${Boost_INCLUDE_DIR} 
   include ${THIS_PACKAGE_INCLUDE_DIRS}
-  ../eod_robot_library/src/modern_robotics
-  ../eod_robot_library/src/eod_robotics
 )
 
 add_subdirectory(doc/kinematics)

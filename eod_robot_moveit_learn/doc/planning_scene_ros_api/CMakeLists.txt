@@ -10,6 +10,4 @@ target_link_libraries(planning_scene_ros_api
   ${catkin_LIBRARIES}
   ${EIGEN3_LIBRARIES} 
   ${Boost_LIBRARIES}
-  modern_robotics_library 
-  eod_robotics_library
 )

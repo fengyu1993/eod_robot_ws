@@ -10,6 +10,4 @@ target_link_libraries(motion_planning_api_tutorial
   ${catkin_LIBRARIES}
   ${EIGEN3_LIBRARIES} 
   ${Boost_LIBRARIES}
-  modern_robotics_library 
-  eod_robotics_library
 )

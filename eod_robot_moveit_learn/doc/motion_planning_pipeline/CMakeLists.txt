@@ -10,8 +10,6 @@ target_link_libraries(motion_planning_pipeline_tutorial_right_arm
   ${catkin_LIBRARIES}
   ${EIGEN3_LIBRARIES} 
   ${Boost_LIBRARIES}
-  modern_robotics_library 
-  eod_robotics_library
 )
 
 add_executable(motion_planning_pipeline_tutorial_left_arm
@@ -22,6 +20,4 @@ target_link_libraries(motion_planning_pipeline_tutorial_left_arm
   ${catkin_LIBRARIES}
   ${EIGEN3_LIBRARIES} 
   ${Boost_LIBRARIES}
-  modern_robotics_library 
-  eod_robotics_library
 )

@@ -9,6 +9,4 @@ target_link_libraries(move_group_interface_tutorial
   ${catkin_LIBRARIES}
   ${EIGEN3_LIBRARIES} 
   ${Boost_LIBRARIES}
-  modern_robotics_library 
-  eod_robotics_library
 )

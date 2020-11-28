@@ -120,8 +120,6 @@ include_directories(
   include 
   ${catkin_INCLUDE_DIRS}
   ${EIGEN3_INCLUDE_DIR}
-  ../eod_robot_library/src/modern_robotics
-  ../eod_robot_library/src/eod_robotics
 )
 
 ## Declare a C++ library
@@ -216,6 +214,4 @@ add_executable(marker_control
 add_dependencies(marker_control ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(marker_control
   ${catkin_LIBRARIES}
-  modern_robotics_library
-  eod_robotics_library
 )

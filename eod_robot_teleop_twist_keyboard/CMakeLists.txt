@@ -120,8 +120,6 @@ include_directories(
   include 
   ${catkin_INCLUDE_DIRS}
   ${EIGEN3_INCLUDE_DIR}
-  ../eod_robot_library/src/modern_robotics
-  ../eod_robot_library/src/eod_robotics
 )
 
 ## Declare a C++ library
@@ -217,8 +215,6 @@ add_dependencies(control_vecihle_rviz ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catk
 target_link_libraries(control_vecihle_rviz
   ${catkin_LIBRARIES}
   ${EIGEN3_LIBRARIES}
-  modern_robotics_library
-  eod_robotics_library
 )
 
 add_executable(control_vecihle_gazebo
@@ -228,8 +224,6 @@ add_dependencies(control_vecihle_gazebo ${${PROJECT_NAME}_EXPORTED_TARGETS} ${ca
 target_link_libraries(control_vecihle_gazebo
   ${catkin_LIBRARIES}
   ${EIGEN3_LIBRARIES}
-  modern_robotics_library
-  eod_robotics_library
 )
 
 add_executable(control_arm_left
@@ -239,8 +233,6 @@ add_dependencies(control_arm_left ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_E
 target_link_libraries(control_arm_left
   ${catkin_LIBRARIES}
   ${EIGEN3_LIBRARIES}
-  modern_robotics_library
-  eod_robotics_library
 )
 
 add_executable(control_arm_right
@@ -250,8 +242,6 @@ add_dependencies(control_arm_right ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_
 target_link_libraries(control_arm_right
   ${catkin_LIBRARIES}
   ${EIGEN3_LIBRARIES}
-  modern_robotics_library
-  eod_robotics_library
 )
 
 add_executable(control_gripper
@@ -261,6 +251,4 @@ add_dependencies(control_gripper ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EX
 target_link_libraries(control_gripper
   ${catkin_LIBRARIES}
   ${EIGEN3_LIBRARIES}
-  modern_robotics_library
-  eod_robotics_library
 )

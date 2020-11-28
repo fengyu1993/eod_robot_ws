@@ -18,8 +18,6 @@ target_link_libraries(visualizing_collisions_tutorial_right_arm
   ${catkin_LIBRARIES}
   ${EIGEN3_LIBRARIES} 
   ${Boost_LIBRARIES}
-  modern_robotics_library 
-  eod_robotics_library
 )
 target_link_libraries(visualizing_collisions_tutorial_left_arm
   ${interactive_markers_LIBRARIES}
@@ -27,6 +25,4 @@ target_link_libraries(visualizing_collisions_tutorial_left_arm
   ${catkin_LIBRARIES}
   ${EIGEN3_LIBRARIES} 
   ${Boost_LIBRARIES}
-  modern_robotics_library 
-  eod_robotics_library
 )
