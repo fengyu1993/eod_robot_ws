@@ -89,7 +89,7 @@ rosdep install --from-paths src --ignore-src --rosdistro=melodic -y
 			1. 在任务空间进行规划，并在rviz中显示路径
 			2. 在关节空间进行规划
 	motion_planning_pipeline:
-			与motion_planning_api类似，但是这个命令多了路径规划的预处理和后处理功能
+			与motion_planning_api类似，但是这个命令多了路径规划的预处理和后处理功能(Iterative Parabolic Time Parameterization)
 			1. 在任务空间进行规划，并在rviz中显示路径
 			2. 在关节空间进行规划
 			3. 左右臂都可以规划成功 (左臂在zero位置是碰撞状态，所以规划时要现将初始规划位置设在不碰撞的姿态)
