@@ -21,36 +21,33 @@ int main(int argc, char** argv)
     ros::AsyncSpinner spinner(1);
     spinner.start();
     
-    static const std::string PLANNING_GROUP_RIGHT = "right_arm";
-
-    moveit::planning_interface::MoveGroupInterface move_group(PLANNING_GROUP_RIGHT);
-
+    /*Setup*/
+    static const std::string PLANNING_GROUP_RIGHT_ARM = "right_arm";
+    moveit::planning_interface::MoveGroupInterface move_group(PLANNING_GROUP_RIGHT_ARM);
     moveit::planning_interface::PlanningSceneInterface planning_scene_interface_right;
+    const robot_state::JointModelGroup* joint_model_group_right = move_group.getCurrentState()->getJointModelGroup(PLANNING_GROUP_RIGHT_ARM);
 
-    const robot_state::JointModelGroup* joint_model_group_right = move_group.getCurrentState()->getJointModelGroup(PLANNING_GROUP_RIGHT);
-
+    /*Visualization*/
     namespace rvt = rviz_visual_tools;
     moveit_visual_tools::MoveItVisualTools visual_tools("base_link");
     visual_tools.deleteAllMarkers();
-
     visual_tools.loadRemoteControl();
 
+    /*text markers*/
     Eigen::Isometry3d text_pose = Eigen::Isometry3d::Identity();
-    text_pose.translation().z() = 1.75;
+    text_pose.translation().z() = 1;
     visual_tools.publishText(text_pose, "MoveGroupInterface Demo", rvt::WHITE, rvt::XLARGE);
-
     visual_tools.trigger();
 
+    /*Getting Basic Information*/
     ROS_INFO_NAMED("tutorial", "Planning frame: %s", move_group.getPlanningFrame().c_str());
-
     ROS_INFO_NAMED("tutorial", "End effector link: %s", move_group.getEndEffectorLink().c_str());
-
     ROS_INFO_NAMED("tutorial", "Available Planning Groups:");
     std::copy(move_group.getJointModelGroupNames().begin(), move_group.getJointModelGroupNames().end(), 
-                std::ostream_iterator<std::string>(std::cout, ", "));
-    
+                std::ostream_iterator<std::string>(std::cout, ", "));  
     visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to start the demo");
 
+    /*Planning to a Pose goal*/
     moveit::core::RobotStatePtr current_state = move_group.getCurrentState();
 
     std::vector<double> joint_group_positions;
@@ -77,12 +74,6 @@ int main(int argc, char** argv)
     target_pose1.position.y = p(1)-0.1;
     target_pose1.position.z = p(2);
 
-    std::cout << "target_pose1.orientation: " << std::endl << "w = " << q.w()<< std::endl \
-                            << "x = " << q.x() << std::endl << "y = " << q.y() << std::endl << "z = " << q.z() ;
-
-    std::cout << "target_pose1.position: " << std::endl << "x = " << target_pose1.position.x << std::endl \
-                            << "y = " << target_pose1.position.y << std::endl << "z = " << target_pose1.position.z  << std::endl;
-
     move_group.setPoseTarget(target_pose1);
 
     moveit::planning_interface::MoveGroupInterface::Plan my_plan;
@@ -98,6 +89,7 @@ int main(int argc, char** argv)
     visual_tools.trigger();
     visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
 
+    /*Planning to a joint-space goal*/
     joint_group_positions[0] = -1.5708;
     joint_group_positions[1] = -2.618;
     joint_group_positions[2] = 0;
@@ -115,7 +107,8 @@ int main(int argc, char** argv)
     visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group_right);
     visual_tools.trigger();
     visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");   
-    
+
+    /*Planning with Path Constraints*/
     moveit_msgs::OrientationConstraint ocm;
     ocm.link_name = "Arm_R_end_effector";
     ocm.header.frame_id = "base_link";
@@ -158,6 +151,7 @@ int main(int argc, char** argv)
 
     move_group.clearPathConstraints();
 
+    /*Cartesian Paths*/
     std::vector<geometry_msgs::Pose> waypoints;
     waypoints.push_back(start_pose2);
 
@@ -190,6 +184,7 @@ int main(int argc, char** argv)
     visual_tools.trigger();
     visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
 
+    /*Adding/Removing Objects and Attaching/Detaching Objects*/
     moveit_msgs::CollisionObject collision_object;
     collision_object.header.frame_id = move_group.getPlanningFrame();
 
@@ -269,3 +264,11 @@ int main(int argc, char** argv)
     ros::shutdown();
     return 0;
 }
+
+
+
+// std::cout << "target_pose1.orientation: " << std::endl << "w = " << q.w()<< std::endl \
+//                             << "x = " << q.x() << std::endl << "y = " << q.y() << std::endl << "z = " << q.z() ;
+
+// std::cout << "target_pose1.position: " << std::endl << "x = " << target_pose1.position.x << std::endl \
+//                             << "y = " << target_pose1.position.y << std::endl << "z = " << target_pose1.position.z  << std::endl;

@@ -62,5 +62,5 @@ add_subdirectory(doc/motion_planning_api)
 add_subdirectory(doc/motion_planning_pipeline)
 add_subdirectory(doc/visualizing_collisions)
 add_subdirectory(doc/interactivity)
-
 add_subdirectory(doc/moveit_group_interface)
+add_subdirectory(doc/moveit_group_python_interface)

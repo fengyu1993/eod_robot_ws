@@ -88,15 +88,16 @@ rosdep install --from-paths src --ignore-src --rosdistro=melodic -y
 	motion_planning_api:
 			1. 在任务空间进行规划，并在rviz中显示路径
 			2. 在关节空间进行规划
-	motion_planning_pipeline:
+	motion_planning_pipeline:(路径规划推荐使用这个方法)
 			与motion_planning_api类似，但是这个命令多了路径规划的预处理和后处理功能(Iterative Parabolic Time Parameterization)
 			1. 在任务空间进行规划，并在rviz中显示路径
 			2. 在关节空间进行规划
 			3. 左右臂都可以规划成功 (左臂在zero位置是碰撞状态，所以规划时要现将初始规划位置设在不碰撞的姿态)
 	visualizing_collisions:
-			1. 用到了interactivity文件中InteractiveRobot类
+			1. 用到了interactivity文件中InteractiveRobot类（在开始时刻使机器臂处在work位置）
 			2. 可以拖拽末端执行器的Marker,实现机械臂运动，并且可以检测碰撞
 			3. 可以拖拽创建的Marker,实现与机器人的碰撞检测
+			
 
 	
 
