@@ -72,20 +72,29 @@ rosdep install --from-paths src --ignore-src --rosdistro=melodic -y
 
 # 2020.09.28 eod_robot_moveit_learn:
 	eod_robot实现moveit教程: http://docs.ros.org/melodic/api/moveit_tutorials/html/doc/getting_started/getting_started.html
-	robot_model_and_robot_state: 
+		class：
+			RobotModel: http://docs.ros.org/en/melodic/api/moveit_core/html/classmoveit_1_1core_1_1RobotModel.html
+			RobotState: http://docs.ros.org/en/melodic/api/moveit_core/html/classmoveit_1_1core_1_1RobotState.html
+			PlanningScene: http://docs.ros.org/en/melodic/api/moveit_core/html/classplanning__scene_1_1PlanningScene.html
+			PlanningSceneMonitor： http://docs.ros.org/en/melodic/api/moveit_ros_planning/html/classplanning__scene__monitor_1_1PlanningSceneMonitor.html
+			RobotModelLoader: http://docs.ros.org/en/melodic/api/moveit_ros_planning/html/classrobot__model__loader_1_1RobotModelLoader.html
+			InteractiveRobot: https://github.com/ros-planning/moveit_tutorials/blob/melodic-devel/doc/interactivity/src/interactive_robot.cpp
+		package:
+			kinematic_constraints: http://docs.ros.org/en/melodic/api/moveit_core/html/namespacekinematic__constraints.html#a88becba14be9ced36fefc7980271e132
+	robot_model_and_robot_state: (类 RobotModel, RobotState)
 			1. 读取关节角度
 			2. 测试关节限制
 			3. 计算正运动学
 			4. 求解逆运动学
 			5. 计算雅克比矩阵 (前3行是线速度分量，后3行是角速度分量) ---- 这个存在疑问，与本人计算的结果线速度分量不符
-	planning_scene:
+	planning_scene:(类 PlanningScene)
 			1. 碰撞检测：检测各关节是否碰撞
 			2. 约束检测：检测关节约束、位置约束、方向约束和可视化约束
 			3. 可行性检测：通过回调函数，用户自定义的约束（例如：第一个关节角度大于0）
 	planning_scene_ros_api:
 			1. 在环境中添加或移除物体
 			2. 在机器人连杆上依附或去掉物体
-	motion_planning_api:
+	motion_planning_api:(类 RobotModelLoader 包 kinematic_constraints)
 			1. 在任务空间进行规划，并在rviz中显示路径
 			2. 在关节空间进行规划
 	motion_planning_pipeline:(路径规划推荐使用这个方法)
@@ -93,10 +102,19 @@ rosdep install --from-paths src --ignore-src --rosdistro=melodic -y
 			1. 在任务空间进行规划，并在rviz中显示路径
 			2. 在关节空间进行规划
 			3. 左右臂都可以规划成功 (左臂在zero位置是碰撞状态，所以规划时要现将初始规划位置设在不碰撞的姿态)
-	visualizing_collisions:
+	visualizing_collisions:(类 InteractiveRobot)
 			1. 用到了interactivity文件中InteractiveRobot类（在开始时刻使机器臂处在work位置）
 			2. 可以拖拽末端执行器的Marker,实现机械臂运动，并且可以检测碰撞
 			3. 可以拖拽创建的Marker,实现与机器人的碰撞检测
+	moveit_group_interface:
+			1. 用c++语言完成moveit的相关操作
+			2. 是之前几节的结合：
+				robot_model_and_robot_state
+				planning_scene
+				planning_scene_ros_api
+				motion_planning_api
+				motion_planning_pipeline
+				visualizing_collisions
 			
 
 	

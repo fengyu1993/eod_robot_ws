@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.0.2)
 project(eod_robot_library)
 
+add_compile_options(-std=c++11)
+
 find_package(catkin REQUIRED COMPONENTS roscpp rospy tf sensor_msgs std_msgs)
 find_package(Eigen3 REQUIRED)
 
@@ -12,7 +14,8 @@ include_directories(
 
 set(EOD_ROBOT_LIB_SOURCES 
     src/robotics/modern_robotics_lib.cpp
-    src/robotics/eod_robotics_lib.cpp)
+    src/robotics/eod_robotics_lib.cpp
+    src/exception/eod_robot_exception.cpp)
 
 add_library(eod_robot_library ${EOD_ROBOT_LIB_SOURCES})
 
@@ -31,9 +34,16 @@ install(TARGETS eod_robot_library
         LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
         RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION})
 
+
 add_executable(robotics_test
   src/robotics/test.cpp 
   src/robotics/modern_robotics_lib.cpp
   src/robotics/eod_robotics_lib.cpp)
 add_dependencies(robotics_test ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(robotics_test ${catkin_LIBRARIES})
+
+add_executable(exception_test
+  src/exception/test.cpp 
+  src/exception/eod_robot_exception.cpp)
+add_dependencies(exception_test ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(exception_test ${catkin_LIBRARIES})
