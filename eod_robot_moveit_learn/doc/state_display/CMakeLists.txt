@@ -1,4 +1,5 @@
 # 运行：
+# roslaunch eod_robot_moveit_config demo.launch  (displays删除PlanningScene加入RobotState)
 # roslaunch eod_robot_moveit_learn state_display_tutorial.launch
 
 add_executable(state_display_tutorial

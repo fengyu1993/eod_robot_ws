@@ -115,7 +115,12 @@ rosdep install --from-paths src --ignore-src --rosdistro=melodic -y
 				motion_planning_api
 				motion_planning_pipeline
 				visualizing_collisions
-			
+	state_display:
+			1. 发布机器人状态消息（moveit_msgs::DisplayRobotState）
+			2. 设置左右机械臂处于随机位姿
+			3. 设置左右机械臂处于预先定义的位姿（work）
+			4. 读取左右机械臂末端执行器位姿
+			5. 计算左右机械臂逆运动学	
 
 	
 
