@@ -63,8 +63,8 @@ rosdep install --from-paths src --ignore-src --rosdistro=melodic -y
 # 2020.08.13 eod_robot_sensor:
 	这机器人传感器用到的文件夹，包含下package:
 		eod_robot_camera:
-			left_camera_show:	左臂相机显示彩色和深度图像
-			right_camera_show:	右臂相机显示彩色和深度图像
+			left_camera_show:		左臂相机显示彩色和深度图像
+			right_camera_show:		右臂相机显示彩色和深度图像
 			vehicle_camera_show:	车体相机显示彩色和深度图像
 
 # 2020.09.21 eod_robot_moveit_config:
@@ -81,31 +81,38 @@ rosdep install --from-paths src --ignore-src --rosdistro=melodic -y
 			InteractiveRobot: https://github.com/ros-planning/moveit_tutorials/blob/melodic-devel/doc/interactivity/src/interactive_robot.cpp
 		package:
 			kinematic_constraints: http://docs.ros.org/en/melodic/api/moveit_core/html/namespacekinematic__constraints.html#a88becba14be9ced36fefc7980271e132
+	
 	robot_model_and_robot_state: (类 RobotModel, RobotState)
 			1. 读取关节角度
 			2. 测试关节限制
 			3. 计算正运动学
 			4. 求解逆运动学
 			5. 计算雅克比矩阵 (前3行是线速度分量，后3行是角速度分量) ---- 这个存在疑问，与本人计算的结果线速度分量不符
+	
 	planning_scene:(类 PlanningScene)
 			1. 碰撞检测：检测各关节是否碰撞
 			2. 约束检测：检测关节约束、位置约束、方向约束和可视化约束
 			3. 可行性检测：通过回调函数，用户自定义的约束（例如：第一个关节角度大于0）
+	
 	planning_scene_ros_api:
 			1. 在环境中添加或移除物体
 			2. 在机器人连杆上依附或去掉物体
+	
 	motion_planning_api:(类 RobotModelLoader 包 kinematic_constraints)
 			1. 在任务空间进行规划，并在rviz中显示路径
 			2. 在关节空间进行规划
+	
 	motion_planning_pipeline:(路径规划推荐使用这个方法)
 			与motion_planning_api类似，但是这个命令多了路径规划的预处理和后处理功能(Iterative Parabolic Time Parameterization)
 			1. 在任务空间进行规划，并在rviz中显示路径
 			2. 在关节空间进行规划
 			3. 左右臂都可以规划成功 (左臂在zero位置是碰撞状态，所以规划时要现将初始规划位置设在不碰撞的姿态)
+	
 	visualizing_collisions:(类 InteractiveRobot)
 			1. 用到了interactivity文件中InteractiveRobot类（在开始时刻使机器臂处在work位置）
 			2. 可以拖拽末端执行器的Marker,实现机械臂运动，并且可以检测碰撞
 			3. 可以拖拽创建的Marker,实现与机器人的碰撞检测
+	
 	moveit_group_interface:
 			1. 用c++语言完成moveit的相关操作
 			2. 是之前几节的结合：
@@ -115,6 +122,7 @@ rosdep install --from-paths src --ignore-src --rosdistro=melodic -y
 				motion_planning_api
 				motion_planning_pipeline
 				visualizing_collisions
+	
 	state_display:
 			1. 发布机器人状态消息（moveit_msgs::DisplayRobotState）
 			2. 设置左右机械臂处于随机位姿

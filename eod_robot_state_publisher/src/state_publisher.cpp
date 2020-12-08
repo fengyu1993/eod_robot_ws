@@ -98,10 +98,10 @@ int main(int argc, char** argv)
 
         joint_state.position[12] = gripper_finger1;
 
+        // vehicle transform
         joint_state.position[13] = 0;
         joint_state.position[14] = 0;
-
-        // vehicle transform
+        
         get_vecihle_odom(vecihle_odom);
         Matrix_T2tf_transform(vecihle_odom, odom_trans);
 
