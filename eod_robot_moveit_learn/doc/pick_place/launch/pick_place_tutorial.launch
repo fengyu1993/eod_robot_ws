@@ -1,0 +1,9 @@
+<launch>
+
+<node name= "pick_place_tutorial" 
+      pkg= "eod_robot_moveit_learn" 
+      type= "pick_place_tutorial"
+      respawn= "false"
+      output= "screen"/>
+
+</launch>

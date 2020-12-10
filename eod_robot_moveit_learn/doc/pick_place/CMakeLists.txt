@@ -1,6 +1,6 @@
 # 运行：
 # roslaunch eod_robot_moveit_config demo.launch
-# rosrun eod_robot_moveit_learn pick_place_tutorial
+# roslaunch eod_robot_moveit_learn pick_place_tutorial.launch
 
 add_executable(pick_place_tutorial
   src/pick_place_tutorial.cpp

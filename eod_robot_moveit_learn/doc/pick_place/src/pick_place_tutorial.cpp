@@ -1,9 +1,17 @@
 // http://docs.ros.org/en/melodic/api/moveit_tutorials/html/doc/pick_place/pick_place_tutorial.html
 // ROS
 #include <ros/ros.h>
+#include <pluginlib/class_loader.h>
 // MoveIt
 #include <moveit/planning_scene_interface/planning_scene_interface.h>
 #include <moveit/move_group_interface/move_group_interface.h>
+#include <moveit/robot_model_loader/robot_model_loader.h>
+#include <moveit/planning_pipeline/planning_pipeline.h>
+#include <moveit/planning_interface/planning_interface.h>
+#include <moveit/kinematic_constraints/utils.h>
+#include <moveit_msgs/DisplayTrajectory.h>
+#include <moveit_msgs/PlanningScene.h>
+#include <moveit_visual_tools/moveit_visual_tools.h>
 // TF2
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 
@@ -49,7 +57,7 @@ void pick(moveit::planning_interface::MoveGroupInterface& move_group)
 
     // Setting pre-grasp approach
     grasps[0].pre_grasp_approach.direction.header.frame_id = "base_link";
-    grasps[0].pre_grasp_approach.direction.vector.x = -1.0;
+    grasps[0].pre_grasp_approach.direction.vector.y = -1.0;
     grasps[0].pre_grasp_approach.min_distance = 0.095;
     grasps[0].pre_grasp_approach.desired_distance = 0.115;
 
@@ -131,7 +139,7 @@ void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& pla
     collision_objects[0].primitive_poses.resize(1);
     collision_objects[0].primitive_poses[0].position.x = 0.5;
     collision_objects[0].primitive_poses[0].position.y = 0.1;
-    collision_objects[0].primitive_poses[0].position.z = -0.15;
+    collision_objects[0].primitive_poses[0].position.z = -0.5;
 
     collision_objects[0].operation = collision_objects[0].ADD;
 
@@ -152,7 +160,7 @@ void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& pla
     collision_objects[1].primitive_poses.resize(1);
     collision_objects[1].primitive_poses[0].position.x = 0.1;
     collision_objects[1].primitive_poses[0].position.y = 0.45;
-    collision_objects[1].primitive_poses[0].position.z = -0.15;
+    collision_objects[1].primitive_poses[0].position.z = -0.5;
     // END_SUB_TUTORIAL
 
     collision_objects[1].operation = collision_objects[1].ADD;
@@ -174,13 +182,46 @@ void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& pla
     collision_objects[2].primitive_poses.resize(1);
     collision_objects[2].primitive_poses[0].position.x = 0.5;
     collision_objects[2].primitive_poses[0].position.y = 0.1;
-    collision_objects[2].primitive_poses[0].position.z = 0.15;
+    collision_objects[2].primitive_poses[0].position.z = -0.2;
     // END_SUB_TUTORIAL
 
     collision_objects[2].operation = collision_objects[2].ADD;
 
     planning_scene_interface.applyCollisionObjects(collision_objects);
 }
+
+void prepare_pick_place()
+{
+    static const std::string PLANNING_GROUP_RIGHT_ARM = "right_arm";
+    moveit::planning_interface::MoveGroupInterface move_group(PLANNING_GROUP_RIGHT_ARM);
+    const robot_state::JointModelGroup* joint_model_group_right = move_group.getCurrentState()->getJointModelGroup(PLANNING_GROUP_RIGHT_ARM);
+
+    moveit::core::RobotStatePtr current_state = move_group.getCurrentState();
+
+    std::vector<double> joint_group_positions;
+    current_state->copyJointGroupPositions(joint_model_group_right, joint_group_positions);
+
+    joint_group_positions[0] = 0;
+    joint_group_positions[1] = -0.4363;
+    joint_group_positions[2] = 0.7854;
+    joint_group_positions[3] = -1.5708;
+    joint_group_positions[4] = -2.7053;
+    joint_group_positions[5] = 0;
+
+    move_group.setJointValueTarget(joint_group_positions);
+
+    moveit::planning_interface::MoveGroupInterface::Plan my_plan;
+    bool success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+
+    if(success)
+    {
+        ROS_INFO("success plan");
+        move_group.move();
+    }
+    else
+        ROS_INFO("fail plan");   
+}
+
 
 int main(int argc, char** argv)
 {
@@ -194,6 +235,10 @@ int main(int argc, char** argv)
     moveit::planning_interface::MoveGroupInterface group("right_arm");
     group.setPlanningTime(45.0);
 
+    prepare_pick_place();
+
+    ros::WallDuration(1.0).sleep();
+
     addCollisionObjects(planning_scene_interface);
 
     ros::WallDuration(1.0).sleep();
@@ -202,7 +247,7 @@ int main(int argc, char** argv)
 
     ros::WallDuration(1.0).sleep();
 
-    place(group);
+    // place(group);
 
     ros::waitForShutdown();
     return 0;
