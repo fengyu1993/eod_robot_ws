@@ -1,5 +1,7 @@
+rate: 10 #(Hz, used for interpolation controller)
 controller_list:
   - name: fake_right_arm_controller
+    type: interpolate # interpolate | via points | last point
     joints:
       - Arm_R1_joint
       - Arm_R2_joint
@@ -8,6 +10,7 @@ controller_list:
       - Arm_R5_joint
       - Arm_R6_joint
   - name: fake_left_arm_controller
+    type: interpolate # interpolate | via points | last point
     joints:
       - Arm_L1_joint
       - Arm_L2_joint
