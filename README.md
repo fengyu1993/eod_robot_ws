@@ -128,7 +128,15 @@ rosdep install --from-paths src --ignore-src --rosdistro=melodic -y
 			2. 设置左右机械臂处于随机位姿
 			3. 设置左右机械臂处于预先定义的位姿（work）
 			4. 读取左右机械臂末端执行器位姿
-			5. 计算左右机械臂逆运动学	
+			5. 计算左右机械臂逆运动学
+
+	pick_and_place_tutorial:
+			1. 用move_group进行关节空间运动（从“front”到“work”）
+			2. 用std::vector<moveit_msgs::CollisionObject>创建碰撞物体
+			3. 用moveit::planning_interface::PlanningSceneInterface向rviz发布
+			4. 用moveit::planning_interface::MoveGroupInterface创建分组
+			5. 用std::vector<moveit_msgs::Grasp>在move_group.pick()进行抓取
+			6. 用std::vector<moveit_msgs::PlaceLocation>在move_group.place()进行放置
 
 	
 

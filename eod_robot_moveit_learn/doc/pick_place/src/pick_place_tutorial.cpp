@@ -53,11 +53,11 @@ void pick(moveit::planning_interface::MoveGroupInterface& move_group)
     grasps[0].grasp_pose.pose.orientation = tf2::toMsg(orientation);
     grasps[0].grasp_pose.pose.position.x = 0.415;
     grasps[0].grasp_pose.pose.position.y = 0.1;
-    grasps[0].grasp_pose.pose.position.z = 0.15;
+    grasps[0].grasp_pose.pose.position.z = 0.1;
 
     // Setting pre-grasp approach
     grasps[0].pre_grasp_approach.direction.header.frame_id = "base_link";
-    grasps[0].pre_grasp_approach.direction.vector.y = -1.0;
+    grasps[0].pre_grasp_approach.direction.vector.y = 1.0;
     grasps[0].pre_grasp_approach.min_distance = 0.095;
     grasps[0].pre_grasp_approach.desired_distance = 0.115;
 
@@ -80,7 +80,7 @@ void pick(moveit::planning_interface::MoveGroupInterface& move_group)
     move_group.pick("object", grasps);
 }
 
-void place(moveit::planning_interface::MoveGroupInterface& group)
+void place(moveit::planning_interface::MoveGroupInterface& move_group)
 {
     std::vector<moveit_msgs::PlaceLocation> place_location;
     place_location.resize(1);
@@ -111,10 +111,10 @@ void place(moveit::planning_interface::MoveGroupInterface& group)
     openGripper(place_location[0].post_place_posture);
 
     // Set support surface as table2.
-    group.setSupportSurfaceName("table2");
+    move_group.setSupportSurfaceName("table2");
 
     // Call place to place the object using the place locations given.
-    group.place("object", place_location);
+    move_group.place("object", place_location);
 }
 
 void addCollisionObjects(moveit::planning_interface::PlanningSceneInterface& planning_scene_interface)
@@ -247,7 +247,7 @@ int main(int argc, char** argv)
 
     ros::WallDuration(1.0).sleep();
 
-    // place(group);
+    place(group);
 
     ros::waitForShutdown();
     return 0;
