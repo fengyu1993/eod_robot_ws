@@ -1,4 +1,3 @@
-rate: 10 #(Hz, used for interpolation controller)
 controller_list:
   - name: fake_right_arm_controller
     type: interpolate # interpolate | via points | last point

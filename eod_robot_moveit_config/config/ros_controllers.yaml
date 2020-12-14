@@ -32,17 +32,47 @@ joint_state_controller:
   publish_rate: 50
 controller_list:
   []
-gripper_position_controller:
-  type: position_controllers/JointTrajectoryController
+left_arm_position_controller:
+  type: position_controllers/JointPositionController
   joints:
-    finger_joint
+    - Arm_L1_joint
+    - Arm_L2_joint
+    - Arm_L3_joint
+    - Arm_L4_joint
+    - Arm_L5_joint
+    - Arm_L6_joint
   gains:
-    finger_joint:
+    Arm_L1_joint:
       p: 100
       d: 1
       i: 1
       i_clamp: 1
-arm_position_controller:
+    Arm_L2_joint:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    Arm_L3_joint:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    Arm_L4_joint:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    Arm_L5_joint:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    Arm_L6_joint:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+right_arm_position_controller:
   type: position_controllers/JointPositionController
   joints:
     - Arm_R1_joint
@@ -51,12 +81,6 @@ arm_position_controller:
     - Arm_R4_joint
     - Arm_R5_joint
     - Arm_R6_joint
-    - Arm_L1_joint
-    - Arm_L2_joint
-    - Arm_L3_joint
-    - Arm_L4_joint
-    - Arm_L5_joint
-    - Arm_L6_joint
   gains:
     Arm_R1_joint:
       p: 100
@@ -88,32 +112,12 @@ arm_position_controller:
       d: 1
       i: 1
       i_clamp: 1
-    Arm_L1_joint:
-      p: 100
-      d: 1
-      i: 1
-      i_clamp: 1
-    Arm_L2_joint:
-      p: 100
-      d: 1
-      i: 1
-      i_clamp: 1
-    Arm_L3_joint:
-      p: 100
-      d: 1
-      i: 1
-      i_clamp: 1
-    Arm_L4_joint:
-      p: 100
-      d: 1
-      i: 1
-      i_clamp: 1
-    Arm_L5_joint:
-      p: 100
-      d: 1
-      i: 1
-      i_clamp: 1
-    Arm_L6_joint:
+gripper_position_controller:
+  type: position_controllers/JointTrajectoryController
+  joints:
+    finger_joint
+  gains:
+    finger_joint:
       p: 100
       d: 1
       i: 1
