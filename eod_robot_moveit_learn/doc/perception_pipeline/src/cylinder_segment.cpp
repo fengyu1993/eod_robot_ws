@@ -23,7 +23,7 @@ public:
         moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
 
         moveit_msgs::CollisionObject collision_object;
-        collision_object.header.frame_id = "camera_rgb_optical_frame";
+        collision_object.header.frame_id = "vehicle_camera_link";
         collision_object.id = "cylinder";
 
         shape_msgs::SolidPrimitive primitive;

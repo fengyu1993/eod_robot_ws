@@ -28,3 +28,5 @@ initial:  # Define initial robot poses.
     pose: front
   - group: left_arm
     pose: front
+  - group: gripper
+    pose: open

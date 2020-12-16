@@ -30,7 +30,7 @@ controller_list:
     joints:
       - finger_joint
 
-  - name: tool_controller
+ - name: tool_controller
     joints:
       []
   

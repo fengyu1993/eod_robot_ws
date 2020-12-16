@@ -138,6 +138,9 @@ rosdep install --from-paths src --ignore-src --rosdistro=melodic -y
 			5. 用std::vector<moveit_msgs::Grasp>在move_group.pick()进行抓取
 			6. 用std::vector<moveit_msgs::PlaceLocation>在move_group.place()进行放置
 
+	perception_pipeline: (不太理解)
+			1. 3D sensors 
+
 	
 
 

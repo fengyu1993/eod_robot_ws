@@ -1,6 +1,5 @@
 # 运行：
-# 
-# 
+# roslaunch eod_robot_moveit_learn detect_and_add_cylinder_collision_object_demo.launch
 
 add_executable(cylinder_segment
   src/cylinder_segment.cpp

@@ -68,7 +68,7 @@
         <joint name="Arm_R3_joint" value="0" />
         <joint name="Arm_R4_joint" value="-1.5708" />
         <joint name="Arm_R5_joint" value="-1.5708" />
-        <joint name="Arm_R6_joint" value="0" />
+        <joint name="Arm_R6_joint" value="-1.5708" />
     </group_state>
     <group_state name="behind" group="right_arm">
         <joint name="Arm_R1_joint" value="1.5708" />
@@ -76,7 +76,7 @@
         <joint name="Arm_R3_joint" value="0" />
         <joint name="Arm_R4_joint" value="-1.5708" />
         <joint name="Arm_R5_joint" value="1.5708" />
-        <joint name="Arm_R6_joint" value="0" />
+        <joint name="Arm_R6_joint" value="-1.5708" />
     </group_state>
     <group_state name="stand" group="right_arm">
         <joint name="Arm_R1_joint" value="1.5708" />
@@ -108,7 +108,7 @@
         <joint name="Arm_L3_joint" value="0" />
         <joint name="Arm_L4_joint" value="-1.5708" />
         <joint name="Arm_L5_joint" value="1.5708" />
-        <joint name="Arm_L6_joint" value="0" />
+        <joint name="Arm_L6_joint" value="-1.5708" />
     </group_state>
     <group_state name="behind" group="left_arm">
         <joint name="Arm_L1_joint" value="-1.5708" />
@@ -116,7 +116,7 @@
         <joint name="Arm_L3_joint" value="0" />
         <joint name="Arm_L4_joint" value="-1.5708" />
         <joint name="Arm_L5_joint" value="-1.5708" />
-        <joint name="Arm_L6_joint" value="0" />
+        <joint name="Arm_L6_joint" value="-1.5708" />
     </group_state>
     <group_state name="stand" group="left_arm">
         <joint name="Arm_L1_joint" value="-1.5708" />
@@ -125,6 +125,12 @@
         <joint name="Arm_L4_joint" value="-1.5708" />
         <joint name="Arm_L5_joint" value="-1.5708" />
         <joint name="Arm_L6_joint" value="-1.5708" />
+    </group_state>
+    <group_state name="open" group="gripper">
+        <joint name="finger_joint" value="0" />
+    </group_state>
+    <group_state name="close" group="gripper">
+        <joint name="finger_joint" value="0.68" /><!--全部闭合0.70-->
     </group_state>
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
     <end_effector name="right_end_effector" parent_link="Arm_R_end_effector" group="gripper" />
