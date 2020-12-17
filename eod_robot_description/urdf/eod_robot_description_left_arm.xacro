@@ -194,12 +194,12 @@
     </collision>
   </link>
 
-  <joint name="Arm_L6_joint" type="continuous">
+  <joint name="Arm_L6_joint" type="revolute">
     <origin xyz="0 0 0.1101" rpy="0 0.4363 0" />
     <parent link="Arm_L5_link" />
     <child link="Arm_L6_link" />
     <axis xyz="0 1 0" />
-    <limit effort="100" velocity="5" />
+    <limit lower="-6.28" upper="6.28" effort="100" velocity="5" />
   </joint>
 
   <link

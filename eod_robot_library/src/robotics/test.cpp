@@ -77,6 +77,18 @@ int main(int argc, char** argv)
 
     std::cout << "jacobian_space_right_arm = "<< std::endl << jacobian_space_right_arm << std::endl;
     std::cout << "jacobian_space_left_arm = "<< std::endl << jacobian_space_left_arm << std::endl;
+
+    Eigen::Matrix3d R_1 = euler2RotationMatrix(-1.5708, -1.4008, 0);
+    Eigen::Matrix3d R_2 =  euler2RotationMatrix(0, 0, 3.14159);
+    Eigen::Matrix3d R_3 =  R_1 * R_2;
+    Eigen::Vector3d rpy = RotationMatrix2euler(R_3);
+
+
+    std::cout << "R_1 = " << std::endl << R_1 << std::endl ;
+    std::cout << "R_2 = " << std::endl << R_2 << std::endl ;
+    std::cout << "R_3 = " << std::endl << R_3 << std::endl ;
+    std::cout << "rpy = " << std::endl << rpy << std::endl ;
+
 }
 
     /* left arm*/
