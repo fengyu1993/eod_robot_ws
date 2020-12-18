@@ -158,8 +158,17 @@ void test_eod_robot(ros::NodeHandle& nh, double num_samples, std::string chain_s
   std::vector<KDL::JntArray> JointList;
   KDL::JntArray q(chain.getNrOfJoints());
 
-  q(0) = 0;       q(1) = -0.4363; q(2) = 0.7854;
-  q(3) = -1.5708; q(4) = -2.7053; q(5) = 0;
+  // // right work
+  // q(0) = 0;       q(1) = -0.4363; q(2) = 0.7854;
+  // q(3) = -1.5708; q(4) = -2.7053; q(5) = 0;  
+
+  // // left work
+  // q(0) = 0;       q(1) = -2.7053; q(2) = -0.7854;
+  // q(3) = -1.5708; q(4) = 2.7053; q(5) = 0;  
+
+  // zero
+  q(0) = 0;       q(1) = 0; q(2) = 0;
+  q(3) = 0;       q(4) = 0; q(5) = 0;  
 
   JointList.push_back(q);
 
@@ -234,9 +243,10 @@ int main(int argc, char** argv)
   if(num_samples < 1)
     num_samples = 1;
 
+  test_eod_robot(nh, num_samples, chain_start, chain_end, timeout, urdf_param);
+
   test(nh, num_samples, chain_start, chain_end, timeout, urdf_param);
 
-  test_eod_robot(nh, num_samples, chain_start, chain_end, timeout, urdf_param);
 
   return 0;
 }

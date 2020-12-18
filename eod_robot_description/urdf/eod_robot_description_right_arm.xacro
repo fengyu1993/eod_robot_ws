@@ -203,14 +203,14 @@
   </joint>
 
 
-  <link name="Arm_R_end_effector" />
-
   <joint name="Arm_R_end_effector_joint" type="fixed">
-    <!--<origin xyz="0 0.26797 0" rpy="-1.5708 -1.4008 0" />-->
-    <origin xyz="0 0.26797 0" rpy="0 -1.74079 1.5708" />
+    <origin xyz="0 0.26797 0" rpy="1.5708 1.4008 3.14159" />
     <parent link="Arm_R6_link" />
     <child link="Arm_R_end_effector" />
    </joint>
+
+  <link name="Arm_R_end_effector" />
+
 
   <transmission name="Arm_R1_trans">
     <type>transmission_interface/SimpleTransmission</type>

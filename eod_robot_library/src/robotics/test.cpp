@@ -34,11 +34,11 @@ int main(int argc, char** argv)
                 thetalist_left_arm(6),  thetalist_result_left_arm(6);
 
     // thetalist_right_arm << 4.778741,  0.001709, 3.867487, -1.588801, -5.517637, 1.247915;
-    thetalist_right_arm << 0,  -0.4363, 0.7854, -1.5708, -2.7053, 0; // work pose
-    // thetalist_right_arm << 0,  0, 0,  0, 0, 0; // zero pose
+    // thetalist_right_arm << 0,  -0.4363, 0.7854, -1.5708, -2.7053, 0; // work pose
+    thetalist_right_arm << 0,  0, 0,  0, 0, 0; // zero pose
     // thetalist_left_arm << 4.778741,  0.001709, 3.867487, -1.588801, -5.517637, 1.247915;
-    thetalist_left_arm << 0,  -2.7053, -0.7854, -1.5708, 2.7053, 0; // work pose
-    // thetalist_left_arm << 0,  0, 0,  0, 0, 0; // zero pose
+    // thetalist_left_arm << 0,  -2.7053, -0.7854, -1.5708, 2.7053, 0; // work pose
+    thetalist_left_arm << 0,  0, 0,  0, 0, 0; // zero pose
 
     Matrix4d T_eef_right_arm = T_base_right_arm * FKinSpace(R_M, R_Slist, thetalist_right_arm);
     Matrix4d T_eef_left_arm = T_base_left_arm * FKinSpace(L_M, L_Slist, thetalist_left_arm);
