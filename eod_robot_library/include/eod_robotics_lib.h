@@ -174,7 +174,7 @@ Eigen::Matrix3d Quaternion2RotationMatrix(const double x,const double y,const do
 Eigen::Quaterniond rotationMatrix2Quaterniond(Eigen::Matrix3d R);
 
 /*欧拉角转旋转矩阵*/
-Eigen::Matrix3d euler2RotationMatrix(const double roll, const double pitch, const double yaw);
+Eigen::Matrix3d euler2RotationMatrix(Eigen::Vector3d rpy);
 
 /*旋转矩阵转欧拉角*/
 Eigen::Vector3d RotationMatrix2euler(Eigen::Matrix3d R);

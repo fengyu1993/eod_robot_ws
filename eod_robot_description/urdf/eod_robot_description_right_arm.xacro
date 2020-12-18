@@ -204,7 +204,8 @@
 
 
   <joint name="Arm_R_end_effector_joint" type="fixed">
-    <origin xyz="0 0.26797 0" rpy="1.5708 1.4008 3.14159" />
+    <!--<origin xyz="0 0.26797 0" rpy="1.5708 1.4008 3.14159" />-->
+    <origin xyz="0 0.26797 0" rpy="-1.5708 1.74079 0" />
     <parent link="Arm_R6_link" />
     <child link="Arm_R_end_effector" />
    </joint>

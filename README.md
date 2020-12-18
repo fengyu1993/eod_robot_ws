@@ -54,7 +54,8 @@ rosdep install --from-paths src --ignore-src --rosdistro=melodic -y
 	存放着eod_robot需要的依赖文件:
 		roboticsgroup_gazebo_plugins: 机械爪gazebo仿真需要的插件
 		realsense-ros: d435i摄像头需要的插件
-
+		traclabs-trac_ik: moveit中逆运动学求解库trac_ik_kinematics_plugin/TRAC_IKKinematicsPlugin
+						  注意：urdf文件中<rpy>参数与eod_robot_lib库中euler2RotationMatrix(Eigen::Vector3d rpy) 函数的输入参数顺序相反
 
 # 2020.08.01 eod_robot_moveit_config：
 	eod_robot的moveit配置文件
@@ -140,6 +141,8 @@ rosdep install --from-paths src --ignore-src --rosdistro=melodic -y
 
 	perception_pipeline: (不太理解)
 			1. 3D sensors 
+
+	
 
 	
 

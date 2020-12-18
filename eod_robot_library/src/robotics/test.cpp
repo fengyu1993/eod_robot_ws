@@ -2,6 +2,8 @@
 #include "modern_robotics_lib.h"
 #include "eod_robotics_lib.h"
 #include "math.h"
+#include <Eigen/Core>
+#include <Eigen/Geometry>
 
 
 using namespace std; 
@@ -34,8 +36,8 @@ int main(int argc, char** argv)
                 thetalist_left_arm(6),  thetalist_result_left_arm(6);
 
     // thetalist_right_arm << 4.778741,  0.001709, 3.867487, -1.588801, -5.517637, 1.247915;
-    // thetalist_right_arm << 0,  -0.4363, 0.7854, -1.5708, -2.7053, 0; // work pose
-    thetalist_right_arm << 0,  0, 0,  0, 0, 0; // zero pose
+    thetalist_right_arm << 0,  -0.4363, 0.7854, -1.5708, -2.7053, 0; // work pose
+    // thetalist_right_arm << 0,  0, 0,  0, 0, 0; // zero pose
     // thetalist_left_arm << 4.778741,  0.001709, 3.867487, -1.588801, -5.517637, 1.247915;
     // thetalist_left_arm << 0,  -2.7053, -0.7854, -1.5708, 2.7053, 0; // work pose
     thetalist_left_arm << 0,  0, 0,  0, 0, 0; // zero pose
@@ -78,16 +80,21 @@ int main(int argc, char** argv)
     std::cout << "jacobian_space_right_arm = "<< std::endl << jacobian_space_right_arm << std::endl;
     std::cout << "jacobian_space_left_arm = "<< std::endl << jacobian_space_left_arm << std::endl;
 
-    Eigen::Matrix3d R_1 = euler2RotationMatrix(-1.5708, -1.4008, 0);
-    Eigen::Matrix3d R_2 =  euler2RotationMatrix(0, 0, 3.14159);
-    Eigen::Matrix3d R_3 =  R_1 * R_2;
-    Eigen::Vector3d rpy = RotationMatrix2euler(R_3);
+    Eigen::Vector3d rpy_1, rpy_2;
+    rpy_1 << 0, -1.4008, -1.5708; // urdf rpy 与 euler2RotationMatrix 相反
+    rpy_2 << 3.14159, 0, 0;
 
+    Eigen::Matrix3d R_1 = euler2RotationMatrix(rpy_1);
+    Eigen::Matrix3d R_2 =  euler2RotationMatrix(rpy_2);
+    Eigen::Matrix3d R_3 =  R_1 * R_2;
+    Eigen::Vector3d rpy_3 = RotationMatrix2euler(R_3);
+    Eigen::Matrix3d R_3_1 =  euler2RotationMatrix(rpy_3);
 
     std::cout << "R_1 = " << std::endl << R_1 << std::endl ;
     std::cout << "R_2 = " << std::endl << R_2 << std::endl ;
     std::cout << "R_3 = " << std::endl << R_3 << std::endl ;
-    std::cout << "rpy = " << std::endl << rpy << std::endl ;
+    std::cout << "rpy_3 = " << std::endl << rpy_3.transpose() << std::endl ;
+    std::cout << "R_3_1 = " << std::endl << R_3_1 << std::endl ;
 
 }
 

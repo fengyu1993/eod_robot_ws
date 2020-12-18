@@ -686,22 +686,21 @@ Eigen::Quaterniond rotationMatrix2Quaterniond(Eigen::Matrix3d R)
     return q;
 }
 
-Eigen::Matrix3d euler2RotationMatrix(const double roll, const double pitch, const double yaw)
+Eigen::Matrix3d euler2RotationMatrix(Eigen::Vector3d rpy) //0 1 2 对应 z-yaw, y-pitch, x-roll
 {
-    Eigen::AngleAxisd yamAngle(yaw, Eigen::Vector3d::UnitZ());
-    Eigen::AngleAxisd pitchAngle(pitch, Eigen::Vector3d::UnitY());
-    Eigen::AngleAxisd rollchAngle(roll, Eigen::Vector3d::UnitX());
-    Eigen::Quaterniond q = yamAngle * pitchAngle * rollchAngle;
-    Eigen::Matrix3d R = q.matrix();
-
+    Eigen::Matrix3d R;
+    
+    R = Eigen::AngleAxisd(rpy[0], Eigen::Vector3d::UnitZ()) * // yam
+        Eigen::AngleAxisd(rpy[1], Eigen::Vector3d::UnitY()) * // pitch
+        Eigen::AngleAxisd(rpy[2], Eigen::Vector3d::UnitX());  // roll
+    
     return R;
 }
 
 Eigen::Vector3d RotationMatrix2euler(Eigen::Matrix3d R)
 {
-    Eigen::Matrix3d m;
-    m = R;
-    Eigen::Vector3d euler = m.eulerAngles(2, 1, 0);
+
+    Eigen::Vector3d euler = R.eulerAngles(2, 1, 0); //即先绕x轴roll,再绕y轴pitch,最后绕z轴yaw,0表示X轴,1表示Y轴,2表示Z轴
 
     return euler;
 }

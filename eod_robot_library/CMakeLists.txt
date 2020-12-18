@@ -40,7 +40,7 @@ add_executable(robotics_test
   src/robotics/modern_robotics_lib.cpp
   src/robotics/eod_robotics_lib.cpp)
 add_dependencies(robotics_test ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(robotics_test ${catkin_LIBRARIES})
+target_link_libraries(robotics_test ${catkin_LIBRARIES} ${EIGEN3_LIBS})
 
 add_executable(exception_test
   src/exception/test.cpp 
