@@ -11,7 +11,7 @@ endif()
 find_package(catkin REQUIRED
   COMPONENTS
     trac_ik_lib
-)
+)  
 
 find_package(Boost REQUIRED COMPONENTS date_time)
 find_package(orocos_kdl REQUIRED)

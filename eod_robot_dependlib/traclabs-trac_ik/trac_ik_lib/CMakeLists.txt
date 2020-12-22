@@ -10,7 +10,7 @@ find_package(catkin REQUIRED
     cmake_modules
     kdl_parser
     roscpp
-    urdf
+    urdf 
 )
 
 find_package(Boost REQUIRED COMPONENTS date_time)
