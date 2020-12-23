@@ -6,7 +6,7 @@
 				       default_planner_request_adapters/FixStartStateBounds
 				       default_planner_request_adapters/FixStartStateCollision
 				       default_planner_request_adapters/FixStartStatePathConstraints
-               chomp/OptimizerAdapter" />       
+               default_planner_request_adapters/CHOMPOptimizerAdapter" />       
   </include>
   <!-- load chomp config -->
   <rosparam command="load" file="$(find eod_robot_moveit_config)/config/chomp_planning.yaml"/>
@@ -14,3 +14,9 @@
   <param name="trajectory_initialization_method" value="fillTrajectory"/>
 </launch>
 
+      <!--<arg name="planning_adapters" value="default_planner_request_adapters/AddTimeParameterization
+				       default_planner_request_adapters/FixWorkspaceBounds
+				       default_planner_request_adapters/FixStartStateBounds
+				       default_planner_request_adapters/FixStartStateCollision
+				       default_planner_request_adapters/FixStartStatePathConstraints
+               chomp/OptimizerAdapter" />  -->
