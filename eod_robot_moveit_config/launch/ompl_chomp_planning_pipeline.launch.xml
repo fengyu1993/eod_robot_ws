@@ -1,4 +1,5 @@
 <launch>
+
   <!-- load OMPL planning pipeline, but add the CHOMP planning adapter. -->
   <include file="$(find eod_robot_moveit_config)/launch/ompl_planning_pipeline.launch.xml">
       <arg name="planning_adapters" value="default_planner_request_adapters/AddTimeParameterization
@@ -6,7 +7,7 @@
 				       default_planner_request_adapters/FixStartStateBounds
 				       default_planner_request_adapters/FixStartStateCollision
 				       default_planner_request_adapters/FixStartStatePathConstraints
-               default_planner_request_adapters/CHOMPOptimizerAdapter" />       
+               chomp/CHOMPOptimizerAdapter" />       
   </include>
   <!-- load chomp config -->
   <rosparam command="load" file="$(find eod_robot_moveit_config)/config/chomp_planning.yaml"/>
