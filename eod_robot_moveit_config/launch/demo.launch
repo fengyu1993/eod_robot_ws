@@ -1,7 +1,7 @@
 <!--roslaunch eod_robot_moveit_config demo.launch pipeline:=ompl
-roslaunch eod_robot_moveit_config demo.launch pipeline:=chomp
-roslaunch eod_robot_moveit_config demo.launch pipeline:=ompl_chomp 比较好用
-roslaunch eod_robot_moveit_config demo.launch pipeline:=stomp-->
+    roslaunch eod_robot_moveit_config demo.launch pipeline:=chomp
+    roslaunch eod_robot_moveit_config demo.launch pipeline:=ompl_chomp 比较好用
+    roslaunch eod_robot_moveit_config demo.launch pipeline:=stomp-->
 
 <launch>
 
