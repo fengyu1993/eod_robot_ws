@@ -1,4 +1,4 @@
-stomp:
+stomp/right_arm:
   group_name: right_arm
   optimization:
     num_timesteps: 60
@@ -6,7 +6,7 @@ stomp:
     num_iterations_after_valid: 0
     num_rollouts: 30
     max_rollouts: 30
-    initialization_method: 1 #[1 : LINEAR_INTERPOLATION, 2 : CUBIC_POLYNOMIAL, 3 : MININUM_CONTROL_COST]
+    initialization_method: 1 #[1 : LINEAR_INTERPOLATION, 2 : CUBIC_POLYNOMIAL, 3 : MININUM_CONTROL_COST, 4 : FILL_TRACJECTORY]
     control_cost_weight: 0.0
   task:
     noise_generator:
@@ -38,7 +38,7 @@ stomp:
         marker_topic: stomp_trajectory
         marker_namespace: optimized
 
-stomp:
+stomp/left_arm:
   group_name: left_arm
   optimization:
     num_timesteps: 60
@@ -77,3 +77,4 @@ stomp:
         publish_intermediate: True
         marker_topic: stomp_trajectory
         marker_namespace: optimized
+
