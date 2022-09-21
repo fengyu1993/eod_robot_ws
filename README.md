@@ -1,6 +1,6 @@
 
 作者：陈禹含 ... ... 
-邮箱：3120185244@bit.edu.cn
+邮箱：3120185244@bit.edu.cn chenyuhan19930920@163.com
 
 先运行(安装依赖项)
 rosdep install --from-paths src --ignore-src --rosdistro=melodic -y
